@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:maple_file/app/app.dart';
 import 'package:maple_file/app/i18n.dart';
 import 'package:maple_file/common/utils/color.dart';
+import 'package:maple_file/common/utils/util.dart';
 import 'package:maple_file/common/widgets/custom.dart';
 import 'package:maple_file/common/widgets/platform.dart';
 import 'package:maple_file/common/widgets/responsive.dart';
@@ -16,6 +18,129 @@ class HelpLink {
   final String link;
 
   const HelpLink({required this.name, required this.link});
+}
+
+class HelpWebViewArgs {
+  final String title;
+  final String link;
+
+  const HelpWebViewArgs({
+    required this.title,
+    required this.link,
+  });
+}
+
+class HelpWebView extends StatefulWidget {
+  const HelpWebView({super.key, required this.title, required this.link});
+
+  final String title;
+  final String link;
+
+  factory HelpWebView.fromRoute(ModalRoute? route) {
+    final args = route?.settings.arguments as HelpWebViewArgs;
+    return HelpWebView(
+      title: args.title,
+      link: args.link,
+    );
+  }
+
+  @override
+  State<HelpWebView> createState() => _HelpWebViewState();
+}
+
+class _HelpWebViewState extends State<HelpWebView> {
+  late final WebViewController _controller;
+
+  bool _loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onPageStarted: (_) {
+            if (mounted) {
+              setState(() {
+                _loading = true;
+              });
+            }
+          },
+          onPageFinished: (_) {
+            if (mounted) {
+              setState(() {
+                _loading = false;
+              });
+            }
+          },
+          onWebResourceError: (_) {
+            if (mounted) {
+              setState(() {
+                _loading = false;
+              });
+            }
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.link));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PlatformScaffold(
+      iosContentPadding: true,
+      backgroundColor: ColorUtil.scaffoldBackgroundColor(context),
+      appBar: PlatformAppBar(
+        title: Text(widget.title),
+        automaticallyImplyLeading: Breakpoint.isSmall(context),
+        trailingActions: [
+          IconButton(
+            onPressed: () async {
+              await _controller.reload();
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          WebViewWidget(
+            controller: _controller,
+          ),
+          if (_loading)
+            const Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+Future<void> openHelpLink(
+  BuildContext context,
+  HelpLink item,
+) async {
+  if (Util.isAndroid || Util.isIOS || Util.isMacOS) {
+    await Navigator.of(context).pushNamed(
+      '/help/webview',
+      arguments: HelpWebViewArgs(
+        title: item.name,
+        link: item.link,
+      ),
+    );
+    return;
+  }
+
+  final link = item.link;
+  final uri = Uri.parse(link);
+  try {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
+  } catch (e) {
+    App.logger.warning("open help link failed: $link, error: $e");
+  }
 }
 
 List<HelpLink> features = [
@@ -121,12 +246,7 @@ class Help extends StatelessWidget {
                   title: Text(item.name),
                   trailing: PlatformListTileChevron(),
                   onTap: () async {
-                    await launchUrl(
-                      Uri.parse(
-                        item.link,
-                      ),
-                      mode: LaunchMode.externalApplication,
-                    );
+                    await openHelpLink(context, item);
                   },
                 ),
             ],
@@ -144,12 +264,7 @@ class Help extends StatelessWidget {
                   title: Text(item.name),
                   trailing: PlatformListTileChevron(),
                   onTap: () async {
-                    await launchUrl(
-                      Uri.parse(
-                        item.link,
-                      ),
-                      mode: LaunchMode.externalApplication,
-                    );
+                    await openHelpLink(context, item);
                   },
                 ),
             ],
@@ -194,10 +309,7 @@ class _DesktopHelpState extends State<DesktopHelp> {
                 CustomTreeMenu(
                   label: item.name,
                   onTap: () async {
-                    await launchUrl(
-                      Uri.parse(item.link),
-                      mode: LaunchMode.externalApplication,
-                    );
+                    await openHelpLink(context, item);
                   },
                 ),
             ],
@@ -210,10 +322,7 @@ class _DesktopHelpState extends State<DesktopHelp> {
                 CustomTreeMenu(
                   label: item.name,
                   onTap: () async {
-                    await launchUrl(
-                      Uri.parse(item.link),
-                      mode: LaunchMode.externalApplication,
-                    );
+                    await openHelpLink(context, item);
                   },
                 ),
             ],

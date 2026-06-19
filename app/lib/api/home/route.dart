@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:maple_file/app/router.dart';
 import 'package:maple_file/common/widgets/responsive.dart';
 
@@ -16,6 +17,9 @@ Future<void> init(CustomRouter router) async {
     },
     '/help': (context) {
       return const Help();
+    },
+    '/help/webview': (context) {
+      return HelpWebView.fromRoute(ModalRoute.of(context));
     },
     '/about': (context) {
       return const About();
