@@ -1,14 +1,17 @@
 package fs
 
 import (
-	"github.com/honmaple/cloudfs"
 	"github.com/honmaple/maple-file/server/pkg/driver"
 )
 
-func WithOrder(order string, desc bool) cloudfs.ListOption {
+func WithOrder(order string, desc bool) map[string]any {
 	return driver.WithOrder(order, desc)
 }
 
-func WithPagination(page int, pageSize int) cloudfs.ListOption {
+func WithPagination(page int, pageSize int) map[string]any {
 	return driver.WithPagination(page, pageSize)
+}
+
+func WithQueryParams(ms ...map[string]any) map[string]any  {
+	return driver.WithQueryParams(ms...)
 }

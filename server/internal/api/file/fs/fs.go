@@ -43,11 +43,11 @@ type defaultFS struct {
 	repos util.Cache[string, *pb.Repo]
 }
 
-func (d *defaultFS) List(ctx context.Context, path string, opts ...cloudfs.ListOption) ([]cloudfs.FileInfo, error) {
+func (d *defaultFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
 	results := make([]cloudfs.FileInfo, 0)
 	repoMap := make(map[string]bool)
 	if path != "/" && d.GetRepo(path) != nil {
-		files, err := d.FS.List(ctx, path, opts...)
+		files, err := d.FS.List(ctx, path)
 		if err != nil {
 			return nil, err
 		}

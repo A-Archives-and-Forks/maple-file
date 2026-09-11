@@ -77,7 +77,7 @@ func NewCommonWraps(opt *CommonOption) ([]cloudfs.WrapFunc, error) {
 	}
 
 	if opt.RootPath != "" || len(opt.HiddenFiles) > 0 {
-		wraps = append(wraps, cloudmiddleware.HookFS(&cloudmiddleware.HookOption{
+		wraps = append(wraps, cloudmiddleware.PredicateFS(&cloudmiddleware.PredicateOption{
 			PathFn: func(path string) string {
 				path = util.CleanPath(path)
 				if opt.RootPath == "" {
@@ -142,7 +142,7 @@ type recycleFS struct {
 	opt *recycleOption
 }
 
-func (d *recycleFS) List(ctx context.Context, path string, opts ...cloudfs.ListOption) ([]cloudfs.FileInfo, error) {
+func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
 	if path == d.opt.Path {
 		_, err := d.FS.Stat(ctx, path)
 		if err != nil {
@@ -152,7 +152,7 @@ func (d *recycleFS) List(ctx context.Context, path string, opts ...cloudfs.ListO
 			return nil, err
 		}
 	}
-	files, err := d.FS.List(ctx, path, opts...)
+	files, err := d.FS.List(ctx, path)
 	if err != nil {
 		return nil, err
 	}

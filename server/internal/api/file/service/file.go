@@ -10,6 +10,7 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/honmaple/cloudfs"
 	"github.com/honmaple/maple-file/server/internal/api/file/fs"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 	settingpb "github.com/honmaple/maple-file/server/internal/proto/api/setting"
@@ -39,10 +40,11 @@ func (srv *Service) getSetting(ctx context.Context, key string) (*viper.Viper, e
 func (srv *Service) List(ctx context.Context, req *pb.ListFilesRequest) (*pb.ListFilesResponse, error) {
 	filter := util.NewFilter(req.GetFilter())
 
-	files, err := srv.fs.List(ctx, util.CleanPath(filter.GetString("path")),
+	path := cloudfs.PathWithValues(util.CleanPath(filter.GetString("path")), fs.WithQueryParams(
 		fs.WithOrder(filter.GetString("order"), filter.GetBool("desc")),
 		fs.WithPagination(filter.GetInt("page"), filter.GetInt("page_size")),
-	)
+	))
+	files, err := srv.fs.List(ctx, path)
 	if err != nil {
 		return nil, err
 	}

@@ -18,8 +18,8 @@ func CopyDir(ctx context.Context, srcFS FS, src, dst string) error {
 	return cloudfs.CopyDir(ctx, srcFS, src, dst)
 }
 
-func Copy(ctx context.Context, srcFS FS, src, dst string, opts ...Meta) error {
-	return cloudfs.Copy(ctx, srcFS, src, dst, cloudfs.ListOptions(opts...).AllSettings())
+func Copy(ctx context.Context, srcFS FS, src, dst string) error {
+	return cloudfs.Copy(ctx, srcFS, src, dst)
 }
 
 func WalkDir(ctx context.Context, srcFS FS, root string, walkDirFn WalkDirFunc) error {

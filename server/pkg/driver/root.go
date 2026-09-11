@@ -17,13 +17,13 @@ type rootFS struct {
 
 var _ FS = (*rootFS)(nil)
 
-func (d *rootFS) List(ctx context.Context, path string, opts ...cloudfs.ListOption) ([]cloudfs.FileInfo, error) {
+func (d *rootFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
 	dstFS, dstPath, err := d.fn(path)
 	if err != nil {
 		return nil, err
 	}
 
-	files, err := dstFS.List(ctx, dstPath, opts...)
+	files, err := dstFS.List(ctx, dstPath)
 	if err != nil {
 		return nil, err
 	}

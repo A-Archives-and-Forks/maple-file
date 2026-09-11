@@ -1,37 +1,17 @@
 package driver
 
-import "github.com/honmaple/cloudfs"
-
-type Meta = cloudfs.ListOption
-
-func WithMeta(m map[string]any) Meta {
-	return cloudfs.ListOption(m)
+func WithPassword(pw string) map[string]any {
+	return map[string]any{"password": pw}
 }
 
-func WithPassword(pw string) Meta {
-	return cloudfs.ListOption{"password": pw}
-}
-
-func WithForce(force bool) Meta {
-	return cloudfs.ListOption{"force": force}
-}
-
-func WithAutoRename(rename bool) Meta {
-	return cloudfs.ListOption{"auto_rename": rename}
-}
-
-func WithOverride(pw string) Meta {
-	return cloudfs.ListOption{"override": pw}
-}
-
-func WithOrder(order string, desc bool) Meta {
-	return cloudfs.ListOption{
+func WithOrder(order string, desc bool) map[string]any {
+	return map[string]any{
 		"desc":  desc,
 		"order": order,
 	}
 }
 
-func WithPagination(page int, pageSize int) Meta {
+func WithPagination(page int, pageSize int) map[string]any {
 	if page < 1 {
 		page = 1
 	}
@@ -44,9 +24,19 @@ func WithPagination(page int, pageSize int) Meta {
 		offset = 0
 	}
 
-	return cloudfs.ListOption{
+	return map[string]any{
 		"page":      page,
 		"offset":    offset,
 		"page_size": pageSize,
 	}
+}
+
+func WithQueryParams(ms ...map[string]any) map[string]any {
+	values := make(map[string]any)
+	for _, m := range ms {
+		for k, v := range m {
+			values[k] = v
+		}
+	}
+	return values
 }
