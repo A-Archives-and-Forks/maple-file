@@ -11,17 +11,17 @@ import (
 	"strings"
 
 	"github.com/honmaple/cloudfs"
-	"github.com/honmaple/maple-file/server/internal/api/file/fs"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/ioutil"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/pathutil"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/structutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
-	settingpb "github.com/honmaple/maple-file/server/internal/proto/api/setting"
-	"github.com/honmaple/maple-file/server/pkg/util"
 	"github.com/spf13/viper"
 )
 
-func (srv *Service) getSetting(ctx context.Context, key string) (*viper.Viper, error) {
-	ins := new(settingpb.Setting)
-
-	if err := srv.app.DB.WithContext(ctx).First(&ins, "key = ?", key).Error; err != nil {
+func (srv *serviceImpl) getSetting(ctx context.Context, key string) (*viper.Viper, error) {
+	ins, err := srv.settings.GetSetting(ctx, key)
+	if err != nil {
 		return nil, err
 	}
 
@@ -37,10 +37,10 @@ func (srv *Service) getSetting(ctx context.Context, key string) (*viper.Viper, e
 	return cf, nil
 }
 
-func (srv *Service) List(ctx context.Context, req *pb.ListFilesRequest) (*pb.ListFilesResponse, error) {
-	filter := util.NewFilter(req.GetFilter())
+func (srv *serviceImpl) List(ctx context.Context, req *pb.ListFilesRequest) (*pb.ListFilesResponse, error) {
+	filter := structutil.NewFilter(req.GetFilter())
 
-	path := cloudfs.PathWithValues(util.CleanPath(filter.GetString("path")), fs.WithQueryParams(
+	path := cloudfs.PathWithValues(pathutil.CleanPath(filter.GetString("path")), fs.WithQueryParams(
 		fs.WithOrder(filter.GetString("order"), filter.GetBool("desc")),
 		fs.WithPagination(filter.GetInt("page"), filter.GetInt("page_size")),
 	))
@@ -55,7 +55,7 @@ func (srv *Service) List(ctx context.Context, req *pb.ListFilesRequest) (*pb.Lis
 	return &pb.ListFilesResponse{Results: results}, nil
 }
 
-func (srv *Service) Rename(ctx context.Context, req *pb.RenameFileRequest) (*pb.RenameFileResponse, error) {
+func (srv *serviceImpl) Rename(ctx context.Context, req *pb.RenameFileRequest) (*pb.RenameFileResponse, error) {
 	oldPath := filepath.Join(req.GetPath(), req.GetName())
 
 	fmt.Println("rename", oldPath, filepath.Join(req.GetPath(), req.GetNewName()))
@@ -65,7 +65,7 @@ func (srv *Service) Rename(ctx context.Context, req *pb.RenameFileRequest) (*pb.
 	return &pb.RenameFileResponse{}, nil
 }
 
-func (srv *Service) Mkdir(ctx context.Context, req *pb.MkdirFileRequest) (*pb.MkdirFileResponse, error) {
+func (srv *serviceImpl) Mkdir(ctx context.Context, req *pb.MkdirFileRequest) (*pb.MkdirFileResponse, error) {
 	fmt.Println("mkdir", filepath.Join(req.GetPath(), req.GetName()))
 	if err := srv.fs.MakeDir(ctx, filepath.Join(req.GetPath(), req.GetName())); err != nil {
 		return nil, err
@@ -73,7 +73,7 @@ func (srv *Service) Mkdir(ctx context.Context, req *pb.MkdirFileRequest) (*pb.Mk
 	return &pb.MkdirFileResponse{}, nil
 }
 
-func (srv *Service) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.MoveFileResponse, error) {
+func (srv *serviceImpl) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.MoveFileResponse, error) {
 	newPath := req.GetNewPath()
 	for _, name := range req.GetNames() {
 		oldPath := filepath.Join(req.GetPath(), name)
@@ -88,7 +88,7 @@ func (srv *Service) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.Move
 	return &pb.MoveFileResponse{}, nil
 }
 
-func (srv *Service) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.CopyFileResponse, error) {
+func (srv *serviceImpl) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.CopyFileResponse, error) {
 	newPath := req.GetNewPath()
 	for _, name := range req.GetNames() {
 		oldPath := filepath.Join(req.GetPath(), name)
@@ -103,7 +103,7 @@ func (srv *Service) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.Copy
 	return &pb.CopyFileResponse{}, nil
 }
 
-func (srv *Service) Remove(ctx context.Context, req *pb.RemoveFileRequest) (*pb.RemoveFileResponse, error) {
+func (srv *serviceImpl) Remove(ctx context.Context, req *pb.RemoveFileRequest) (*pb.RemoveFileResponse, error) {
 	for _, name := range req.GetNames() {
 		fmt.Println("remove", filepath.Join(req.GetPath(), name))
 
@@ -114,7 +114,7 @@ func (srv *Service) Remove(ctx context.Context, req *pb.RemoveFileRequest) (*pb.
 	return &pb.RemoveFileResponse{}, nil
 }
 
-func (srv *Service) upload(ctx context.Context, req *pb.FileRequest, reader io.Reader) (*pb.File, error) {
+func (srv *serviceImpl) upload(ctx context.Context, req *pb.FileRequest, reader io.Reader) (*pb.File, error) {
 	filename := req.GetFilename()
 
 	cf, err := srv.getSetting(ctx, "app.file")
@@ -159,7 +159,7 @@ func (srv *Service) upload(ctx context.Context, req *pb.FileRequest, reader io.R
 	return infoToFile(info), nil
 }
 
-func (srv *Service) Upload(stream pb.FileService_UploadServer) error {
+func (srv *serviceImpl) Upload(stream pb.FileService_UploadServer) error {
 	ctx := stream.Context()
 
 	// 接收第0片数据，只包括文件名等信息，不包括数据
@@ -175,7 +175,7 @@ func (srv *Service) Upload(stream pb.FileService_UploadServer) error {
 	return stream.SendAndClose(&pb.FileResponse{Result: result})
 }
 
-func (srv *Service) Preview(req *pb.PreviewFileRequest, stream pb.FileService_PreviewServer) error {
+func (srv *serviceImpl) Preview(req *pb.PreviewFileRequest, stream pb.FileService_PreviewServer) error {
 	info, err := srv.fs.Stat(stream.Context(), req.GetPath())
 	if err != nil {
 		return err
@@ -195,11 +195,11 @@ func (srv *Service) Preview(req *pb.PreviewFileRequest, stream pb.FileService_Pr
 			Chunk: chunk,
 		})
 	})
-	_, err = util.Copy(stream.Context(), dst, file, nil)
+	_, err = ioutil.Copy(stream.Context(), dst, file, nil)
 	return err
 }
 
-func (srv *Service) Download(req *pb.DownloadFileRequest, stream pb.FileService_DownloadServer) error {
+func (srv *serviceImpl) Download(req *pb.DownloadFileRequest, stream pb.FileService_DownloadServer) error {
 	dst := chunkFunc(func(chunk []byte) error {
 		return stream.Send(&pb.DownloadFileResponse{
 			Chunk: chunk,

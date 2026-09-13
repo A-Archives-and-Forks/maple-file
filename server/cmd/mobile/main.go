@@ -1,16 +1,14 @@
 package server
 
 import (
-	"github.com/honmaple/maple-file/server/internal/app"
-
-	_ "github.com/honmaple/maple-file/server/internal/api"
+	"github.com/honmaple/maple-file/server/internal/bootstrap"
 	_ "golang.org/x/mobile/bind"
 )
 
 func Start(cfg string) (string, error) {
-	return app.Start(cfg)
+	return bootstrap.Start(cfg)
 }
 
 func Stop() {
-	app.Stop()
+	bootstrap.Stop()
 }

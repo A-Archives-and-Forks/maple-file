@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/honmaple/cloudfs"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/strutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
-	"github.com/honmaple/maple-file/server/pkg/util"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -38,7 +38,7 @@ func renameFile(format, filename string) string {
 	name := filename[:len(filename)-len(ext)]
 
 	now := time.Now()
-	return util.StrReplace(format, map[string]string{
+	return strutil.Replace(format, map[string]string{
 		"{extension}":   ext,
 		"{filename}":    name,
 		"{time:year}":   now.Format("2006"),

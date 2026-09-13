@@ -11,21 +11,21 @@ import (
 	"strings"
 
 	"github.com/honmaple/cloudfs"
-	"github.com/honmaple/maple-file/server/internal/api/file/fs"
-	"github.com/honmaple/maple-file/server/internal/app/config"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
+	"github.com/honmaple/maple-file/server/internal/app"
 	"github.com/spf13/viper"
 )
 
-func (srv *Service) thumbHash(path string) string {
+func (srv *serviceImpl) thumbHash(path string) string {
 	hash := md5.Sum([]byte(path))
 	return fmt.Sprintf("%x", hash)
 }
 
-func (srv *Service) thumbPath() string {
-	return filepath.Join(srv.app.Config.GetString(config.ApplicationPath), "thumbnail")
+func (srv *serviceImpl) thumbPath() string {
+	return filepath.Join(srv.ctx.Config.GetString(app.ApplicationPath), "thumbnail")
 }
 
-func (srv *Service) thumbFile(ctx context.Context, path string, info cloudfs.FileInfo) (string, error) {
+func (srv *serviceImpl) thumbFile(ctx context.Context, path string, info cloudfs.FileInfo) (string, error) {
 	if info.IsDir() {
 		return "", errors.New("can't generate thumb for dir")
 	}
@@ -69,7 +69,7 @@ func (srv *Service) thumbFile(ctx context.Context, path string, info cloudfs.Fil
 	return thumbPath, nil
 }
 
-func (srv *Service) cleanThumbFile() {
+func (srv *serviceImpl) cleanThumbFile() {
 	ctx := context.TODO()
 	setting, err := srv.getSetting(ctx, "app.file")
 	if err != nil {
@@ -77,7 +77,7 @@ func (srv *Service) cleanThumbFile() {
 	}
 
 	if setting.GetBool("thumb.auto_clean") {
-		srv.app.Runner.SubmitByOption(&fs.ThumbCleanTaskOption{
+		srv.ctx.Runner.SubmitByOption(&fs.ThumbCleanTaskOption{
 			ThumbPath:  srv.thumbPath(),
 			ExpireTime: 24 * 30,
 		})

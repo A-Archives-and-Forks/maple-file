@@ -6,34 +6,34 @@ import (
 	"os"
 
 	"github.com/honmaple/maple-file/server/internal/app"
-	"github.com/honmaple/maple-file/server/internal/app/config"
+	"github.com/honmaple/maple-file/server/internal/bootstrap"
+	"github.com/samber/do/v2"
 	"github.com/urfave/cli/v2"
-
-	_ "github.com/honmaple/maple-file/server/internal/api"
 )
 
 var (
 	//go:embed dist
-	webFS      embed.FS
-	defaultApp = app.New()
+	webFS         embed.FS
+	defaultConfig = app.NewConfig()
 )
 
 func before(clx *cli.Context) error {
-	if err := defaultApp.Config.LoadFromFile(clx.String("config")); err != nil {
+	if err := defaultConfig.LoadFromFile(clx.String("config")); err != nil {
 		return err
 	}
-	return defaultApp.Init()
+	return nil
 }
 
 func action(clx *cli.Context) error {
 	if addr := clx.String("addr"); addr != "" {
-		defaultApp.Config.Set(config.ServerAddr, addr)
+		defaultConfig.Set(app.ServerAddr, addr)
 	}
 	if debug := clx.Bool("debug"); debug {
-		defaultApp.Config.Set("server.mode", "dev")
+		defaultConfig.Set("server.mode", "dev")
 	}
 
-	server, err := app.NewServer(defaultApp)
+	injector := bootstrap.NewInjector(defaultConfig)
+	server, err := do.Invoke[*bootstrap.Server](injector)
 	if err != nil {
 		return err
 	}

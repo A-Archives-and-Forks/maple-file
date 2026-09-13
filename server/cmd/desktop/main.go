@@ -2,9 +2,7 @@ package main
 
 import "C"
 import (
-	"github.com/honmaple/maple-file/server/internal/app"
-
-	_ "github.com/honmaple/maple-file/server/internal/api"
+	"github.com/honmaple/maple-file/server/internal/bootstrap"
 )
 
 func main() {}
@@ -16,7 +14,7 @@ func Start(cfgPtr *C.char) (*C.char, *C.char) {
 	}
 	cfg := C.GoString(cfgPtr)
 
-	result, err := app.Start(cfg)
+	result, err := bootstrap.Start(cfg)
 	if err != nil {
 		return nil, C.CString(err.Error())
 	}
@@ -25,5 +23,5 @@ func Start(cfgPtr *C.char) (*C.char, *C.char) {
 
 //export Stop
 func Stop() {
-	app.Stop()
+	bootstrap.Stop()
 }

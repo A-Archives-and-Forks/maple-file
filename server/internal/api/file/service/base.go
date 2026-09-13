@@ -12,32 +12,37 @@ import (
 	"github.com/labstack/echo/v4"
 	"google.golang.org/grpc"
 
-	"github.com/honmaple/maple-file/server/internal/api/file/fs"
-	"github.com/honmaple/maple-file/server/internal/app"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/server"
+	"github.com/honmaple/maple-file/server/internal/api/file/repository"
+	"github.com/honmaple/maple-file/server/internal/api/file/types"
+	"github.com/honmaple/maple-file/server/internal/api/shared"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/cacheutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
-	"github.com/honmaple/maple-file/server/pkg/server"
-	"github.com/honmaple/maple-file/server/pkg/util"
+	settingpb "github.com/honmaple/maple-file/server/internal/proto/api/setting"
 )
 
-type Service struct {
-	app.BaseService
+type serviceImpl struct {
+	shared.ServiceImpl
 	pb.UnimplementedFileServiceServer
 	pb.UnimplementedExternalServerServiceServer
-	fs      fs.FS
-	app     *app.App
-	servers util.Cache[string, server.Server]
+	fs       fs.FS
+	ctx      *types.Context
+	repo     repository.Repository
+	settings SettingReader
+	servers  cacheutil.Cache[string, server.Server]
 }
 
-func (srv *Service) Register(grpc *grpc.Server) {
+func (srv *serviceImpl) Register(grpc *grpc.Server) {
 	pb.RegisterFileServiceServer(grpc, srv)
 	pb.RegisterExternalServerServiceServer(grpc, srv)
 }
 
-func (srv *Service) RegisterGateway(ctx context.Context, mux *runtime.ServeMux) {
+func (srv *serviceImpl) RegisterGateway(ctx context.Context, mux *runtime.ServeMux) {
 	pb.RegisterFileServiceHandlerServer(ctx, mux, srv)
 }
 
-func (srv *Service) RegisterHTTP(e *echo.Echo) {
+func (srv *serviceImpl) RegisterHTTP(e *echo.Echo) {
 	g := e.Group("/api/file")
 
 	g.POST("/upload/blob", func(c echo.Context) error {
@@ -90,7 +95,7 @@ func (srv *Service) RegisterHTTP(e *echo.Echo) {
 
 		thumb := slices.Contains([]string{"true", "1"}, c.QueryParams().Get("thumb"))
 		if thumb {
-			thumbPath, err := srv.thumbFile(srv.app.Context(), path, info)
+			thumbPath, err := srv.thumbFile(srv.ctx.Context, path, info)
 			if err != nil {
 				return err
 			}
@@ -154,13 +159,23 @@ func (srv *Service) RegisterHTTP(e *echo.Echo) {
 	})
 }
 
-func New(app *app.App) *Service {
-	srv := &Service{
-		app:     app,
-		servers: util.NewCache[string, server.Server](),
+type Service interface {
+	shared.Service
+	pb.FileServiceServer
+	pb.ExternalServerServiceServer
+}
+
+type SettingReader interface {
+	GetSetting(context.Context, string) (*settingpb.Setting, error)
+}
+
+func New(ctx *types.Context, repo repository.Repository, settings SettingReader) (Service, error) {
+	if err := ctx.DB.AutoMigrate(new(pb.Repo)); err != nil {
+		return nil, err
 	}
-	srv.fs = fs.New(app)
+	srv := &serviceImpl{ctx: ctx, repo: repo, settings: settings, servers: cacheutil.New[string, server.Server]()}
+	srv.fs = fs.New(ctx)
 
 	go srv.cleanThumbFile()
-	return srv
+	return srv, nil
 }

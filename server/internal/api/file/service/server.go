@@ -5,11 +5,11 @@ import (
 
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 
-	"github.com/honmaple/maple-file/server/pkg/server"
-	_ "github.com/honmaple/maple-file/server/pkg/server/webdav"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/server"
+	_ "github.com/honmaple/maple-file/server/internal/api/file/provider/server/webdav"
 )
 
-func (srv *Service) ServerStatus(ctx context.Context, req *pb.ExternalServer_GetRequest) (*pb.ExternalServer_GetResponse, error) {
+func (srv *serviceImpl) ServerStatus(ctx context.Context, req *pb.ExternalServer_GetRequest) (*pb.ExternalServer_GetResponse, error) {
 	server, ok := srv.servers.Load(req.GetType())
 
 	result := new(pb.ExternalServer)
@@ -25,7 +25,7 @@ func (srv *Service) ServerStatus(ctx context.Context, req *pb.ExternalServer_Get
 	}, nil
 }
 
-func (srv *Service) StartServer(ctx context.Context, req *pb.ExternalServer_StartRequest) (*pb.ExternalServer_StartResponse, error) {
+func (srv *serviceImpl) StartServer(ctx context.Context, req *pb.ExternalServer_StartRequest) (*pb.ExternalServer_StartResponse, error) {
 	s, ok := srv.servers.Load(req.GetType())
 	if ok {
 		s.Stop()
@@ -50,7 +50,7 @@ func (srv *Service) StartServer(ctx context.Context, req *pb.ExternalServer_Star
 	}, nil
 }
 
-func (srv *Service) StopServer(ctx context.Context, req *pb.ExternalServer_StopRequest) (*pb.ExternalServer_StopResponse, error) {
+func (srv *serviceImpl) StopServer(ctx context.Context, req *pb.ExternalServer_StopRequest) (*pb.ExternalServer_StopResponse, error) {
 	server, ok := srv.servers.Load(req.GetType())
 	if ok {
 		if err := server.Stop(); err != nil {
