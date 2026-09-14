@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/honmaple/maple-file/server/internal/platform/runner"
-	pb "github.com/honmaple/maple-file/server/internal/proto/api/task"
+	pb "github.com/honmaple/maple-file/server/internal/proto/api/base"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -20,7 +20,7 @@ var (
 )
 
 // TODO: 持久化任务信息
-func (srv *serviceImpl) ListTasks(ctx context.Context, in *pb.ListTasksRequest) (*pb.ListTasksResponse, error) {
+func (srv *serviceImpl) ListTasks(ctx context.Context, in *pb.Task_ListRequest) (*pb.Task_ListResponse, error) {
 	results := make([]*pb.Task, 0)
 	for _, m := range srv.ctx.Runner.GetAll() {
 		result := &pb.Task{
@@ -38,32 +38,32 @@ func (srv *serviceImpl) ListTasks(ctx context.Context, in *pb.ListTasksRequest) 
 		}
 		results = append(results, result)
 	}
-	return &pb.ListTasksResponse{Results: results}, nil
+	return &pb.Task_ListResponse{Results: results}, nil
 }
 
-func (srv *serviceImpl) RetryTask(ctx context.Context, in *pb.RetryTaskRequest) (*pb.RetryTaskResponse, error) {
+func (srv *serviceImpl) RetryTask(ctx context.Context, in *pb.Task_RetryRequest) (*pb.Task_RetryResponse, error) {
 	for _, id := range in.GetTasks() {
 		if err := srv.ctx.Runner.Retry(id); err != nil {
 			return nil, err
 		}
 	}
-	return &pb.RetryTaskResponse{}, nil
+	return &pb.Task_RetryResponse{}, nil
 }
 
-func (srv *serviceImpl) CancelTask(ctx context.Context, in *pb.CancelTaskRequest) (*pb.CancelTaskResponse, error) {
+func (srv *serviceImpl) CancelTask(ctx context.Context, in *pb.Task_CancelRequest) (*pb.Task_CancelResponse, error) {
 	for _, id := range in.GetTasks() {
 		if err := srv.ctx.Runner.Cancel(id); err != nil {
 			return nil, err
 		}
 	}
-	return &pb.CancelTaskResponse{}, nil
+	return &pb.Task_CancelResponse{}, nil
 }
 
-func (srv *serviceImpl) RemoveTask(ctx context.Context, in *pb.RemoveTaskRequest) (*pb.RemoveTaskResponse, error) {
+func (srv *serviceImpl) RemoveTask(ctx context.Context, in *pb.Task_RemoveRequest) (*pb.Task_RemoveResponse, error) {
 	for _, id := range in.GetTasks() {
 		if err := srv.ctx.Runner.Remove(id); err != nil {
 			return nil, err
 		}
 	}
-	return &pb.RemoveTaskResponse{}, nil
+	return &pb.Task_RemoveResponse{}, nil
 }

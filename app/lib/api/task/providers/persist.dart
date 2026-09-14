@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:maple_file/generated/proto/api/task/persist.pb.dart';
+import 'package:maple_file/generated/proto/api/base/task.pb.dart';
 
 import 'service.dart';
 

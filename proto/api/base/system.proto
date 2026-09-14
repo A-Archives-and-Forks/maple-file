@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package api.base;
+
+import "google/api/annotations.proto";
+
+option go_package = "api/base";
+
+service SystemService {
+	rpc Info (Info.Request) returns (Info.Response) {
+		option (google.api.http) = {
+			get: "/api/info"
+		};
+	}
+}
+
+message Info {
+	string os = 1;
+	string arch = 2;
+	string runtime = 3;
+	string version = 4;
+	string description = 5;
+
+	message Request {
+	}
+
+	message Response {
+		Info result = 1;
+	}
+}

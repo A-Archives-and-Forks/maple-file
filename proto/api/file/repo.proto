@@ -2,9 +2,36 @@ syntax = "proto3";
 
 package api.file;
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
 
 option go_package = "api/file";
+
+service RepoService {
+	rpc ListRepos (Repo.ListRequest) returns (Repo.ListResponse) {
+		option (google.api.http) = {
+			get: "/api/file/repos"
+		};
+	}
+	rpc CreateRepo (Repo.CreateRequest) returns (Repo.CreateResponse) {
+		option (google.api.http) = {
+			post: "/api/file/repos"
+			body: "*"
+		};
+	}
+	rpc UpdateRepo (Repo.UpdateRequest) returns (Repo.UpdateResponse) {
+		option (google.api.http) = {
+			put: "/api/file/repos/{payload.id}"
+			body: "payload"
+		};
+	}
+	rpc DeleteRepo (Repo.DeleteRequest) returns (Repo.DeleteResponse) {
+		option (google.api.http) = {
+			delete: "/api/file/repos/{id}"
+		};
+	}
+	rpc TestRepo (Repo.TestRequest) returns (Repo.TestResponse) {}
+}
 
 message Repo {
 	// @gotags: gorm:"primary_key;auto_increment"
@@ -20,42 +47,43 @@ message Repo {
 	bool   status = 6;
 	string driver = 7;
 	string option = 8;
-}
 
-message ListReposRequest {
-	map<string, string> filter = 1;
-}
+	message ListRequest {
+		map<string, string> filter = 1;
+	}
 
-message ListReposResponse {
-	repeated Repo results = 1;
-}
+	message ListResponse {
+		repeated Repo results = 1;
+	}
 
-message CreateRepoRequest {
-	Repo payload = 1;
-}
+	message CreateRequest {
+		Repo payload = 1;
+	}
 
-message CreateRepoResponse {
-	Repo result = 1;
-}
+	message CreateResponse {
+		Repo result = 1;
+	}
 
-message TestRepoRequest {
-	Repo payload = 1;
-}
+	message TestRequest {
+		Repo payload = 1;
+	}
 
-message TestRepoResponse {
-	bool success = 1;
-}
+	message TestResponse {
+		bool success = 1;
+	}
 
-message UpdateRepoRequest {
-	Repo payload = 1;
-}
+	message UpdateRequest {
+		Repo payload = 1;
+	}
 
-message UpdateRepoResponse {
-	Repo result = 1;
-}
+	message UpdateResponse {
+		Repo result = 1;
+	}
 
-message DeleteRepoRequest {
-	int32 id = 1;
-}
+	message DeleteRequest {
+		int32 id = 1;
+	}
 
-message DeleteRepoResponse {}
+	message DeleteResponse {
+	}
+}

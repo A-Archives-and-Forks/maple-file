@@ -10,7 +10,6 @@ import 'package:maple_file/common/widgets/platform/list.dart';
 
 import '../providers/file.dart';
 import '../providers/repo.dart';
-import '../providers/service.dart';
 
 class RepoList extends ConsumerStatefulWidget {
   const RepoList({super.key});
@@ -82,8 +81,8 @@ class _RepoListState extends ConsumerState<RepoList> {
                                 activeTrackColor:
                                     Theme.of(context).primaryColor,
                                 onChanged: (result) async {
-                                  await FileService.instance
-                                      .updateRepo(item.copyWith((r) {
+                                  await RepoService.instance
+                                      .update(item.copyWith((r) {
                                     r.status = result;
                                   })).then((_) {
                                     ref.invalidate(repoProvider);

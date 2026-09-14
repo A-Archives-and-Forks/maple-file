@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:maple_file/app/i18n.dart';
-import 'package:maple_file/generated/proto/api/task/task.pb.dart';
+import 'package:maple_file/generated/proto/api/base/task.pb.dart';
 
 import 'service.dart';
 

@@ -7,6 +7,7 @@
 package file
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -126,27 +127,27 @@ func (x *Repo) GetOption() string {
 	return ""
 }
 
-type ListReposRequest struct {
+type Repo_ListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Filter        map[string]string      `protobuf:"bytes,1,rep,name=filter,proto3" json:"filter,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListReposRequest) Reset() {
-	*x = ListReposRequest{}
+func (x *Repo_ListRequest) Reset() {
+	*x = Repo_ListRequest{}
 	mi := &file_api_file_repo_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListReposRequest) String() string {
+func (x *Repo_ListRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListReposRequest) ProtoMessage() {}
+func (*Repo_ListRequest) ProtoMessage() {}
 
-func (x *ListReposRequest) ProtoReflect() protoreflect.Message {
+func (x *Repo_ListRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -158,39 +159,39 @@ func (x *ListReposRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListReposRequest.ProtoReflect.Descriptor instead.
-func (*ListReposRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use Repo_ListRequest.ProtoReflect.Descriptor instead.
+func (*Repo_ListRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *ListReposRequest) GetFilter() map[string]string {
+func (x *Repo_ListRequest) GetFilter() map[string]string {
 	if x != nil {
 		return x.Filter
 	}
 	return nil
 }
 
-type ListReposResponse struct {
+type Repo_ListResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Results       []*Repo                `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListReposResponse) Reset() {
-	*x = ListReposResponse{}
+func (x *Repo_ListResponse) Reset() {
+	*x = Repo_ListResponse{}
 	mi := &file_api_file_repo_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListReposResponse) String() string {
+func (x *Repo_ListResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListReposResponse) ProtoMessage() {}
+func (*Repo_ListResponse) ProtoMessage() {}
 
-func (x *ListReposResponse) ProtoReflect() protoreflect.Message {
+func (x *Repo_ListResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -202,39 +203,39 @@ func (x *ListReposResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListReposResponse.ProtoReflect.Descriptor instead.
-func (*ListReposResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use Repo_ListResponse.ProtoReflect.Descriptor instead.
+func (*Repo_ListResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 1}
 }
 
-func (x *ListReposResponse) GetResults() []*Repo {
+func (x *Repo_ListResponse) GetResults() []*Repo {
 	if x != nil {
 		return x.Results
 	}
 	return nil
 }
 
-type CreateRepoRequest struct {
+type Repo_CreateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Payload       *Repo                  `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateRepoRequest) Reset() {
-	*x = CreateRepoRequest{}
+func (x *Repo_CreateRequest) Reset() {
+	*x = Repo_CreateRequest{}
 	mi := &file_api_file_repo_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateRepoRequest) String() string {
+func (x *Repo_CreateRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateRepoRequest) ProtoMessage() {}
+func (*Repo_CreateRequest) ProtoMessage() {}
 
-func (x *CreateRepoRequest) ProtoReflect() protoreflect.Message {
+func (x *Repo_CreateRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -246,39 +247,39 @@ func (x *CreateRepoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateRepoRequest.ProtoReflect.Descriptor instead.
-func (*CreateRepoRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use Repo_CreateRequest.ProtoReflect.Descriptor instead.
+func (*Repo_CreateRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 2}
 }
 
-func (x *CreateRepoRequest) GetPayload() *Repo {
+func (x *Repo_CreateRequest) GetPayload() *Repo {
 	if x != nil {
 		return x.Payload
 	}
 	return nil
 }
 
-type CreateRepoResponse struct {
+type Repo_CreateResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Result        *Repo                  `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CreateRepoResponse) Reset() {
-	*x = CreateRepoResponse{}
+func (x *Repo_CreateResponse) Reset() {
+	*x = Repo_CreateResponse{}
 	mi := &file_api_file_repo_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CreateRepoResponse) String() string {
+func (x *Repo_CreateResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CreateRepoResponse) ProtoMessage() {}
+func (*Repo_CreateResponse) ProtoMessage() {}
 
-func (x *CreateRepoResponse) ProtoReflect() protoreflect.Message {
+func (x *Repo_CreateResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -290,39 +291,39 @@ func (x *CreateRepoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CreateRepoResponse.ProtoReflect.Descriptor instead.
-func (*CreateRepoResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{4}
+// Deprecated: Use Repo_CreateResponse.ProtoReflect.Descriptor instead.
+func (*Repo_CreateResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 3}
 }
 
-func (x *CreateRepoResponse) GetResult() *Repo {
+func (x *Repo_CreateResponse) GetResult() *Repo {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-type TestRepoRequest struct {
+type Repo_TestRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Payload       *Repo                  `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *TestRepoRequest) Reset() {
-	*x = TestRepoRequest{}
+func (x *Repo_TestRequest) Reset() {
+	*x = Repo_TestRequest{}
 	mi := &file_api_file_repo_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TestRepoRequest) String() string {
+func (x *Repo_TestRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TestRepoRequest) ProtoMessage() {}
+func (*Repo_TestRequest) ProtoMessage() {}
 
-func (x *TestRepoRequest) ProtoReflect() protoreflect.Message {
+func (x *Repo_TestRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -334,39 +335,39 @@ func (x *TestRepoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TestRepoRequest.ProtoReflect.Descriptor instead.
-func (*TestRepoRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{5}
+// Deprecated: Use Repo_TestRequest.ProtoReflect.Descriptor instead.
+func (*Repo_TestRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 4}
 }
 
-func (x *TestRepoRequest) GetPayload() *Repo {
+func (x *Repo_TestRequest) GetPayload() *Repo {
 	if x != nil {
 		return x.Payload
 	}
 	return nil
 }
 
-type TestRepoResponse struct {
+type Repo_TestResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *TestRepoResponse) Reset() {
-	*x = TestRepoResponse{}
+func (x *Repo_TestResponse) Reset() {
+	*x = Repo_TestResponse{}
 	mi := &file_api_file_repo_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TestRepoResponse) String() string {
+func (x *Repo_TestResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TestRepoResponse) ProtoMessage() {}
+func (*Repo_TestResponse) ProtoMessage() {}
 
-func (x *TestRepoResponse) ProtoReflect() protoreflect.Message {
+func (x *Repo_TestResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -378,39 +379,39 @@ func (x *TestRepoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TestRepoResponse.ProtoReflect.Descriptor instead.
-func (*TestRepoResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{6}
+// Deprecated: Use Repo_TestResponse.ProtoReflect.Descriptor instead.
+func (*Repo_TestResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 5}
 }
 
-func (x *TestRepoResponse) GetSuccess() bool {
+func (x *Repo_TestResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
 	return false
 }
 
-type UpdateRepoRequest struct {
+type Repo_UpdateRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Payload       *Repo                  `protobuf:"bytes,1,opt,name=payload,proto3" json:"payload,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateRepoRequest) Reset() {
-	*x = UpdateRepoRequest{}
+func (x *Repo_UpdateRequest) Reset() {
+	*x = Repo_UpdateRequest{}
 	mi := &file_api_file_repo_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateRepoRequest) String() string {
+func (x *Repo_UpdateRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateRepoRequest) ProtoMessage() {}
+func (*Repo_UpdateRequest) ProtoMessage() {}
 
-func (x *UpdateRepoRequest) ProtoReflect() protoreflect.Message {
+func (x *Repo_UpdateRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -422,39 +423,39 @@ func (x *UpdateRepoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateRepoRequest.ProtoReflect.Descriptor instead.
-func (*UpdateRepoRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{7}
+// Deprecated: Use Repo_UpdateRequest.ProtoReflect.Descriptor instead.
+func (*Repo_UpdateRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 6}
 }
 
-func (x *UpdateRepoRequest) GetPayload() *Repo {
+func (x *Repo_UpdateRequest) GetPayload() *Repo {
 	if x != nil {
 		return x.Payload
 	}
 	return nil
 }
 
-type UpdateRepoResponse struct {
+type Repo_UpdateResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Result        *Repo                  `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *UpdateRepoResponse) Reset() {
-	*x = UpdateRepoResponse{}
+func (x *Repo_UpdateResponse) Reset() {
+	*x = Repo_UpdateResponse{}
 	mi := &file_api_file_repo_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *UpdateRepoResponse) String() string {
+func (x *Repo_UpdateResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateRepoResponse) ProtoMessage() {}
+func (*Repo_UpdateResponse) ProtoMessage() {}
 
-func (x *UpdateRepoResponse) ProtoReflect() protoreflect.Message {
+func (x *Repo_UpdateResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -466,39 +467,39 @@ func (x *UpdateRepoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateRepoResponse.ProtoReflect.Descriptor instead.
-func (*UpdateRepoResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{8}
+// Deprecated: Use Repo_UpdateResponse.ProtoReflect.Descriptor instead.
+func (*Repo_UpdateResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 7}
 }
 
-func (x *UpdateRepoResponse) GetResult() *Repo {
+func (x *Repo_UpdateResponse) GetResult() *Repo {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-type DeleteRepoRequest struct {
+type Repo_DeleteRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeleteRepoRequest) Reset() {
-	*x = DeleteRepoRequest{}
+func (x *Repo_DeleteRequest) Reset() {
+	*x = Repo_DeleteRequest{}
 	mi := &file_api_file_repo_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteRepoRequest) String() string {
+func (x *Repo_DeleteRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteRepoRequest) ProtoMessage() {}
+func (*Repo_DeleteRequest) ProtoMessage() {}
 
-func (x *DeleteRepoRequest) ProtoReflect() protoreflect.Message {
+func (x *Repo_DeleteRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -510,38 +511,38 @@ func (x *DeleteRepoRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteRepoRequest.ProtoReflect.Descriptor instead.
-func (*DeleteRepoRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{9}
+// Deprecated: Use Repo_DeleteRequest.ProtoReflect.Descriptor instead.
+func (*Repo_DeleteRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 8}
 }
 
-func (x *DeleteRepoRequest) GetId() int32 {
+func (x *Repo_DeleteRequest) GetId() int32 {
 	if x != nil {
 		return x.Id
 	}
 	return 0
 }
 
-type DeleteRepoResponse struct {
+type Repo_DeleteResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DeleteRepoResponse) Reset() {
-	*x = DeleteRepoResponse{}
+func (x *Repo_DeleteResponse) Reset() {
+	*x = Repo_DeleteResponse{}
 	mi := &file_api_file_repo_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DeleteRepoResponse) String() string {
+func (x *Repo_DeleteResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DeleteRepoResponse) ProtoMessage() {}
+func (*Repo_DeleteResponse) ProtoMessage() {}
 
-func (x *DeleteRepoResponse) ProtoReflect() protoreflect.Message {
+func (x *Repo_DeleteResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_repo_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -553,16 +554,16 @@ func (x *DeleteRepoResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DeleteRepoResponse.ProtoReflect.Descriptor instead.
-func (*DeleteRepoResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_repo_proto_rawDescGZIP(), []int{10}
+// Deprecated: Use Repo_DeleteResponse.ProtoReflect.Descriptor instead.
+func (*Repo_DeleteResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_repo_proto_rawDescGZIP(), []int{0, 9}
 }
 
 var File_api_file_repo_proto protoreflect.FileDescriptor
 
 const file_api_file_repo_proto_rawDesc = "" +
 	"\n" +
-	"\x13api/file/repo.proto\x12\bapi.file\x1a\x1fgoogle/protobuf/timestamp.proto\"\xfc\x01\n" +
+	"\x13api/file/repo.proto\x12\bapi.file\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc1\x06\n" +
 	"\x04Repo\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x129\n" +
 	"\n" +
@@ -573,29 +574,38 @@ const file_api_file_repo_proto_rawDesc = "" +
 	"\x04path\x18\x05 \x01(\tR\x04path\x12\x16\n" +
 	"\x06status\x18\x06 \x01(\bR\x06status\x12\x16\n" +
 	"\x06driver\x18\a \x01(\tR\x06driver\x12\x16\n" +
-	"\x06option\x18\b \x01(\tR\x06option\"\x8d\x01\n" +
-	"\x10ListReposRequest\x12>\n" +
-	"\x06filter\x18\x01 \x03(\v2&.api.file.ListReposRequest.FilterEntryR\x06filter\x1a9\n" +
+	"\x06option\x18\b \x01(\tR\x06option\x1a\x88\x01\n" +
+	"\vListRequest\x12>\n" +
+	"\x06filter\x18\x01 \x03(\v2&.api.file.Repo.ListRequest.FilterEntryR\x06filter\x1a9\n" +
 	"\vFilterEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"=\n" +
-	"\x11ListReposResponse\x12(\n" +
-	"\aresults\x18\x01 \x03(\v2\x0e.api.file.RepoR\aresults\"=\n" +
-	"\x11CreateRepoRequest\x12(\n" +
-	"\apayload\x18\x01 \x01(\v2\x0e.api.file.RepoR\apayload\"<\n" +
-	"\x12CreateRepoResponse\x12&\n" +
-	"\x06result\x18\x01 \x01(\v2\x0e.api.file.RepoR\x06result\";\n" +
-	"\x0fTestRepoRequest\x12(\n" +
-	"\apayload\x18\x01 \x01(\v2\x0e.api.file.RepoR\apayload\",\n" +
-	"\x10TestRepoResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"=\n" +
-	"\x11UpdateRepoRequest\x12(\n" +
-	"\apayload\x18\x01 \x01(\v2\x0e.api.file.RepoR\apayload\"<\n" +
-	"\x12UpdateRepoResponse\x12&\n" +
-	"\x06result\x18\x01 \x01(\v2\x0e.api.file.RepoR\x06result\"#\n" +
-	"\x11DeleteRepoRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\"\x14\n" +
-	"\x12DeleteRepoResponseB\x99\x01\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a8\n" +
+	"\fListResponse\x12(\n" +
+	"\aresults\x18\x01 \x03(\v2\x0e.api.file.RepoR\aresults\x1a9\n" +
+	"\rCreateRequest\x12(\n" +
+	"\apayload\x18\x01 \x01(\v2\x0e.api.file.RepoR\apayload\x1a8\n" +
+	"\x0eCreateResponse\x12&\n" +
+	"\x06result\x18\x01 \x01(\v2\x0e.api.file.RepoR\x06result\x1a7\n" +
+	"\vTestRequest\x12(\n" +
+	"\apayload\x18\x01 \x01(\v2\x0e.api.file.RepoR\apayload\x1a(\n" +
+	"\fTestResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x1a9\n" +
+	"\rUpdateRequest\x12(\n" +
+	"\apayload\x18\x01 \x01(\v2\x0e.api.file.RepoR\apayload\x1a8\n" +
+	"\x0eUpdateResponse\x12&\n" +
+	"\x06result\x18\x01 \x01(\v2\x0e.api.file.RepoR\x06result\x1a\x1f\n" +
+	"\rDeleteRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x1a\x10\n" +
+	"\x0eDeleteResponse2\xfd\x03\n" +
+	"\vRepoService\x12]\n" +
+	"\tListRepos\x12\x1a.api.file.Repo.ListRequest\x1a\x1b.api.file.Repo.ListResponse\"\x17\x82\xd3\xe4\x93\x02\x11\x12\x0f/api/file/repos\x12e\n" +
+	"\n" +
+	"CreateRepo\x12\x1c.api.file.Repo.CreateRequest\x1a\x1d.api.file.Repo.CreateResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/api/file/repos\x12x\n" +
+	"\n" +
+	"UpdateRepo\x12\x1c.api.file.Repo.UpdateRequest\x1a\x1d.api.file.Repo.UpdateResponse\"-\x82\xd3\xe4\x93\x02':\apayload\x1a\x1c/api/file/repos/{payload.id}\x12g\n" +
+	"\n" +
+	"DeleteRepo\x12\x1c.api.file.Repo.DeleteRequest\x1a\x1d.api.file.Repo.DeleteResponse\"\x1c\x82\xd3\xe4\x93\x02\x16*\x14/api/file/repos/{id}\x12E\n" +
+	"\bTestRepo\x12\x1a.api.file.Repo.TestRequest\x1a\x1b.api.file.Repo.TestResponse\"\x00B\x99\x01\n" +
 	"\fcom.api.fileB\tRepoProtoP\x01Z=github.com/honmaple/maple-file/server/internal/proto/api/file\xa2\x02\x03AFX\xaa\x02\bApi.File\xca\x02\bApi\\File\xe2\x02\x14Api\\File\\GPBMetadata\xea\x02\tApi::Fileb\x06proto3"
 
 var (
@@ -613,31 +623,41 @@ func file_api_file_repo_proto_rawDescGZIP() []byte {
 var file_api_file_repo_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_api_file_repo_proto_goTypes = []any{
 	(*Repo)(nil),                  // 0: api.file.Repo
-	(*ListReposRequest)(nil),      // 1: api.file.ListReposRequest
-	(*ListReposResponse)(nil),     // 2: api.file.ListReposResponse
-	(*CreateRepoRequest)(nil),     // 3: api.file.CreateRepoRequest
-	(*CreateRepoResponse)(nil),    // 4: api.file.CreateRepoResponse
-	(*TestRepoRequest)(nil),       // 5: api.file.TestRepoRequest
-	(*TestRepoResponse)(nil),      // 6: api.file.TestRepoResponse
-	(*UpdateRepoRequest)(nil),     // 7: api.file.UpdateRepoRequest
-	(*UpdateRepoResponse)(nil),    // 8: api.file.UpdateRepoResponse
-	(*DeleteRepoRequest)(nil),     // 9: api.file.DeleteRepoRequest
-	(*DeleteRepoResponse)(nil),    // 10: api.file.DeleteRepoResponse
-	nil,                           // 11: api.file.ListReposRequest.FilterEntry
+	(*Repo_ListRequest)(nil),      // 1: api.file.Repo.ListRequest
+	(*Repo_ListResponse)(nil),     // 2: api.file.Repo.ListResponse
+	(*Repo_CreateRequest)(nil),    // 3: api.file.Repo.CreateRequest
+	(*Repo_CreateResponse)(nil),   // 4: api.file.Repo.CreateResponse
+	(*Repo_TestRequest)(nil),      // 5: api.file.Repo.TestRequest
+	(*Repo_TestResponse)(nil),     // 6: api.file.Repo.TestResponse
+	(*Repo_UpdateRequest)(nil),    // 7: api.file.Repo.UpdateRequest
+	(*Repo_UpdateResponse)(nil),   // 8: api.file.Repo.UpdateResponse
+	(*Repo_DeleteRequest)(nil),    // 9: api.file.Repo.DeleteRequest
+	(*Repo_DeleteResponse)(nil),   // 10: api.file.Repo.DeleteResponse
+	nil,                           // 11: api.file.Repo.ListRequest.FilterEntry
 	(*timestamppb.Timestamp)(nil), // 12: google.protobuf.Timestamp
 }
 var file_api_file_repo_proto_depIdxs = []int32{
 	12, // 0: api.file.Repo.created_at:type_name -> google.protobuf.Timestamp
 	12, // 1: api.file.Repo.updated_at:type_name -> google.protobuf.Timestamp
-	11, // 2: api.file.ListReposRequest.filter:type_name -> api.file.ListReposRequest.FilterEntry
-	0,  // 3: api.file.ListReposResponse.results:type_name -> api.file.Repo
-	0,  // 4: api.file.CreateRepoRequest.payload:type_name -> api.file.Repo
-	0,  // 5: api.file.CreateRepoResponse.result:type_name -> api.file.Repo
-	0,  // 6: api.file.TestRepoRequest.payload:type_name -> api.file.Repo
-	0,  // 7: api.file.UpdateRepoRequest.payload:type_name -> api.file.Repo
-	0,  // 8: api.file.UpdateRepoResponse.result:type_name -> api.file.Repo
-	9,  // [9:9] is the sub-list for method output_type
-	9,  // [9:9] is the sub-list for method input_type
+	11, // 2: api.file.Repo.ListRequest.filter:type_name -> api.file.Repo.ListRequest.FilterEntry
+	0,  // 3: api.file.Repo.ListResponse.results:type_name -> api.file.Repo
+	0,  // 4: api.file.Repo.CreateRequest.payload:type_name -> api.file.Repo
+	0,  // 5: api.file.Repo.CreateResponse.result:type_name -> api.file.Repo
+	0,  // 6: api.file.Repo.TestRequest.payload:type_name -> api.file.Repo
+	0,  // 7: api.file.Repo.UpdateRequest.payload:type_name -> api.file.Repo
+	0,  // 8: api.file.Repo.UpdateResponse.result:type_name -> api.file.Repo
+	1,  // 9: api.file.RepoService.ListRepos:input_type -> api.file.Repo.ListRequest
+	3,  // 10: api.file.RepoService.CreateRepo:input_type -> api.file.Repo.CreateRequest
+	7,  // 11: api.file.RepoService.UpdateRepo:input_type -> api.file.Repo.UpdateRequest
+	9,  // 12: api.file.RepoService.DeleteRepo:input_type -> api.file.Repo.DeleteRequest
+	5,  // 13: api.file.RepoService.TestRepo:input_type -> api.file.Repo.TestRequest
+	2,  // 14: api.file.RepoService.ListRepos:output_type -> api.file.Repo.ListResponse
+	4,  // 15: api.file.RepoService.CreateRepo:output_type -> api.file.Repo.CreateResponse
+	8,  // 16: api.file.RepoService.UpdateRepo:output_type -> api.file.Repo.UpdateResponse
+	10, // 17: api.file.RepoService.DeleteRepo:output_type -> api.file.Repo.DeleteResponse
+	6,  // 18: api.file.RepoService.TestRepo:output_type -> api.file.Repo.TestResponse
+	14, // [14:19] is the sub-list for method output_type
+	9,  // [9:14] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name
 	9,  // [9:9] is the sub-list for extension extendee
 	0,  // [0:9] is the sub-list for field type_name
@@ -656,7 +676,7 @@ func file_api_file_repo_proto_init() {
 			NumEnums:      0,
 			NumMessages:   12,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_api_file_repo_proto_goTypes,
 		DependencyIndexes: file_api_file_repo_proto_depIdxs,

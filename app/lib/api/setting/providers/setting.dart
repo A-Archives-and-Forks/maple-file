@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'service.dart';
 
 class SettingAsyncNotifier extends FamilyAsyncNotifier<String, String> {
-  final _service = SystemService();
+  final _service = SettingService();
 
   @override
   FutureOr<String> build(String arg) {
@@ -19,7 +19,7 @@ class SettingNotifier<T> extends Notifier<T> {
   final T value;
   final T Function(Map<String, dynamic> json) fromJson;
 
-  final _service = SystemService();
+  final _service = SettingService();
 
   SettingNotifier({
     required this.key,

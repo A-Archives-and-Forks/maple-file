@@ -10,7 +10,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-type readFunc func() (*pb.FileRequest, error)
+type readFunc func() (*pb.File_UploadRequest, error)
 
 func (rf readFunc) Read(p []byte) (n int, err error) {
 	req, err := rf()

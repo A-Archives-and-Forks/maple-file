@@ -7,7 +7,7 @@ import 'package:maple_file/app/i18n.dart';
 import 'package:maple_file/common/widgets/tree.dart';
 import 'package:maple_file/common/widgets/custom.dart';
 import 'package:maple_file/common/widgets/responsive.dart';
-import 'package:maple_file/generated/proto/api/task/task.pb.dart';
+import 'package:maple_file/generated/proto/api/base/task.pb.dart';
 
 import '../widgets/task_action.dart';
 

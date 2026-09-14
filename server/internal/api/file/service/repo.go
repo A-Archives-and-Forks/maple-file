@@ -11,15 +11,15 @@ var (
 	errBadRequest = errors.New("错误的参数")
 )
 
-func (srv *serviceImpl) ListRepos(ctx context.Context, req *pb.ListReposRequest) (*pb.ListReposResponse, error) {
+func (srv *serviceImpl) ListRepos(ctx context.Context, req *pb.Repo_ListRequest) (*pb.Repo_ListResponse, error) {
 	results, err := srv.repo.ListRepos(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return &pb.ListReposResponse{Results: results}, nil
+	return &pb.Repo_ListResponse{Results: results}, nil
 }
 
-func (srv *serviceImpl) CreateRepo(ctx context.Context, req *pb.CreateRepoRequest) (*pb.CreateRepoResponse, error) {
+func (srv *serviceImpl) CreateRepo(ctx context.Context, req *pb.Repo_CreateRequest) (*pb.Repo_CreateResponse, error) {
 	opt := req.GetPayload()
 	if opt == nil {
 		return nil, errBadRequest
@@ -29,10 +29,10 @@ func (srv *serviceImpl) CreateRepo(ctx context.Context, req *pb.CreateRepoReques
 		return nil, err
 	}
 	srv.fs.CreateRepo(result)
-	return &pb.CreateRepoResponse{Result: result}, nil
+	return &pb.Repo_CreateResponse{Result: result}, nil
 }
 
-func (srv *serviceImpl) UpdateRepo(ctx context.Context, req *pb.UpdateRepoRequest) (*pb.UpdateRepoResponse, error) {
+func (srv *serviceImpl) UpdateRepo(ctx context.Context, req *pb.Repo_UpdateRequest) (*pb.Repo_UpdateResponse, error) {
 	opt := req.GetPayload()
 	if opt == nil {
 		return nil, errBadRequest
@@ -43,19 +43,19 @@ func (srv *serviceImpl) UpdateRepo(ctx context.Context, req *pb.UpdateRepoReques
 		return nil, err
 	}
 	srv.fs.UpdateRepo(old, result)
-	return &pb.UpdateRepoResponse{Result: old}, nil
+	return &pb.Repo_UpdateResponse{Result: old}, nil
 }
 
-func (srv *serviceImpl) DeleteRepo(ctx context.Context, req *pb.DeleteRepoRequest) (*pb.DeleteRepoResponse, error) {
+func (srv *serviceImpl) DeleteRepo(ctx context.Context, req *pb.Repo_DeleteRequest) (*pb.Repo_DeleteResponse, error) {
 	ins, err := srv.repo.DeleteRepo(ctx, req.GetId())
 	if err != nil {
 		return nil, err
 	}
 	srv.fs.DeleteRepo(ins)
-	return &pb.DeleteRepoResponse{}, nil
+	return &pb.Repo_DeleteResponse{}, nil
 }
 
-func (srv *serviceImpl) TestRepo(ctx context.Context, req *pb.TestRepoRequest) (*pb.TestRepoResponse, error) {
+func (srv *serviceImpl) TestRepo(ctx context.Context, req *pb.Repo_TestRequest) (*pb.Repo_TestResponse, error) {
 	opt := req.GetPayload()
 	if opt == nil {
 		return nil, errBadRequest
@@ -74,5 +74,5 @@ func (srv *serviceImpl) TestRepo(ctx context.Context, req *pb.TestRepoRequest) (
 	if _, err := fs.List(ctx, "/"); err != nil {
 		return nil, err
 	}
-	return &pb.TestRepoResponse{Success: true}, nil
+	return &pb.Repo_TestResponse{Success: true}, nil
 }

@@ -4,14 +4,262 @@
     "title": "api/file/repo.proto",
     "version": "version not set"
   },
+  "tags": [
+    {
+      "name": "RepoService"
+    }
+  ],
   "consumes": [
     "application/json"
   ],
   "produces": [
     "application/json"
   ],
-  "paths": {},
+  "paths": {
+    "/api/file/repos": {
+      "get": {
+        "operationId": "RepoService_ListRepos",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/fileRepoListResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "RepoService"
+        ]
+      },
+      "post": {
+        "operationId": "RepoService_CreateRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RepoCreateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RepoCreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "RepoService"
+        ]
+      }
+    },
+    "/api/file/repos/{id}": {
+      "delete": {
+        "operationId": "RepoService_DeleteRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RepoDeleteResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "RepoService"
+        ]
+      }
+    },
+    "/api/file/repos/{payload.id}": {
+      "put": {
+        "operationId": "RepoService_UpdateRepo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/RepoUpdateResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "payload.id",
+            "description": "@gotags: gorm:\"primary_key;auto_increment\"",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "payload",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "@gotags: gorm:\"serializer:protobuf_timestamp;type:datetime\""
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "title": "@gotags: gorm:\"serializer:protobuf_timestamp;type:datetime\""
+                },
+                "name": {
+                  "type": "string",
+                  "title": "@gotags: gorm:\"not null;unique\""
+                },
+                "path": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                },
+                "driver": {
+                  "type": "string"
+                },
+                "option": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "RepoService"
+        ]
+      }
+    }
+  },
   "definitions": {
+    "RepoCreateRequest": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/fileRepo"
+        }
+      }
+    },
+    "RepoCreateResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/fileRepo"
+        }
+      }
+    },
+    "RepoDeleteResponse": {
+      "type": "object"
+    },
+    "RepoTestResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "RepoUpdateResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "$ref": "#/definitions/fileRepo"
+        }
+      }
+    },
+    "fileRepo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "title": "@gotags: gorm:\"primary_key;auto_increment\""
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@gotags: gorm:\"serializer:protobuf_timestamp;type:datetime\""
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "title": "@gotags: gorm:\"serializer:protobuf_timestamp;type:datetime\""
+        },
+        "name": {
+          "type": "string",
+          "title": "@gotags: gorm:\"not null;unique\""
+        },
+        "path": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "driver": {
+          "type": "string"
+        },
+        "option": {
+          "type": "string"
+        }
+      }
+    },
+    "fileRepoListResponse": {
+      "type": "object",
+      "properties": {
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/fileRepo"
+          }
+        }
+      }
+    },
     "protobufAny": {
       "type": "object",
       "properties": {

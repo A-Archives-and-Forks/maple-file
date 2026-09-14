@@ -14,7 +14,6 @@ import '../widgets/repo/form.dart';
 
 import '../providers/file.dart';
 import '../providers/repo.dart';
-import '../providers/service.dart';
 
 class RepoEdit extends ConsumerStatefulWidget {
   const RepoEdit({super.key, this.repo});
@@ -198,13 +197,13 @@ class _RepoEditState extends ConsumerState<RepoEdit> {
 
   _handleTest() {
     if (_formKey.currentState!.validate()) {
-      FileService.instance.testRepo(_form);
+      RepoService.instance.test(_form);
     }
   }
 
   _handleCreate() {
     if (_formKey.currentState!.validate()) {
-      FileService.instance.createRepo(_form).then((_) {
+      RepoService.instance.create(_form).then((_) {
         _handleDone(_form);
         if (context.mounted) {
           Navigator.of(context).pop();
@@ -215,7 +214,7 @@ class _RepoEditState extends ConsumerState<RepoEdit> {
 
   _handleUpdate() {
     if (_formKey.currentState!.validate()) {
-      FileService.instance.updateRepo(_form).then((_) {
+      RepoService.instance.update(_form).then((_) {
         _handleDone(_form);
         if (context.mounted) {
           Navigator.of(context).pop();
@@ -230,7 +229,7 @@ class _RepoEditState extends ConsumerState<RepoEdit> {
       title: Text("确认删除存储?".tr()),
     );
     if (result != null && result) {
-      await FileService.instance.deleteRepo(_form.id).then((_) {
+      await RepoService.instance.delete(_form.id).then((_) {
         _handleDone(_form);
         if (context.mounted) Navigator.of(context).pop();
       });

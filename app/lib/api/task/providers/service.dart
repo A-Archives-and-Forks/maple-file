@@ -5,9 +5,7 @@ import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 
 import 'package:maple_file/app/i18n.dart';
 import 'package:maple_file/app/grpc.dart';
-import 'package:maple_file/generated/proto/api/task/service.pbgrpc.dart';
-import 'package:maple_file/generated/proto/api/task/task.pb.dart';
-import 'package:maple_file/generated/proto/api/task/persist.pb.dart';
+import 'package:maple_file/generated/proto/api/base/task.pbgrpc.dart';
 
 class TaskService {
   static TaskService get instance => _instance;
@@ -32,14 +30,14 @@ class TaskService {
   }
 
   Future<List<Task>> listTasks({Map<String, String>? filterMap}) async {
-    ListTasksRequest request = ListTasksRequest();
-    ListTasksResponse response = await client.listTasks(request);
+    Task_ListRequest request = Task_ListRequest();
+    Task_ListResponse response = await client.listTasks(request);
     return response.results;
   }
 
   Future<void> removeTask(List<String> tasks) async {
     await doFuture(() {
-      RemoveTaskRequest request = RemoveTaskRequest(
+      Task_RemoveRequest request = Task_RemoveRequest(
         tasks: tasks,
       );
       return client.removeTask(request);
@@ -48,7 +46,7 @@ class TaskService {
 
   Future<void> cancelTask(List<String> tasks) async {
     await doFuture(() {
-      CancelTaskRequest request = CancelTaskRequest(
+      Task_CancelRequest request = Task_CancelRequest(
         tasks: tasks,
       );
       return client.cancelTask(request);
@@ -57,7 +55,7 @@ class TaskService {
 
   Future<void> retryTask(List<String> tasks) async {
     await doFuture(() {
-      RetryTaskRequest request = RetryTaskRequest(
+      Task_RetryRequest request = Task_RetryRequest(
         tasks: tasks,
       );
       return client.retryTask(request);
@@ -66,8 +64,8 @@ class TaskService {
 
   Future<List<PersistTask>> listPersistTasks({Map<String, String>? filterMap}) {
     return doFuture(() async {
-      ListPersistTasksRequest request = ListPersistTasksRequest();
-      ListPersistTasksResponse response =
+      PersistTask_ListRequest request = PersistTask_ListRequest();
+      PersistTask_ListResponse response =
           await client.listPersistTasks(request);
       return response.results;
     });
@@ -75,9 +73,9 @@ class TaskService {
 
   Future<PersistTask> createPersistTask(PersistTask payload) {
     return doFuture(() async {
-      CreatePersistTaskRequest request =
-          CreatePersistTaskRequest(payload: payload);
-      CreatePersistTaskResponse response =
+      PersistTask_CreateRequest request =
+          PersistTask_CreateRequest(payload: payload);
+      PersistTask_CreateResponse response =
           await client.createPersistTask(request);
       return response.result;
     });
@@ -85,9 +83,9 @@ class TaskService {
 
   Future<PersistTask> updatePersistTask(PersistTask payload) {
     return doFuture(() async {
-      UpdatePersistTaskRequest request =
-          UpdatePersistTaskRequest(payload: payload);
-      UpdatePersistTaskResponse response =
+      PersistTask_UpdateRequest request =
+          PersistTask_UpdateRequest(payload: payload);
+      PersistTask_UpdateResponse response =
           await client.updatePersistTask(request);
       return response.result;
     });
@@ -95,14 +93,15 @@ class TaskService {
 
   Future<void> deletePersistTask(int id) {
     return doFuture(() {
-      DeletePersistTaskRequest request = DeletePersistTaskRequest(id: id);
+      PersistTask_DeleteRequest request = PersistTask_DeleteRequest(id: id);
       return client.deletePersistTask(request);
     });
   }
 
   Future<void> testPersistTask(PersistTask payload) {
     return doFuture(() {
-      TestPersistTaskRequest request = TestPersistTaskRequest(payload: payload);
+      PersistTask_TestRequest request =
+          PersistTask_TestRequest(payload: payload);
 
       return client.testPersistTask(request);
     });
@@ -110,7 +109,7 @@ class TaskService {
 
   Future<void> executePersistTask(int id) {
     return doFuture(() {
-      ExecutePersistTaskRequest request = ExecutePersistTaskRequest(id: id);
+      PersistTask_ExecuteRequest request = PersistTask_ExecuteRequest(id: id);
 
       return client.executePersistTask(request);
     }).then((_) {

@@ -17,7 +17,7 @@ import (
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 )
 
-func (srv *serviceImpl) List(ctx context.Context, req *pb.ListFilesRequest) (*pb.ListFilesResponse, error) {
+func (srv *serviceImpl) List(ctx context.Context, req *pb.File_ListRequest) (*pb.File_ListResponse, error) {
 	filter := structutil.NewFilter(req.GetFilter())
 
 	path := cloudfs.PathWithValues(pathutil.CleanPath(filter.GetString("path")), fs.WithQueryParams(
@@ -32,28 +32,28 @@ func (srv *serviceImpl) List(ctx context.Context, req *pb.ListFilesRequest) (*pb
 	for i, m := range files {
 		results[i] = infoToFile(m)
 	}
-	return &pb.ListFilesResponse{Results: results}, nil
+	return &pb.File_ListResponse{Results: results}, nil
 }
 
-func (srv *serviceImpl) Rename(ctx context.Context, req *pb.RenameFileRequest) (*pb.RenameFileResponse, error) {
+func (srv *serviceImpl) Rename(ctx context.Context, req *pb.File_RenameRequest) (*pb.File_RenameResponse, error) {
 	oldPath := stdpath.Join(req.GetPath(), req.GetName())
 
 	fmt.Println("rename", oldPath, stdpath.Join(req.GetPath(), req.GetNewName()))
 	if err := srv.fs.Rename(ctx, oldPath, req.GetNewName()); err != nil {
 		return nil, err
 	}
-	return &pb.RenameFileResponse{}, nil
+	return &pb.File_RenameResponse{}, nil
 }
 
-func (srv *serviceImpl) Mkdir(ctx context.Context, req *pb.MkdirFileRequest) (*pb.MkdirFileResponse, error) {
+func (srv *serviceImpl) Mkdir(ctx context.Context, req *pb.File_MkdirRequest) (*pb.File_MkdirResponse, error) {
 	fmt.Println("mkdir", stdpath.Join(req.GetPath(), req.GetName()))
 	if err := srv.fs.MakeDir(ctx, stdpath.Join(req.GetPath(), req.GetName())); err != nil {
 		return nil, err
 	}
-	return &pb.MkdirFileResponse{}, nil
+	return &pb.File_MkdirResponse{}, nil
 }
 
-func (srv *serviceImpl) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.MoveFileResponse, error) {
+func (srv *serviceImpl) Move(ctx context.Context, req *pb.File_MoveRequest) (*pb.File_MoveResponse, error) {
 	newPath := req.GetNewPath()
 	for _, name := range req.GetNames() {
 		oldPath := stdpath.Join(req.GetPath(), name)
@@ -65,10 +65,10 @@ func (srv *serviceImpl) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.
 			DstPath: newPath,
 		})
 	}
-	return &pb.MoveFileResponse{}, nil
+	return &pb.File_MoveResponse{}, nil
 }
 
-func (srv *serviceImpl) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.CopyFileResponse, error) {
+func (srv *serviceImpl) Copy(ctx context.Context, req *pb.File_CopyRequest) (*pb.File_CopyResponse, error) {
 	newPath := req.GetNewPath()
 	for _, name := range req.GetNames() {
 		oldPath := stdpath.Join(req.GetPath(), name)
@@ -80,10 +80,10 @@ func (srv *serviceImpl) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.
 			DstPath: newPath,
 		})
 	}
-	return &pb.CopyFileResponse{}, nil
+	return &pb.File_CopyResponse{}, nil
 }
 
-func (srv *serviceImpl) Remove(ctx context.Context, req *pb.RemoveFileRequest) (*pb.RemoveFileResponse, error) {
+func (srv *serviceImpl) Remove(ctx context.Context, req *pb.File_RemoveRequest) (*pb.File_RemoveResponse, error) {
 	for _, name := range req.GetNames() {
 		fmt.Println("remove", stdpath.Join(req.GetPath(), name))
 
@@ -91,10 +91,10 @@ func (srv *serviceImpl) Remove(ctx context.Context, req *pb.RemoveFileRequest) (
 			Path: stdpath.Join(req.GetPath(), name),
 		})
 	}
-	return &pb.RemoveFileResponse{}, nil
+	return &pb.File_RemoveResponse{}, nil
 }
 
-func (srv *serviceImpl) upload(ctx context.Context, req *pb.FileRequest, reader io.Reader) (*pb.File, error) {
+func (srv *serviceImpl) upload(ctx context.Context, req *pb.File_UploadRequest, reader io.Reader) (*pb.File, error) {
 	filename := req.GetFilename()
 
 	setting := srv.getFileSetting(ctx)
@@ -148,10 +148,10 @@ func (srv *serviceImpl) Upload(stream pb.FileService_UploadServer) error {
 	if err != nil {
 		return err
 	}
-	return stream.SendAndClose(&pb.FileResponse{Result: result})
+	return stream.SendAndClose(&pb.File_UploadResponse{Result: result})
 }
 
-func (srv *serviceImpl) Preview(req *pb.PreviewFileRequest, stream pb.FileService_PreviewServer) error {
+func (srv *serviceImpl) Preview(req *pb.File_PreviewRequest, stream pb.FileService_PreviewServer) error {
 	info, err := srv.fs.Stat(stream.Context(), req.GetPath())
 	if err != nil {
 		return err
@@ -167,7 +167,7 @@ func (srv *serviceImpl) Preview(req *pb.PreviewFileRequest, stream pb.FileServic
 	defer file.Close()
 
 	dst := chunkFunc(func(chunk []byte) error {
-		return stream.Send(&pb.PreviewFileResponse{
+		return stream.Send(&pb.File_PreviewResponse{
 			Chunk: chunk,
 		})
 	})
@@ -175,9 +175,9 @@ func (srv *serviceImpl) Preview(req *pb.PreviewFileRequest, stream pb.FileServic
 	return err
 }
 
-func (srv *serviceImpl) Download(req *pb.DownloadFileRequest, stream pb.FileService_DownloadServer) error {
+func (srv *serviceImpl) Download(req *pb.File_DownloadRequest, stream pb.FileService_DownloadServer) error {
 	dst := chunkFunc(func(chunk []byte) error {
-		return stream.Send(&pb.DownloadFileResponse{
+		return stream.Send(&pb.File_DownloadResponse{
 			Chunk: chunk,
 		})
 	})

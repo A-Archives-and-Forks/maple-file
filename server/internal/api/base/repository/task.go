@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	"github.com/honmaple/maple-file/server/internal/platform/runner"
-	pb "github.com/honmaple/maple-file/server/internal/proto/api/task"
+	pb "github.com/honmaple/maple-file/server/internal/proto/api/base"
 )
 
 type TaskRepository interface {

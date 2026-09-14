@@ -8,7 +8,7 @@ import (
 
 	"gorm.io/gorm"
 
-	pb "github.com/honmaple/maple-file/server/internal/proto/api/setting"
+	pb "github.com/honmaple/maple-file/server/internal/proto/api/base"
 )
 
 type SettingRepository interface {

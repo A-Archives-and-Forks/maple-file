@@ -25,11 +25,13 @@ type (
 	Service interface {
 		shared.Service
 		pb.FileServiceServer
+		pb.RepoServiceServer
 		pb.ExternalServerServiceServer
 	}
 	serviceImpl struct {
 		shared.ServiceImpl
 		pb.UnimplementedFileServiceServer
+		pb.UnimplementedRepoServiceServer
 		pb.UnimplementedExternalServerServiceServer
 		fs       fs.FS
 		ctx      *types.Context
@@ -44,11 +46,13 @@ type (
 
 func (srv *serviceImpl) Register(grpc *grpc.Server) {
 	pb.RegisterFileServiceServer(grpc, srv)
+	pb.RegisterRepoServiceServer(grpc, srv)
 	pb.RegisterExternalServerServiceServer(grpc, srv)
 }
 
 func (srv *serviceImpl) RegisterGateway(ctx context.Context, mux *runtime.ServeMux) {
 	pb.RegisterFileServiceHandlerServer(ctx, mux, srv)
+	pb.RegisterRepoServiceHandlerServer(ctx, mux, srv)
 }
 
 func (srv *serviceImpl) RegisterHTTP(e *echo.Echo) {
@@ -65,24 +69,24 @@ func (srv *serviceImpl) RegisterHTTP(e *echo.Echo) {
 		if err != nil {
 			return err
 		}
-		results := make([]*pb.FileResponse, 0)
+		results := make([]*pb.File_UploadResponse, 0)
 		for _, file := range form.File["files"] {
 			src, err := file.Open()
 			if err != nil {
 				return err
 			}
 
-			result, err := srv.upload(rctx, &pb.FileRequest{
+			result, err := srv.upload(rctx, &pb.File_UploadRequest{
 				Path:     path,
 				Size:     file.Size,
 				Filename: file.Filename,
 			}, src)
 			if err != nil {
 				src.Close()
-				return c.JSON(400, &pb.FileResponse{Message: err.Error()})
+				return c.JSON(400, &pb.File_UploadResponse{Message: err.Error()})
 			}
 			src.Close()
-			results = append(results, &pb.FileResponse{Result: result})
+			results = append(results, &pb.File_UploadResponse{Result: result})
 		}
 		return c.JSON(200, results)
 	})

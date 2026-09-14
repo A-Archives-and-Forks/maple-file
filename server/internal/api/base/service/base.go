@@ -6,38 +6,41 @@ import (
 	"github.com/honmaple/maple-file/server/internal/api/base/repository"
 	"github.com/honmaple/maple-file/server/internal/api/base/types"
 	"github.com/honmaple/maple-file/server/internal/api/shared"
-	settingpb "github.com/honmaple/maple-file/server/internal/proto/api/setting"
-	taskpb "github.com/honmaple/maple-file/server/internal/proto/api/task"
+	pb "github.com/honmaple/maple-file/server/internal/proto/api/base"
 	"google.golang.org/grpc"
 )
 
 type (
 	Service interface {
 		shared.Service
-		taskpb.TaskServiceServer
-		settingpb.SystemServiceServer
+		pb.TaskServiceServer
+		pb.SettingServiceServer
+		pb.SystemServiceServer
 	}
 	serviceImpl struct {
 		shared.ServiceImpl
-		settingpb.UnimplementedSystemServiceServer
-		taskpb.UnimplementedTaskServiceServer
+		pb.UnimplementedSettingServiceServer
+		pb.UnimplementedSystemServiceServer
+		pb.UnimplementedTaskServiceServer
 		ctx  *types.Context
 		repo repository.Repository
 	}
 )
 
 func (srv *serviceImpl) Register(server *grpc.Server) {
-	taskpb.RegisterTaskServiceServer(server, srv)
-	settingpb.RegisterSystemServiceServer(server, srv)
+	pb.RegisterTaskServiceServer(server, srv)
+	pb.RegisterSettingServiceServer(server, srv)
+	pb.RegisterSystemServiceServer(server, srv)
 }
 
 func (srv *serviceImpl) RegisterGateway(ctx context.Context, mux *runtime.ServeMux) {
-	taskpb.RegisterTaskServiceHandlerServer(ctx, mux, srv)
-	settingpb.RegisterSystemServiceHandlerServer(ctx, mux, srv)
+	pb.RegisterTaskServiceHandlerServer(ctx, mux, srv)
+	pb.RegisterSettingServiceHandlerServer(ctx, mux, srv)
+	pb.RegisterSystemServiceHandlerServer(ctx, mux, srv)
 }
 
 func New(ctx *types.Context, repo repository.Repository) (Service, error) {
-	if err := ctx.DB.AutoMigrate(new(settingpb.Setting), new(taskpb.PersistTask)); err != nil {
+	if err := ctx.DB.AutoMigrate(new(pb.Setting), new(pb.PersistTask)); err != nil {
 		return nil, err
 	}
 	return &serviceImpl{ctx: ctx, repo: repo}, nil

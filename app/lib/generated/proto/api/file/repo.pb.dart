@@ -15,6 +15,486 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import '../../google/protobuf/timestamp.pb.dart' as $3;
 
+class Repo_ListRequest extends $pb.GeneratedMessage {
+  factory Repo_ListRequest({
+    $core.Map<$core.String, $core.String>? filter,
+  }) {
+    final $result = create();
+    if (filter != null) {
+      $result.filter.addAll(filter);
+    }
+    return $result;
+  }
+  Repo_ListRequest._() : super();
+  factory Repo_ListRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_ListRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.ListRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..m<$core.String, $core.String>(1, _omitFieldNames ? '' : 'filter', entryClassName: 'Repo.ListRequest.FilterEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('api.file'))
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_ListRequest clone() => Repo_ListRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_ListRequest copyWith(void Function(Repo_ListRequest) updates) => super.copyWith((message) => updates(message as Repo_ListRequest)) as Repo_ListRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_ListRequest create() => Repo_ListRequest._();
+  Repo_ListRequest createEmptyInstance() => create();
+  static $pb.PbList<Repo_ListRequest> createRepeated() => $pb.PbList<Repo_ListRequest>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_ListRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_ListRequest>(create);
+  static Repo_ListRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.Map<$core.String, $core.String> get filter => $_getMap(0);
+}
+
+class Repo_ListResponse extends $pb.GeneratedMessage {
+  factory Repo_ListResponse({
+    $core.Iterable<Repo>? results,
+  }) {
+    final $result = create();
+    if (results != null) {
+      $result.results.addAll(results);
+    }
+    return $result;
+  }
+  Repo_ListResponse._() : super();
+  factory Repo_ListResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_ListResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.ListResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..pc<Repo>(1, _omitFieldNames ? '' : 'results', $pb.PbFieldType.PM, subBuilder: Repo.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_ListResponse clone() => Repo_ListResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_ListResponse copyWith(void Function(Repo_ListResponse) updates) => super.copyWith((message) => updates(message as Repo_ListResponse)) as Repo_ListResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_ListResponse create() => Repo_ListResponse._();
+  Repo_ListResponse createEmptyInstance() => create();
+  static $pb.PbList<Repo_ListResponse> createRepeated() => $pb.PbList<Repo_ListResponse>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_ListResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_ListResponse>(create);
+  static Repo_ListResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<Repo> get results => $_getList(0);
+}
+
+class Repo_CreateRequest extends $pb.GeneratedMessage {
+  factory Repo_CreateRequest({
+    Repo? payload,
+  }) {
+    final $result = create();
+    if (payload != null) {
+      $result.payload = payload;
+    }
+    return $result;
+  }
+  Repo_CreateRequest._() : super();
+  factory Repo_CreateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_CreateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.CreateRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..aOM<Repo>(1, _omitFieldNames ? '' : 'payload', subBuilder: Repo.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_CreateRequest clone() => Repo_CreateRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_CreateRequest copyWith(void Function(Repo_CreateRequest) updates) => super.copyWith((message) => updates(message as Repo_CreateRequest)) as Repo_CreateRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_CreateRequest create() => Repo_CreateRequest._();
+  Repo_CreateRequest createEmptyInstance() => create();
+  static $pb.PbList<Repo_CreateRequest> createRepeated() => $pb.PbList<Repo_CreateRequest>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_CreateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_CreateRequest>(create);
+  static Repo_CreateRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Repo get payload => $_getN(0);
+  @$pb.TagNumber(1)
+  set payload(Repo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPayload() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPayload() => clearField(1);
+  @$pb.TagNumber(1)
+  Repo ensurePayload() => $_ensure(0);
+}
+
+class Repo_CreateResponse extends $pb.GeneratedMessage {
+  factory Repo_CreateResponse({
+    Repo? result,
+  }) {
+    final $result = create();
+    if (result != null) {
+      $result.result = result;
+    }
+    return $result;
+  }
+  Repo_CreateResponse._() : super();
+  factory Repo_CreateResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_CreateResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.CreateResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..aOM<Repo>(1, _omitFieldNames ? '' : 'result', subBuilder: Repo.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_CreateResponse clone() => Repo_CreateResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_CreateResponse copyWith(void Function(Repo_CreateResponse) updates) => super.copyWith((message) => updates(message as Repo_CreateResponse)) as Repo_CreateResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_CreateResponse create() => Repo_CreateResponse._();
+  Repo_CreateResponse createEmptyInstance() => create();
+  static $pb.PbList<Repo_CreateResponse> createRepeated() => $pb.PbList<Repo_CreateResponse>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_CreateResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_CreateResponse>(create);
+  static Repo_CreateResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Repo get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(Repo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  Repo ensureResult() => $_ensure(0);
+}
+
+class Repo_TestRequest extends $pb.GeneratedMessage {
+  factory Repo_TestRequest({
+    Repo? payload,
+  }) {
+    final $result = create();
+    if (payload != null) {
+      $result.payload = payload;
+    }
+    return $result;
+  }
+  Repo_TestRequest._() : super();
+  factory Repo_TestRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_TestRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.TestRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..aOM<Repo>(1, _omitFieldNames ? '' : 'payload', subBuilder: Repo.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_TestRequest clone() => Repo_TestRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_TestRequest copyWith(void Function(Repo_TestRequest) updates) => super.copyWith((message) => updates(message as Repo_TestRequest)) as Repo_TestRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_TestRequest create() => Repo_TestRequest._();
+  Repo_TestRequest createEmptyInstance() => create();
+  static $pb.PbList<Repo_TestRequest> createRepeated() => $pb.PbList<Repo_TestRequest>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_TestRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_TestRequest>(create);
+  static Repo_TestRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Repo get payload => $_getN(0);
+  @$pb.TagNumber(1)
+  set payload(Repo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPayload() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPayload() => clearField(1);
+  @$pb.TagNumber(1)
+  Repo ensurePayload() => $_ensure(0);
+}
+
+class Repo_TestResponse extends $pb.GeneratedMessage {
+  factory Repo_TestResponse({
+    $core.bool? success,
+  }) {
+    final $result = create();
+    if (success != null) {
+      $result.success = success;
+    }
+    return $result;
+  }
+  Repo_TestResponse._() : super();
+  factory Repo_TestResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_TestResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.TestResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..aOB(1, _omitFieldNames ? '' : 'success')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_TestResponse clone() => Repo_TestResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_TestResponse copyWith(void Function(Repo_TestResponse) updates) => super.copyWith((message) => updates(message as Repo_TestResponse)) as Repo_TestResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_TestResponse create() => Repo_TestResponse._();
+  Repo_TestResponse createEmptyInstance() => create();
+  static $pb.PbList<Repo_TestResponse> createRepeated() => $pb.PbList<Repo_TestResponse>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_TestResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_TestResponse>(create);
+  static Repo_TestResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.bool get success => $_getBF(0);
+  @$pb.TagNumber(1)
+  set success($core.bool v) { $_setBool(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasSuccess() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearSuccess() => clearField(1);
+}
+
+class Repo_UpdateRequest extends $pb.GeneratedMessage {
+  factory Repo_UpdateRequest({
+    Repo? payload,
+  }) {
+    final $result = create();
+    if (payload != null) {
+      $result.payload = payload;
+    }
+    return $result;
+  }
+  Repo_UpdateRequest._() : super();
+  factory Repo_UpdateRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_UpdateRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.UpdateRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..aOM<Repo>(1, _omitFieldNames ? '' : 'payload', subBuilder: Repo.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_UpdateRequest clone() => Repo_UpdateRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_UpdateRequest copyWith(void Function(Repo_UpdateRequest) updates) => super.copyWith((message) => updates(message as Repo_UpdateRequest)) as Repo_UpdateRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_UpdateRequest create() => Repo_UpdateRequest._();
+  Repo_UpdateRequest createEmptyInstance() => create();
+  static $pb.PbList<Repo_UpdateRequest> createRepeated() => $pb.PbList<Repo_UpdateRequest>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_UpdateRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_UpdateRequest>(create);
+  static Repo_UpdateRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Repo get payload => $_getN(0);
+  @$pb.TagNumber(1)
+  set payload(Repo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasPayload() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearPayload() => clearField(1);
+  @$pb.TagNumber(1)
+  Repo ensurePayload() => $_ensure(0);
+}
+
+class Repo_UpdateResponse extends $pb.GeneratedMessage {
+  factory Repo_UpdateResponse({
+    Repo? result,
+  }) {
+    final $result = create();
+    if (result != null) {
+      $result.result = result;
+    }
+    return $result;
+  }
+  Repo_UpdateResponse._() : super();
+  factory Repo_UpdateResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_UpdateResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.UpdateResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..aOM<Repo>(1, _omitFieldNames ? '' : 'result', subBuilder: Repo.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_UpdateResponse clone() => Repo_UpdateResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_UpdateResponse copyWith(void Function(Repo_UpdateResponse) updates) => super.copyWith((message) => updates(message as Repo_UpdateResponse)) as Repo_UpdateResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_UpdateResponse create() => Repo_UpdateResponse._();
+  Repo_UpdateResponse createEmptyInstance() => create();
+  static $pb.PbList<Repo_UpdateResponse> createRepeated() => $pb.PbList<Repo_UpdateResponse>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_UpdateResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_UpdateResponse>(create);
+  static Repo_UpdateResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  Repo get result => $_getN(0);
+  @$pb.TagNumber(1)
+  set result(Repo v) { setField(1, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasResult() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearResult() => clearField(1);
+  @$pb.TagNumber(1)
+  Repo ensureResult() => $_ensure(0);
+}
+
+class Repo_DeleteRequest extends $pb.GeneratedMessage {
+  factory Repo_DeleteRequest({
+    $core.int? id,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    return $result;
+  }
+  Repo_DeleteRequest._() : super();
+  factory Repo_DeleteRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_DeleteRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.DeleteRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_DeleteRequest clone() => Repo_DeleteRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_DeleteRequest copyWith(void Function(Repo_DeleteRequest) updates) => super.copyWith((message) => updates(message as Repo_DeleteRequest)) as Repo_DeleteRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_DeleteRequest create() => Repo_DeleteRequest._();
+  Repo_DeleteRequest createEmptyInstance() => create();
+  static $pb.PbList<Repo_DeleteRequest> createRepeated() => $pb.PbList<Repo_DeleteRequest>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_DeleteRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_DeleteRequest>(create);
+  static Repo_DeleteRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.int get id => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set id($core.int v) { $_setSignedInt32(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+}
+
+class Repo_DeleteResponse extends $pb.GeneratedMessage {
+  factory Repo_DeleteResponse() => create();
+  Repo_DeleteResponse._() : super();
+  factory Repo_DeleteResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Repo_DeleteResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Repo.DeleteResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Repo_DeleteResponse clone() => Repo_DeleteResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Repo_DeleteResponse copyWith(void Function(Repo_DeleteResponse) updates) => super.copyWith((message) => updates(message as Repo_DeleteResponse)) as Repo_DeleteResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Repo_DeleteResponse create() => Repo_DeleteResponse._();
+  Repo_DeleteResponse createEmptyInstance() => create();
+  static $pb.PbList<Repo_DeleteResponse> createRepeated() => $pb.PbList<Repo_DeleteResponse>();
+  @$core.pragma('dart2js:noInline')
+  static Repo_DeleteResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Repo_DeleteResponse>(create);
+  static Repo_DeleteResponse? _defaultInstance;
+}
+
 class Repo extends $pb.GeneratedMessage {
   factory Repo({
     $core.int? id,
@@ -169,486 +649,6 @@ class Repo extends $pb.GeneratedMessage {
   $core.bool hasOption() => $_has(7);
   @$pb.TagNumber(8)
   void clearOption() => clearField(8);
-}
-
-class ListReposRequest extends $pb.GeneratedMessage {
-  factory ListReposRequest({
-    $core.Map<$core.String, $core.String>? filter,
-  }) {
-    final $result = create();
-    if (filter != null) {
-      $result.filter.addAll(filter);
-    }
-    return $result;
-  }
-  ListReposRequest._() : super();
-  factory ListReposRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ListReposRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListReposRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..m<$core.String, $core.String>(1, _omitFieldNames ? '' : 'filter', entryClassName: 'ListReposRequest.FilterEntry', keyFieldType: $pb.PbFieldType.OS, valueFieldType: $pb.PbFieldType.OS, packageName: const $pb.PackageName('api.file'))
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  ListReposRequest clone() => ListReposRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ListReposRequest copyWith(void Function(ListReposRequest) updates) => super.copyWith((message) => updates(message as ListReposRequest)) as ListReposRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static ListReposRequest create() => ListReposRequest._();
-  ListReposRequest createEmptyInstance() => create();
-  static $pb.PbList<ListReposRequest> createRepeated() => $pb.PbList<ListReposRequest>();
-  @$core.pragma('dart2js:noInline')
-  static ListReposRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListReposRequest>(create);
-  static ListReposRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.Map<$core.String, $core.String> get filter => $_getMap(0);
-}
-
-class ListReposResponse extends $pb.GeneratedMessage {
-  factory ListReposResponse({
-    $core.Iterable<Repo>? results,
-  }) {
-    final $result = create();
-    if (results != null) {
-      $result.results.addAll(results);
-    }
-    return $result;
-  }
-  ListReposResponse._() : super();
-  factory ListReposResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory ListReposResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'ListReposResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..pc<Repo>(1, _omitFieldNames ? '' : 'results', $pb.PbFieldType.PM, subBuilder: Repo.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  ListReposResponse clone() => ListReposResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  ListReposResponse copyWith(void Function(ListReposResponse) updates) => super.copyWith((message) => updates(message as ListReposResponse)) as ListReposResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static ListReposResponse create() => ListReposResponse._();
-  ListReposResponse createEmptyInstance() => create();
-  static $pb.PbList<ListReposResponse> createRepeated() => $pb.PbList<ListReposResponse>();
-  @$core.pragma('dart2js:noInline')
-  static ListReposResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<ListReposResponse>(create);
-  static ListReposResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.List<Repo> get results => $_getList(0);
-}
-
-class CreateRepoRequest extends $pb.GeneratedMessage {
-  factory CreateRepoRequest({
-    Repo? payload,
-  }) {
-    final $result = create();
-    if (payload != null) {
-      $result.payload = payload;
-    }
-    return $result;
-  }
-  CreateRepoRequest._() : super();
-  factory CreateRepoRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CreateRepoRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateRepoRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..aOM<Repo>(1, _omitFieldNames ? '' : 'payload', subBuilder: Repo.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  CreateRepoRequest clone() => CreateRepoRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  CreateRepoRequest copyWith(void Function(CreateRepoRequest) updates) => super.copyWith((message) => updates(message as CreateRepoRequest)) as CreateRepoRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static CreateRepoRequest create() => CreateRepoRequest._();
-  CreateRepoRequest createEmptyInstance() => create();
-  static $pb.PbList<CreateRepoRequest> createRepeated() => $pb.PbList<CreateRepoRequest>();
-  @$core.pragma('dart2js:noInline')
-  static CreateRepoRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateRepoRequest>(create);
-  static CreateRepoRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  Repo get payload => $_getN(0);
-  @$pb.TagNumber(1)
-  set payload(Repo v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasPayload() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearPayload() => clearField(1);
-  @$pb.TagNumber(1)
-  Repo ensurePayload() => $_ensure(0);
-}
-
-class CreateRepoResponse extends $pb.GeneratedMessage {
-  factory CreateRepoResponse({
-    Repo? result,
-  }) {
-    final $result = create();
-    if (result != null) {
-      $result.result = result;
-    }
-    return $result;
-  }
-  CreateRepoResponse._() : super();
-  factory CreateRepoResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory CreateRepoResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'CreateRepoResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..aOM<Repo>(1, _omitFieldNames ? '' : 'result', subBuilder: Repo.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  CreateRepoResponse clone() => CreateRepoResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  CreateRepoResponse copyWith(void Function(CreateRepoResponse) updates) => super.copyWith((message) => updates(message as CreateRepoResponse)) as CreateRepoResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static CreateRepoResponse create() => CreateRepoResponse._();
-  CreateRepoResponse createEmptyInstance() => create();
-  static $pb.PbList<CreateRepoResponse> createRepeated() => $pb.PbList<CreateRepoResponse>();
-  @$core.pragma('dart2js:noInline')
-  static CreateRepoResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<CreateRepoResponse>(create);
-  static CreateRepoResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  Repo get result => $_getN(0);
-  @$pb.TagNumber(1)
-  set result(Repo v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasResult() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearResult() => clearField(1);
-  @$pb.TagNumber(1)
-  Repo ensureResult() => $_ensure(0);
-}
-
-class TestRepoRequest extends $pb.GeneratedMessage {
-  factory TestRepoRequest({
-    Repo? payload,
-  }) {
-    final $result = create();
-    if (payload != null) {
-      $result.payload = payload;
-    }
-    return $result;
-  }
-  TestRepoRequest._() : super();
-  factory TestRepoRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory TestRepoRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TestRepoRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..aOM<Repo>(1, _omitFieldNames ? '' : 'payload', subBuilder: Repo.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  TestRepoRequest clone() => TestRepoRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  TestRepoRequest copyWith(void Function(TestRepoRequest) updates) => super.copyWith((message) => updates(message as TestRepoRequest)) as TestRepoRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static TestRepoRequest create() => TestRepoRequest._();
-  TestRepoRequest createEmptyInstance() => create();
-  static $pb.PbList<TestRepoRequest> createRepeated() => $pb.PbList<TestRepoRequest>();
-  @$core.pragma('dart2js:noInline')
-  static TestRepoRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestRepoRequest>(create);
-  static TestRepoRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  Repo get payload => $_getN(0);
-  @$pb.TagNumber(1)
-  set payload(Repo v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasPayload() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearPayload() => clearField(1);
-  @$pb.TagNumber(1)
-  Repo ensurePayload() => $_ensure(0);
-}
-
-class TestRepoResponse extends $pb.GeneratedMessage {
-  factory TestRepoResponse({
-    $core.bool? success,
-  }) {
-    final $result = create();
-    if (success != null) {
-      $result.success = success;
-    }
-    return $result;
-  }
-  TestRepoResponse._() : super();
-  factory TestRepoResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory TestRepoResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TestRepoResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..aOB(1, _omitFieldNames ? '' : 'success')
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  TestRepoResponse clone() => TestRepoResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  TestRepoResponse copyWith(void Function(TestRepoResponse) updates) => super.copyWith((message) => updates(message as TestRepoResponse)) as TestRepoResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static TestRepoResponse create() => TestRepoResponse._();
-  TestRepoResponse createEmptyInstance() => create();
-  static $pb.PbList<TestRepoResponse> createRepeated() => $pb.PbList<TestRepoResponse>();
-  @$core.pragma('dart2js:noInline')
-  static TestRepoResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestRepoResponse>(create);
-  static TestRepoResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.bool get success => $_getBF(0);
-  @$pb.TagNumber(1)
-  set success($core.bool v) { $_setBool(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasSuccess() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearSuccess() => clearField(1);
-}
-
-class UpdateRepoRequest extends $pb.GeneratedMessage {
-  factory UpdateRepoRequest({
-    Repo? payload,
-  }) {
-    final $result = create();
-    if (payload != null) {
-      $result.payload = payload;
-    }
-    return $result;
-  }
-  UpdateRepoRequest._() : super();
-  factory UpdateRepoRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateRepoRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateRepoRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..aOM<Repo>(1, _omitFieldNames ? '' : 'payload', subBuilder: Repo.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  UpdateRepoRequest clone() => UpdateRepoRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  UpdateRepoRequest copyWith(void Function(UpdateRepoRequest) updates) => super.copyWith((message) => updates(message as UpdateRepoRequest)) as UpdateRepoRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static UpdateRepoRequest create() => UpdateRepoRequest._();
-  UpdateRepoRequest createEmptyInstance() => create();
-  static $pb.PbList<UpdateRepoRequest> createRepeated() => $pb.PbList<UpdateRepoRequest>();
-  @$core.pragma('dart2js:noInline')
-  static UpdateRepoRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateRepoRequest>(create);
-  static UpdateRepoRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  Repo get payload => $_getN(0);
-  @$pb.TagNumber(1)
-  set payload(Repo v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasPayload() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearPayload() => clearField(1);
-  @$pb.TagNumber(1)
-  Repo ensurePayload() => $_ensure(0);
-}
-
-class UpdateRepoResponse extends $pb.GeneratedMessage {
-  factory UpdateRepoResponse({
-    Repo? result,
-  }) {
-    final $result = create();
-    if (result != null) {
-      $result.result = result;
-    }
-    return $result;
-  }
-  UpdateRepoResponse._() : super();
-  factory UpdateRepoResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpdateRepoResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateRepoResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..aOM<Repo>(1, _omitFieldNames ? '' : 'result', subBuilder: Repo.create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  UpdateRepoResponse clone() => UpdateRepoResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  UpdateRepoResponse copyWith(void Function(UpdateRepoResponse) updates) => super.copyWith((message) => updates(message as UpdateRepoResponse)) as UpdateRepoResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static UpdateRepoResponse create() => UpdateRepoResponse._();
-  UpdateRepoResponse createEmptyInstance() => create();
-  static $pb.PbList<UpdateRepoResponse> createRepeated() => $pb.PbList<UpdateRepoResponse>();
-  @$core.pragma('dart2js:noInline')
-  static UpdateRepoResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateRepoResponse>(create);
-  static UpdateRepoResponse? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  Repo get result => $_getN(0);
-  @$pb.TagNumber(1)
-  set result(Repo v) { setField(1, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasResult() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearResult() => clearField(1);
-  @$pb.TagNumber(1)
-  Repo ensureResult() => $_ensure(0);
-}
-
-class DeleteRepoRequest extends $pb.GeneratedMessage {
-  factory DeleteRepoRequest({
-    $core.int? id,
-  }) {
-    final $result = create();
-    if (id != null) {
-      $result.id = id;
-    }
-    return $result;
-  }
-  DeleteRepoRequest._() : super();
-  factory DeleteRepoRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory DeleteRepoRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteRepoRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  DeleteRepoRequest clone() => DeleteRepoRequest()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  DeleteRepoRequest copyWith(void Function(DeleteRepoRequest) updates) => super.copyWith((message) => updates(message as DeleteRepoRequest)) as DeleteRepoRequest;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static DeleteRepoRequest create() => DeleteRepoRequest._();
-  DeleteRepoRequest createEmptyInstance() => create();
-  static $pb.PbList<DeleteRepoRequest> createRepeated() => $pb.PbList<DeleteRepoRequest>();
-  @$core.pragma('dart2js:noInline')
-  static DeleteRepoRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteRepoRequest>(create);
-  static DeleteRepoRequest? _defaultInstance;
-
-  @$pb.TagNumber(1)
-  $core.int get id => $_getIZ(0);
-  @$pb.TagNumber(1)
-  set id($core.int v) { $_setSignedInt32(0, v); }
-  @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
-  @$pb.TagNumber(1)
-  void clearId() => clearField(1);
-}
-
-class DeleteRepoResponse extends $pb.GeneratedMessage {
-  factory DeleteRepoResponse() => create();
-  DeleteRepoResponse._() : super();
-  factory DeleteRepoResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory DeleteRepoResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
-
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'DeleteRepoResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'api.file'), createEmptyInstance: create)
-    ..hasRequiredFields = false
-  ;
-
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
-  'Will be removed in next major version')
-  DeleteRepoResponse clone() => DeleteRepoResponse()..mergeFromMessage(this);
-  @$core.Deprecated(
-  'Using this can add significant overhead to your binary. '
-  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
-  'Will be removed in next major version')
-  DeleteRepoResponse copyWith(void Function(DeleteRepoResponse) updates) => super.copyWith((message) => updates(message as DeleteRepoResponse)) as DeleteRepoResponse;
-
-  $pb.BuilderInfo get info_ => _i;
-
-  @$core.pragma('dart2js:noInline')
-  static DeleteRepoResponse create() => DeleteRepoResponse._();
-  DeleteRepoResponse createEmptyInstance() => create();
-  static $pb.PbList<DeleteRepoResponse> createRepeated() => $pb.PbList<DeleteRepoResponse>();
-  @$core.pragma('dart2js:noInline')
-  static DeleteRepoResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<DeleteRepoResponse>(create);
-  static DeleteRepoResponse? _defaultInstance;
 }
 
 

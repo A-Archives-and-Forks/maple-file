@@ -7,6 +7,7 @@
 package file
 
 import (
+	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -144,7 +145,7 @@ func (x *File) GetRepoId() int32 {
 	return 0
 }
 
-type FileRequest struct {
+type File_UploadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Index         int32                  `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
 	Size          int64                  `protobuf:"varint,5,opt,name=size,proto3" json:"size,omitempty"`
@@ -155,20 +156,20 @@ type FileRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FileRequest) Reset() {
-	*x = FileRequest{}
+func (x *File_UploadRequest) Reset() {
+	*x = File_UploadRequest{}
 	mi := &file_api_file_file_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FileRequest) String() string {
+func (x *File_UploadRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FileRequest) ProtoMessage() {}
+func (*File_UploadRequest) ProtoMessage() {}
 
-func (x *FileRequest) ProtoReflect() protoreflect.Message {
+func (x *File_UploadRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -180,47 +181,47 @@ func (x *FileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FileRequest.ProtoReflect.Descriptor instead.
-func (*FileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{1}
+// Deprecated: Use File_UploadRequest.ProtoReflect.Descriptor instead.
+func (*File_UploadRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 0}
 }
 
-func (x *FileRequest) GetIndex() int32 {
+func (x *File_UploadRequest) GetIndex() int32 {
 	if x != nil {
 		return x.Index
 	}
 	return 0
 }
 
-func (x *FileRequest) GetSize() int64 {
+func (x *File_UploadRequest) GetSize() int64 {
 	if x != nil {
 		return x.Size
 	}
 	return 0
 }
 
-func (x *FileRequest) GetPath() string {
+func (x *File_UploadRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-func (x *FileRequest) GetFilename() string {
+func (x *File_UploadRequest) GetFilename() string {
 	if x != nil {
 		return x.Filename
 	}
 	return ""
 }
 
-func (x *FileRequest) GetChunk() []byte {
+func (x *File_UploadRequest) GetChunk() []byte {
 	if x != nil {
 		return x.Chunk
 	}
 	return nil
 }
 
-type FileResponse struct {
+type File_UploadResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Result        *File                  `protobuf:"bytes,1,opt,name=result,proto3" json:"result,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
@@ -228,20 +229,20 @@ type FileResponse struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *FileResponse) Reset() {
-	*x = FileResponse{}
+func (x *File_UploadResponse) Reset() {
+	*x = File_UploadResponse{}
 	mi := &file_api_file_file_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *FileResponse) String() string {
+func (x *File_UploadResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*FileResponse) ProtoMessage() {}
+func (*File_UploadResponse) ProtoMessage() {}
 
-func (x *FileResponse) ProtoReflect() protoreflect.Message {
+func (x *File_UploadResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -253,46 +254,46 @@ func (x *FileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use FileResponse.ProtoReflect.Descriptor instead.
-func (*FileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use File_UploadResponse.ProtoReflect.Descriptor instead.
+func (*File_UploadResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 1}
 }
 
-func (x *FileResponse) GetResult() *File {
+func (x *File_UploadResponse) GetResult() *File {
 	if x != nil {
 		return x.Result
 	}
 	return nil
 }
 
-func (x *FileResponse) GetMessage() string {
+func (x *File_UploadResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
 }
 
-type ListFilesRequest struct {
+type File_ListRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Filter        map[string]string      `protobuf:"bytes,1,rep,name=filter,proto3" json:"filter,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListFilesRequest) Reset() {
-	*x = ListFilesRequest{}
+func (x *File_ListRequest) Reset() {
+	*x = File_ListRequest{}
 	mi := &file_api_file_file_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListFilesRequest) String() string {
+func (x *File_ListRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListFilesRequest) ProtoMessage() {}
+func (*File_ListRequest) ProtoMessage() {}
 
-func (x *ListFilesRequest) ProtoReflect() protoreflect.Message {
+func (x *File_ListRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -304,39 +305,39 @@ func (x *ListFilesRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListFilesRequest.ProtoReflect.Descriptor instead.
-func (*ListFilesRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{3}
+// Deprecated: Use File_ListRequest.ProtoReflect.Descriptor instead.
+func (*File_ListRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 2}
 }
 
-func (x *ListFilesRequest) GetFilter() map[string]string {
+func (x *File_ListRequest) GetFilter() map[string]string {
 	if x != nil {
 		return x.Filter
 	}
 	return nil
 }
 
-type ListFilesResponse struct {
+type File_ListResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Results       []*File                `protobuf:"bytes,1,rep,name=results,proto3" json:"results,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *ListFilesResponse) Reset() {
-	*x = ListFilesResponse{}
+func (x *File_ListResponse) Reset() {
+	*x = File_ListResponse{}
 	mi := &file_api_file_file_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *ListFilesResponse) String() string {
+func (x *File_ListResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ListFilesResponse) ProtoMessage() {}
+func (*File_ListResponse) ProtoMessage() {}
 
-func (x *ListFilesResponse) ProtoReflect() protoreflect.Message {
+func (x *File_ListResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -348,19 +349,19 @@ func (x *ListFilesResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use ListFilesResponse.ProtoReflect.Descriptor instead.
-func (*ListFilesResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{4}
+// Deprecated: Use File_ListResponse.ProtoReflect.Descriptor instead.
+func (*File_ListResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 3}
 }
 
-func (x *ListFilesResponse) GetResults() []*File {
+func (x *File_ListResponse) GetResults() []*File {
 	if x != nil {
 		return x.Results
 	}
 	return nil
 }
 
-type MoveFileRequest struct {
+type File_MoveRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	NewPath       string                 `protobuf:"bytes,2,opt,name=new_path,json=newPath,proto3" json:"new_path,omitempty"`
@@ -369,20 +370,20 @@ type MoveFileRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *MoveFileRequest) Reset() {
-	*x = MoveFileRequest{}
+func (x *File_MoveRequest) Reset() {
+	*x = File_MoveRequest{}
 	mi := &file_api_file_file_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MoveFileRequest) String() string {
+func (x *File_MoveRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MoveFileRequest) ProtoMessage() {}
+func (*File_MoveRequest) ProtoMessage() {}
 
-func (x *MoveFileRequest) ProtoReflect() protoreflect.Message {
+func (x *File_MoveRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -394,52 +395,52 @@ func (x *MoveFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MoveFileRequest.ProtoReflect.Descriptor instead.
-func (*MoveFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{5}
+// Deprecated: Use File_MoveRequest.ProtoReflect.Descriptor instead.
+func (*File_MoveRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 4}
 }
 
-func (x *MoveFileRequest) GetPath() string {
+func (x *File_MoveRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-func (x *MoveFileRequest) GetNewPath() string {
+func (x *File_MoveRequest) GetNewPath() string {
 	if x != nil {
 		return x.NewPath
 	}
 	return ""
 }
 
-func (x *MoveFileRequest) GetNames() []string {
+func (x *File_MoveRequest) GetNames() []string {
 	if x != nil {
 		return x.Names
 	}
 	return nil
 }
 
-type MoveFileResponse struct {
+type File_MoveResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *MoveFileResponse) Reset() {
-	*x = MoveFileResponse{}
+func (x *File_MoveResponse) Reset() {
+	*x = File_MoveResponse{}
 	mi := &file_api_file_file_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MoveFileResponse) String() string {
+func (x *File_MoveResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MoveFileResponse) ProtoMessage() {}
+func (*File_MoveResponse) ProtoMessage() {}
 
-func (x *MoveFileResponse) ProtoReflect() protoreflect.Message {
+func (x *File_MoveResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -451,12 +452,12 @@ func (x *MoveFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MoveFileResponse.ProtoReflect.Descriptor instead.
-func (*MoveFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{6}
+// Deprecated: Use File_MoveResponse.ProtoReflect.Descriptor instead.
+func (*File_MoveResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 5}
 }
 
-type CopyFileRequest struct {
+type File_CopyRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	NewPath       string                 `protobuf:"bytes,2,opt,name=new_path,json=newPath,proto3" json:"new_path,omitempty"`
@@ -465,20 +466,20 @@ type CopyFileRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CopyFileRequest) Reset() {
-	*x = CopyFileRequest{}
+func (x *File_CopyRequest) Reset() {
+	*x = File_CopyRequest{}
 	mi := &file_api_file_file_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CopyFileRequest) String() string {
+func (x *File_CopyRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CopyFileRequest) ProtoMessage() {}
+func (*File_CopyRequest) ProtoMessage() {}
 
-func (x *CopyFileRequest) ProtoReflect() protoreflect.Message {
+func (x *File_CopyRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -490,52 +491,52 @@ func (x *CopyFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CopyFileRequest.ProtoReflect.Descriptor instead.
-func (*CopyFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{7}
+// Deprecated: Use File_CopyRequest.ProtoReflect.Descriptor instead.
+func (*File_CopyRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 6}
 }
 
-func (x *CopyFileRequest) GetPath() string {
+func (x *File_CopyRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-func (x *CopyFileRequest) GetNewPath() string {
+func (x *File_CopyRequest) GetNewPath() string {
 	if x != nil {
 		return x.NewPath
 	}
 	return ""
 }
 
-func (x *CopyFileRequest) GetNames() []string {
+func (x *File_CopyRequest) GetNames() []string {
 	if x != nil {
 		return x.Names
 	}
 	return nil
 }
 
-type CopyFileResponse struct {
+type File_CopyResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *CopyFileResponse) Reset() {
-	*x = CopyFileResponse{}
+func (x *File_CopyResponse) Reset() {
+	*x = File_CopyResponse{}
 	mi := &file_api_file_file_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *CopyFileResponse) String() string {
+func (x *File_CopyResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*CopyFileResponse) ProtoMessage() {}
+func (*File_CopyResponse) ProtoMessage() {}
 
-func (x *CopyFileResponse) ProtoReflect() protoreflect.Message {
+func (x *File_CopyResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -547,12 +548,12 @@ func (x *CopyFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use CopyFileResponse.ProtoReflect.Descriptor instead.
-func (*CopyFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{8}
+// Deprecated: Use File_CopyResponse.ProtoReflect.Descriptor instead.
+func (*File_CopyResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 7}
 }
 
-type MkdirFileRequest struct {
+type File_MkdirRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -560,20 +561,20 @@ type MkdirFileRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *MkdirFileRequest) Reset() {
-	*x = MkdirFileRequest{}
+func (x *File_MkdirRequest) Reset() {
+	*x = File_MkdirRequest{}
 	mi := &file_api_file_file_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MkdirFileRequest) String() string {
+func (x *File_MkdirRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MkdirFileRequest) ProtoMessage() {}
+func (*File_MkdirRequest) ProtoMessage() {}
 
-func (x *MkdirFileRequest) ProtoReflect() protoreflect.Message {
+func (x *File_MkdirRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -585,45 +586,45 @@ func (x *MkdirFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MkdirFileRequest.ProtoReflect.Descriptor instead.
-func (*MkdirFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{9}
+// Deprecated: Use File_MkdirRequest.ProtoReflect.Descriptor instead.
+func (*File_MkdirRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 8}
 }
 
-func (x *MkdirFileRequest) GetPath() string {
+func (x *File_MkdirRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-func (x *MkdirFileRequest) GetName() string {
+func (x *File_MkdirRequest) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-type MkdirFileResponse struct {
+type File_MkdirResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *MkdirFileResponse) Reset() {
-	*x = MkdirFileResponse{}
+func (x *File_MkdirResponse) Reset() {
+	*x = File_MkdirResponse{}
 	mi := &file_api_file_file_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *MkdirFileResponse) String() string {
+func (x *File_MkdirResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*MkdirFileResponse) ProtoMessage() {}
+func (*File_MkdirResponse) ProtoMessage() {}
 
-func (x *MkdirFileResponse) ProtoReflect() protoreflect.Message {
+func (x *File_MkdirResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -635,12 +636,12 @@ func (x *MkdirFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use MkdirFileResponse.ProtoReflect.Descriptor instead.
-func (*MkdirFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{10}
+// Deprecated: Use File_MkdirResponse.ProtoReflect.Descriptor instead.
+func (*File_MkdirResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 9}
 }
 
-type RenameFileRequest struct {
+type File_RenameRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
@@ -649,20 +650,20 @@ type RenameFileRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RenameFileRequest) Reset() {
-	*x = RenameFileRequest{}
+func (x *File_RenameRequest) Reset() {
+	*x = File_RenameRequest{}
 	mi := &file_api_file_file_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RenameFileRequest) String() string {
+func (x *File_RenameRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RenameFileRequest) ProtoMessage() {}
+func (*File_RenameRequest) ProtoMessage() {}
 
-func (x *RenameFileRequest) ProtoReflect() protoreflect.Message {
+func (x *File_RenameRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -674,52 +675,52 @@ func (x *RenameFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RenameFileRequest.ProtoReflect.Descriptor instead.
-func (*RenameFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{11}
+// Deprecated: Use File_RenameRequest.ProtoReflect.Descriptor instead.
+func (*File_RenameRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 10}
 }
 
-func (x *RenameFileRequest) GetPath() string {
+func (x *File_RenameRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-func (x *RenameFileRequest) GetName() string {
+func (x *File_RenameRequest) GetName() string {
 	if x != nil {
 		return x.Name
 	}
 	return ""
 }
 
-func (x *RenameFileRequest) GetNewName() string {
+func (x *File_RenameRequest) GetNewName() string {
 	if x != nil {
 		return x.NewName
 	}
 	return ""
 }
 
-type RenameFileResponse struct {
+type File_RenameResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RenameFileResponse) Reset() {
-	*x = RenameFileResponse{}
+func (x *File_RenameResponse) Reset() {
+	*x = File_RenameResponse{}
 	mi := &file_api_file_file_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RenameFileResponse) String() string {
+func (x *File_RenameResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RenameFileResponse) ProtoMessage() {}
+func (*File_RenameResponse) ProtoMessage() {}
 
-func (x *RenameFileResponse) ProtoReflect() protoreflect.Message {
+func (x *File_RenameResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -731,12 +732,12 @@ func (x *RenameFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RenameFileResponse.ProtoReflect.Descriptor instead.
-func (*RenameFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{12}
+// Deprecated: Use File_RenameResponse.ProtoReflect.Descriptor instead.
+func (*File_RenameResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 11}
 }
 
-type RemoveFileRequest struct {
+type File_RemoveRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	Names         []string               `protobuf:"bytes,3,rep,name=names,proto3" json:"names,omitempty"`
@@ -744,20 +745,20 @@ type RemoveFileRequest struct {
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RemoveFileRequest) Reset() {
-	*x = RemoveFileRequest{}
+func (x *File_RemoveRequest) Reset() {
+	*x = File_RemoveRequest{}
 	mi := &file_api_file_file_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RemoveFileRequest) String() string {
+func (x *File_RemoveRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RemoveFileRequest) ProtoMessage() {}
+func (*File_RemoveRequest) ProtoMessage() {}
 
-func (x *RemoveFileRequest) ProtoReflect() protoreflect.Message {
+func (x *File_RemoveRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -769,45 +770,45 @@ func (x *RemoveFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveFileRequest.ProtoReflect.Descriptor instead.
-func (*RemoveFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{13}
+// Deprecated: Use File_RemoveRequest.ProtoReflect.Descriptor instead.
+func (*File_RemoveRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 12}
 }
 
-func (x *RemoveFileRequest) GetPath() string {
+func (x *File_RemoveRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-func (x *RemoveFileRequest) GetNames() []string {
+func (x *File_RemoveRequest) GetNames() []string {
 	if x != nil {
 		return x.Names
 	}
 	return nil
 }
 
-type RemoveFileResponse struct {
+type File_RemoveResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *RemoveFileResponse) Reset() {
-	*x = RemoveFileResponse{}
+func (x *File_RemoveResponse) Reset() {
+	*x = File_RemoveResponse{}
 	mi := &file_api_file_file_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *RemoveFileResponse) String() string {
+func (x *File_RemoveResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RemoveFileResponse) ProtoMessage() {}
+func (*File_RemoveResponse) ProtoMessage() {}
 
-func (x *RemoveFileResponse) ProtoReflect() protoreflect.Message {
+func (x *File_RemoveResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_api_file_file_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -819,69 +820,33 @@ func (x *RemoveFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RemoveFileResponse.ProtoReflect.Descriptor instead.
-func (*RemoveFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{14}
+// Deprecated: Use File_RemoveResponse.ProtoReflect.Descriptor instead.
+func (*File_RemoveResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 13}
 }
 
-type UploadFileRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UploadFileRequest) Reset() {
-	*x = UploadFileRequest{}
-	mi := &file_api_file_file_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UploadFileRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UploadFileRequest) ProtoMessage() {}
-
-func (x *UploadFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_file_file_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UploadFileRequest.ProtoReflect.Descriptor instead.
-func (*UploadFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{15}
-}
-
-type PreviewFileRequest struct {
+type File_PreviewRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PreviewFileRequest) Reset() {
-	*x = PreviewFileRequest{}
-	mi := &file_api_file_file_proto_msgTypes[16]
+func (x *File_PreviewRequest) Reset() {
+	*x = File_PreviewRequest{}
+	mi := &file_api_file_file_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PreviewFileRequest) String() string {
+func (x *File_PreviewRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PreviewFileRequest) ProtoMessage() {}
+func (*File_PreviewRequest) ProtoMessage() {}
 
-func (x *PreviewFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_file_file_proto_msgTypes[16]
+func (x *File_PreviewRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_file_file_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -892,40 +857,40 @@ func (x *PreviewFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PreviewFileRequest.ProtoReflect.Descriptor instead.
-func (*PreviewFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{16}
+// Deprecated: Use File_PreviewRequest.ProtoReflect.Descriptor instead.
+func (*File_PreviewRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 14}
 }
 
-func (x *PreviewFileRequest) GetPath() string {
+func (x *File_PreviewRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-type PreviewFileResponse struct {
+type File_PreviewResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Chunk         []byte                 `protobuf:"bytes,1,opt,name=chunk,proto3" json:"chunk,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *PreviewFileResponse) Reset() {
-	*x = PreviewFileResponse{}
-	mi := &file_api_file_file_proto_msgTypes[17]
+func (x *File_PreviewResponse) Reset() {
+	*x = File_PreviewResponse{}
+	mi := &file_api_file_file_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *PreviewFileResponse) String() string {
+func (x *File_PreviewResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PreviewFileResponse) ProtoMessage() {}
+func (*File_PreviewResponse) ProtoMessage() {}
 
-func (x *PreviewFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_file_file_proto_msgTypes[17]
+func (x *File_PreviewResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_file_file_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -936,40 +901,40 @@ func (x *PreviewFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PreviewFileResponse.ProtoReflect.Descriptor instead.
-func (*PreviewFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{17}
+// Deprecated: Use File_PreviewResponse.ProtoReflect.Descriptor instead.
+func (*File_PreviewResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 15}
 }
 
-func (x *PreviewFileResponse) GetChunk() []byte {
+func (x *File_PreviewResponse) GetChunk() []byte {
 	if x != nil {
 		return x.Chunk
 	}
 	return nil
 }
 
-type DownloadFileRequest struct {
+type File_DownloadRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Path          string                 `protobuf:"bytes,1,opt,name=path,proto3" json:"path,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DownloadFileRequest) Reset() {
-	*x = DownloadFileRequest{}
-	mi := &file_api_file_file_proto_msgTypes[18]
+func (x *File_DownloadRequest) Reset() {
+	*x = File_DownloadRequest{}
+	mi := &file_api_file_file_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DownloadFileRequest) String() string {
+func (x *File_DownloadRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DownloadFileRequest) ProtoMessage() {}
+func (*File_DownloadRequest) ProtoMessage() {}
 
-func (x *DownloadFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_api_file_file_proto_msgTypes[18]
+func (x *File_DownloadRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_file_file_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -980,40 +945,40 @@ func (x *DownloadFileRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DownloadFileRequest.ProtoReflect.Descriptor instead.
-func (*DownloadFileRequest) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{18}
+// Deprecated: Use File_DownloadRequest.ProtoReflect.Descriptor instead.
+func (*File_DownloadRequest) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 16}
 }
 
-func (x *DownloadFileRequest) GetPath() string {
+func (x *File_DownloadRequest) GetPath() string {
 	if x != nil {
 		return x.Path
 	}
 	return ""
 }
 
-type DownloadFileResponse struct {
+type File_DownloadResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Chunk         []byte                 `protobuf:"bytes,1,opt,name=chunk,proto3" json:"chunk,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *DownloadFileResponse) Reset() {
-	*x = DownloadFileResponse{}
-	mi := &file_api_file_file_proto_msgTypes[19]
+func (x *File_DownloadResponse) Reset() {
+	*x = File_DownloadResponse{}
+	mi := &file_api_file_file_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *DownloadFileResponse) String() string {
+func (x *File_DownloadResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*DownloadFileResponse) ProtoMessage() {}
+func (*File_DownloadResponse) ProtoMessage() {}
 
-func (x *DownloadFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_api_file_file_proto_msgTypes[19]
+func (x *File_DownloadResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_file_file_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1024,12 +989,12 @@ func (x *DownloadFileResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use DownloadFileResponse.ProtoReflect.Descriptor instead.
-func (*DownloadFileResponse) Descriptor() ([]byte, []int) {
-	return file_api_file_file_proto_rawDescGZIP(), []int{19}
+// Deprecated: Use File_DownloadResponse.ProtoReflect.Descriptor instead.
+func (*File_DownloadResponse) Descriptor() ([]byte, []int) {
+	return file_api_file_file_proto_rawDescGZIP(), []int{0, 17}
 }
 
-func (x *DownloadFileResponse) GetChunk() []byte {
+func (x *File_DownloadResponse) GetChunk() []byte {
 	if x != nil {
 		return x.Chunk
 	}
@@ -1040,7 +1005,8 @@ var File_api_file_file_proto protoreflect.FileDescriptor
 
 const file_api_file_file_proto_rawDesc = "" +
 	"\n" +
-	"\x13api/file/file.proto\x12\bapi.file\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x13api/file/repo.proto\"\xad\x02\n" +
+	"\x13api/file/file.proto\x12\bapi.file\x1a\x1cgoogle/api/annotations.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x13api/file/repo.proto\"\xab\n" +
+	"\n" +
 	"\x04File\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x129\n" +
 	"\n" +
@@ -1054,55 +1020,64 @@ const file_api_file_file_proto_rawDesc = "" +
 	"\x04path\x18\b \x01(\tR\x04path\x12\"\n" +
 	"\x04repo\x18\n" +
 	" \x01(\v2\x0e.api.file.RepoR\x04repo\x12\x17\n" +
-	"\arepo_id\x18\v \x01(\x05R\x06repoId\"}\n" +
-	"\vFileRequest\x12\x14\n" +
+	"\arepo_id\x18\v \x01(\x05R\x06repoId\x1a\x7f\n" +
+	"\rUploadRequest\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\x05R\x05index\x12\x12\n" +
 	"\x04size\x18\x05 \x01(\x03R\x04size\x12\x12\n" +
 	"\x04path\x18\x03 \x01(\tR\x04path\x12\x1a\n" +
 	"\bfilename\x18\x04 \x01(\tR\bfilename\x12\x14\n" +
-	"\x05chunk\x18\x02 \x01(\fR\x05chunk\"P\n" +
-	"\fFileResponse\x12&\n" +
+	"\x05chunk\x18\x02 \x01(\fR\x05chunk\x1aR\n" +
+	"\x0eUploadResponse\x12&\n" +
 	"\x06result\x18\x01 \x01(\v2\x0e.api.file.FileR\x06result\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"\x8d\x01\n" +
-	"\x10ListFilesRequest\x12>\n" +
-	"\x06filter\x18\x01 \x03(\v2&.api.file.ListFilesRequest.FilterEntryR\x06filter\x1a9\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x1a\x88\x01\n" +
+	"\vListRequest\x12>\n" +
+	"\x06filter\x18\x01 \x03(\v2&.api.file.File.ListRequest.FilterEntryR\x06filter\x1a9\n" +
 	"\vFilterEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"=\n" +
-	"\x11ListFilesResponse\x12(\n" +
-	"\aresults\x18\x01 \x03(\v2\x0e.api.file.FileR\aresults\"V\n" +
-	"\x0fMoveFileRequest\x12\x12\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1a8\n" +
+	"\fListResponse\x12(\n" +
+	"\aresults\x18\x01 \x03(\v2\x0e.api.file.FileR\aresults\x1aR\n" +
+	"\vMoveRequest\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x19\n" +
 	"\bnew_path\x18\x02 \x01(\tR\anewPath\x12\x14\n" +
-	"\x05names\x18\x03 \x03(\tR\x05names\"\x12\n" +
-	"\x10MoveFileResponse\"V\n" +
-	"\x0fCopyFileRequest\x12\x12\n" +
+	"\x05names\x18\x03 \x03(\tR\x05names\x1a\x0e\n" +
+	"\fMoveResponse\x1aR\n" +
+	"\vCopyRequest\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x19\n" +
 	"\bnew_path\x18\x02 \x01(\tR\anewPath\x12\x14\n" +
-	"\x05names\x18\x03 \x03(\tR\x05names\"\x12\n" +
-	"\x10CopyFileResponse\":\n" +
-	"\x10MkdirFileRequest\x12\x12\n" +
+	"\x05names\x18\x03 \x03(\tR\x05names\x1a\x0e\n" +
+	"\fCopyResponse\x1a6\n" +
+	"\fMkdirRequest\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\"\x13\n" +
-	"\x11MkdirFileResponse\"V\n" +
-	"\x11RenameFileRequest\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x1a\x0f\n" +
+	"\rMkdirResponse\x1aR\n" +
+	"\rRenameRequest\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x19\n" +
-	"\bnew_name\x18\x03 \x01(\tR\anewName\"\x14\n" +
-	"\x12RenameFileResponse\"=\n" +
-	"\x11RemoveFileRequest\x12\x12\n" +
+	"\bnew_name\x18\x03 \x01(\tR\anewName\x1a\x10\n" +
+	"\x0eRenameResponse\x1a9\n" +
+	"\rRemoveRequest\x12\x12\n" +
 	"\x04path\x18\x01 \x01(\tR\x04path\x12\x14\n" +
-	"\x05names\x18\x03 \x03(\tR\x05names\"\x14\n" +
-	"\x12RemoveFileResponse\"\x13\n" +
-	"\x11UploadFileRequest\"(\n" +
-	"\x12PreviewFileRequest\x12\x12\n" +
-	"\x04path\x18\x01 \x01(\tR\x04path\"+\n" +
-	"\x13PreviewFileResponse\x12\x14\n" +
-	"\x05chunk\x18\x01 \x01(\fR\x05chunk\")\n" +
-	"\x13DownloadFileRequest\x12\x12\n" +
-	"\x04path\x18\x01 \x01(\tR\x04path\",\n" +
-	"\x14DownloadFileResponse\x12\x14\n" +
-	"\x05chunk\x18\x01 \x01(\fR\x05chunkB\x99\x01\n" +
+	"\x05names\x18\x03 \x03(\tR\x05names\x1a\x10\n" +
+	"\x0eRemoveResponse\x1a$\n" +
+	"\x0ePreviewRequest\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\x1a'\n" +
+	"\x0fPreviewResponse\x12\x14\n" +
+	"\x05chunk\x18\x01 \x01(\fR\x05chunk\x1a%\n" +
+	"\x0fDownloadRequest\x12\x12\n" +
+	"\x04path\x18\x01 \x01(\tR\x04path\x1a(\n" +
+	"\x10DownloadResponse\x12\x14\n" +
+	"\x05chunk\x18\x01 \x01(\fR\x05chunk2\x87\a\n" +
+	"\vFileService\x12Z\n" +
+	"\x04List\x12\x1a.api.file.File.ListRequest\x1a\x1b.api.file.File.ListResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/api/file/list\x12Z\n" +
+	"\x04Move\x12\x1a.api.file.File.MoveRequest\x1a\x1b.api.file.File.MoveResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/api/file/move\x12Z\n" +
+	"\x04Copy\x12\x1a.api.file.File.CopyRequest\x1a\x1b.api.file.File.CopyResponse\"\x19\x82\xd3\xe4\x93\x02\x13:\x01*\"\x0e/api/file/copy\x12^\n" +
+	"\x05Mkdir\x12\x1b.api.file.File.MkdirRequest\x1a\x1c.api.file.File.MkdirResponse\"\x1a\x82\xd3\xe4\x93\x02\x14:\x01*\"\x0f/api/file/mkdir\x12b\n" +
+	"\x06Rename\x12\x1c.api.file.File.RenameRequest\x1a\x1d.api.file.File.RenameResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/file/rename\x12b\n" +
+	"\x06Remove\x12\x1c.api.file.File.RemoveRequest\x1a\x1d.api.file.File.RemoveResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/file/remove\x12d\n" +
+	"\x06Upload\x12\x1c.api.file.File.UploadRequest\x1a\x1d.api.file.File.UploadResponse\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\"\x10/api/file/upload(\x01\x12l\n" +
+	"\bDownload\x12\x1e.api.file.File.DownloadRequest\x1a\x1f.api.file.File.DownloadResponse\"\x1d\x82\xd3\xe4\x93\x02\x17:\x01*\"\x12/api/file/download0\x01\x12h\n" +
+	"\aPreview\x12\x1d.api.file.File.PreviewRequest\x1a\x1e.api.file.File.PreviewResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/api/file/preview0\x01B\x99\x01\n" +
 	"\fcom.api.fileB\tFileProtoP\x01Z=github.com/honmaple/maple-file/server/internal/proto/api/file\xa2\x02\x03AFX\xaa\x02\bApi.File\xca\x02\bApi\\File\xe2\x02\x14Api\\File\\GPBMetadata\xea\x02\tApi::Fileb\x06proto3"
 
 var (
@@ -1117,41 +1092,58 @@ func file_api_file_file_proto_rawDescGZIP() []byte {
 	return file_api_file_file_proto_rawDescData
 }
 
-var file_api_file_file_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_api_file_file_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_api_file_file_proto_goTypes = []any{
 	(*File)(nil),                  // 0: api.file.File
-	(*FileRequest)(nil),           // 1: api.file.FileRequest
-	(*FileResponse)(nil),          // 2: api.file.FileResponse
-	(*ListFilesRequest)(nil),      // 3: api.file.ListFilesRequest
-	(*ListFilesResponse)(nil),     // 4: api.file.ListFilesResponse
-	(*MoveFileRequest)(nil),       // 5: api.file.MoveFileRequest
-	(*MoveFileResponse)(nil),      // 6: api.file.MoveFileResponse
-	(*CopyFileRequest)(nil),       // 7: api.file.CopyFileRequest
-	(*CopyFileResponse)(nil),      // 8: api.file.CopyFileResponse
-	(*MkdirFileRequest)(nil),      // 9: api.file.MkdirFileRequest
-	(*MkdirFileResponse)(nil),     // 10: api.file.MkdirFileResponse
-	(*RenameFileRequest)(nil),     // 11: api.file.RenameFileRequest
-	(*RenameFileResponse)(nil),    // 12: api.file.RenameFileResponse
-	(*RemoveFileRequest)(nil),     // 13: api.file.RemoveFileRequest
-	(*RemoveFileResponse)(nil),    // 14: api.file.RemoveFileResponse
-	(*UploadFileRequest)(nil),     // 15: api.file.UploadFileRequest
-	(*PreviewFileRequest)(nil),    // 16: api.file.PreviewFileRequest
-	(*PreviewFileResponse)(nil),   // 17: api.file.PreviewFileResponse
-	(*DownloadFileRequest)(nil),   // 18: api.file.DownloadFileRequest
-	(*DownloadFileResponse)(nil),  // 19: api.file.DownloadFileResponse
-	nil,                           // 20: api.file.ListFilesRequest.FilterEntry
-	(*timestamppb.Timestamp)(nil), // 21: google.protobuf.Timestamp
-	(*Repo)(nil),                  // 22: api.file.Repo
+	(*File_UploadRequest)(nil),    // 1: api.file.File.UploadRequest
+	(*File_UploadResponse)(nil),   // 2: api.file.File.UploadResponse
+	(*File_ListRequest)(nil),      // 3: api.file.File.ListRequest
+	(*File_ListResponse)(nil),     // 4: api.file.File.ListResponse
+	(*File_MoveRequest)(nil),      // 5: api.file.File.MoveRequest
+	(*File_MoveResponse)(nil),     // 6: api.file.File.MoveResponse
+	(*File_CopyRequest)(nil),      // 7: api.file.File.CopyRequest
+	(*File_CopyResponse)(nil),     // 8: api.file.File.CopyResponse
+	(*File_MkdirRequest)(nil),     // 9: api.file.File.MkdirRequest
+	(*File_MkdirResponse)(nil),    // 10: api.file.File.MkdirResponse
+	(*File_RenameRequest)(nil),    // 11: api.file.File.RenameRequest
+	(*File_RenameResponse)(nil),   // 12: api.file.File.RenameResponse
+	(*File_RemoveRequest)(nil),    // 13: api.file.File.RemoveRequest
+	(*File_RemoveResponse)(nil),   // 14: api.file.File.RemoveResponse
+	(*File_PreviewRequest)(nil),   // 15: api.file.File.PreviewRequest
+	(*File_PreviewResponse)(nil),  // 16: api.file.File.PreviewResponse
+	(*File_DownloadRequest)(nil),  // 17: api.file.File.DownloadRequest
+	(*File_DownloadResponse)(nil), // 18: api.file.File.DownloadResponse
+	nil,                           // 19: api.file.File.ListRequest.FilterEntry
+	(*timestamppb.Timestamp)(nil), // 20: google.protobuf.Timestamp
+	(*Repo)(nil),                  // 21: api.file.Repo
 }
 var file_api_file_file_proto_depIdxs = []int32{
-	21, // 0: api.file.File.created_at:type_name -> google.protobuf.Timestamp
-	21, // 1: api.file.File.updated_at:type_name -> google.protobuf.Timestamp
-	22, // 2: api.file.File.repo:type_name -> api.file.Repo
-	0,  // 3: api.file.FileResponse.result:type_name -> api.file.File
-	20, // 4: api.file.ListFilesRequest.filter:type_name -> api.file.ListFilesRequest.FilterEntry
-	0,  // 5: api.file.ListFilesResponse.results:type_name -> api.file.File
-	6,  // [6:6] is the sub-list for method output_type
-	6,  // [6:6] is the sub-list for method input_type
+	20, // 0: api.file.File.created_at:type_name -> google.protobuf.Timestamp
+	20, // 1: api.file.File.updated_at:type_name -> google.protobuf.Timestamp
+	21, // 2: api.file.File.repo:type_name -> api.file.Repo
+	0,  // 3: api.file.File.UploadResponse.result:type_name -> api.file.File
+	19, // 4: api.file.File.ListRequest.filter:type_name -> api.file.File.ListRequest.FilterEntry
+	0,  // 5: api.file.File.ListResponse.results:type_name -> api.file.File
+	3,  // 6: api.file.FileService.List:input_type -> api.file.File.ListRequest
+	5,  // 7: api.file.FileService.Move:input_type -> api.file.File.MoveRequest
+	7,  // 8: api.file.FileService.Copy:input_type -> api.file.File.CopyRequest
+	9,  // 9: api.file.FileService.Mkdir:input_type -> api.file.File.MkdirRequest
+	11, // 10: api.file.FileService.Rename:input_type -> api.file.File.RenameRequest
+	13, // 11: api.file.FileService.Remove:input_type -> api.file.File.RemoveRequest
+	1,  // 12: api.file.FileService.Upload:input_type -> api.file.File.UploadRequest
+	17, // 13: api.file.FileService.Download:input_type -> api.file.File.DownloadRequest
+	15, // 14: api.file.FileService.Preview:input_type -> api.file.File.PreviewRequest
+	4,  // 15: api.file.FileService.List:output_type -> api.file.File.ListResponse
+	6,  // 16: api.file.FileService.Move:output_type -> api.file.File.MoveResponse
+	8,  // 17: api.file.FileService.Copy:output_type -> api.file.File.CopyResponse
+	10, // 18: api.file.FileService.Mkdir:output_type -> api.file.File.MkdirResponse
+	12, // 19: api.file.FileService.Rename:output_type -> api.file.File.RenameResponse
+	14, // 20: api.file.FileService.Remove:output_type -> api.file.File.RemoveResponse
+	2,  // 21: api.file.FileService.Upload:output_type -> api.file.File.UploadResponse
+	18, // 22: api.file.FileService.Download:output_type -> api.file.File.DownloadResponse
+	16, // 23: api.file.FileService.Preview:output_type -> api.file.File.PreviewResponse
+	15, // [15:24] is the sub-list for method output_type
+	6,  // [6:15] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
 	6,  // [6:6] is the sub-list for extension extendee
 	0,  // [0:6] is the sub-list for field type_name
@@ -1169,9 +1161,9 @@ func file_api_file_file_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_file_file_proto_rawDesc), len(file_api_file_file_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   20,
 			NumExtensions: 0,
-			NumServices:   0,
+			NumServices:   1,
 		},
 		GoTypes:           file_api_file_file_proto_goTypes,
 		DependencyIndexes: file_api_file_file_proto_depIdxs,

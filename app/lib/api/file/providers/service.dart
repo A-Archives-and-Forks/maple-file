@@ -11,9 +11,7 @@ import 'package:maple_file/app/i18n.dart';
 import 'package:maple_file/app/grpc.dart';
 import 'package:maple_file/common/utils/util.dart';
 import 'package:maple_file/common/utils/isolate.dart';
-import 'package:maple_file/generated/proto/api/file/file.pb.dart';
-import 'package:maple_file/generated/proto/api/file/repo.pb.dart';
-import 'package:maple_file/generated/proto/api/file/service.pbgrpc.dart';
+import 'package:maple_file/generated/proto/api/file/file.pbgrpc.dart';
 
 class FileService {
   static FileService get instance => _instance;
@@ -39,8 +37,8 @@ class FileService {
 
   Future<List<File>> list({Map<String, String>? filter}) {
     return doFuture(() async {
-      ListFilesRequest request = ListFilesRequest(filter: filter);
-      ListFilesResponse response = await client.list(request);
+      File_ListRequest request = File_ListRequest(filter: filter);
+      File_ListResponse response = await client.list(request);
       return response.results;
     });
   }
@@ -51,7 +49,7 @@ class FileService {
     List<String> names,
   ) {
     return doFuture(() {
-      MoveFileRequest request = MoveFileRequest(
+      File_MoveRequest request = File_MoveRequest(
         path: path,
         newPath: newPath,
         names: names,
@@ -66,7 +64,7 @@ class FileService {
     List<String> names,
   ) {
     return doFuture(() {
-      CopyFileRequest request = CopyFileRequest(
+      File_CopyRequest request = File_CopyRequest(
         path: path,
         newPath: newPath,
         names: names,
@@ -81,7 +79,7 @@ class FileService {
     String newName,
   ) {
     return doFuture(() {
-      RenameFileRequest request = RenameFileRequest(
+      File_RenameRequest request = File_RenameRequest(
         path: path,
         name: name,
         newName: newName,
@@ -95,7 +93,7 @@ class FileService {
     String name,
   ) async {
     await doFuture(() {
-      MkdirFileRequest request = MkdirFileRequest(
+      File_MkdirRequest request = File_MkdirRequest(
         path: path,
         name: name,
       );
@@ -108,7 +106,7 @@ class FileService {
     List<String> names,
   ) async {
     await doFuture(() {
-      RemoveFileRequest request = RemoveFileRequest(
+      File_RemoveRequest request = File_RemoveRequest(
         path: path,
         names: names,
       );
@@ -117,7 +115,7 @@ class FileService {
   }
 
   // isolate必须使用static函数
-  static Stream<FileRequest> _upload(
+  static Stream<File_UploadRequest> _upload(
     String path,
     io.File file, {
     String? newName,
@@ -128,7 +126,7 @@ class FileService {
     var name = newName ?? filepath.basename(file.path);
 
     // 第0片不包括chunk
-    yield FileRequest(
+    yield File_UploadRequest(
       path: path,
       size: fixnum.Int64(size),
       filename: name,
@@ -142,7 +140,7 @@ class FileService {
     while (chunk.length >= readSize) {
       index++;
 
-      yield FileRequest(
+      yield File_UploadRequest(
         path: path,
         size: fixnum.Int64(size),
         index: index,
@@ -153,7 +151,7 @@ class FileService {
       chunk = readFile.readSync(readSize);
     }
     if (chunk.isNotEmpty) {
-      yield FileRequest(
+      yield File_UploadRequest(
         path: path,
         size: fixnum.Int64(size),
         index: index + 1,
@@ -170,7 +168,7 @@ class FileService {
   }) async {
     final root = filepath.dirname(dir.path);
 
-    await client.mkdir(MkdirFileRequest(
+    await client.mkdir(File_MkdirRequest(
       path: path,
       name: filepath.basename(dir.path),
     ));
@@ -190,7 +188,7 @@ class FileService {
       final uploadPath = filepath.posix.join(path, realPath);
 
       if (entity is io.Directory) {
-        await client.mkdir(MkdirFileRequest(
+        await client.mkdir(File_MkdirRequest(
           path: uploadPath,
           name: filepath.basename(entity.path),
         ));
@@ -239,7 +237,7 @@ class FileService {
       for (final file in files ?? []) {
         final stream = await IsolateUtil.streamCompute<
             (String, String, String?),
-            FileRequest>(((String, String, String?) args) {
+            File_UploadRequest>(((String, String, String?) args) {
           return _upload(args.$1, io.File(args.$2), newName: args.$3);
         }, (path, file.path, newNames == null ? null : newNames[file.path]));
 
@@ -257,7 +255,7 @@ class FileService {
 
   Future<Uint8List?> preview(String path) {
     return doFuture(() async {
-      PreviewFileRequest request = PreviewFileRequest(path: path);
+      File_PreviewRequest request = File_PreviewRequest(path: path);
 
       final response = client.preview(request);
 
@@ -294,7 +292,7 @@ class FileService {
       }
 
       final response = client.download(
-        DownloadFileRequest(path: path),
+        File_DownloadRequest(path: path),
       );
 
       var ios = file.openWrite(mode: io.FileMode.write);
@@ -303,51 +301,6 @@ class FileService {
         ios.add(stream.chunk);
       });
       ios.close();
-    });
-  }
-
-  Future<List<Repo>> listRepos({Map<String, String>? filterMap}) {
-    return doFuture(() async {
-      ListReposRequest request = ListReposRequest();
-      ListReposResponse response = await client.listRepos(request);
-      return response.results;
-    });
-  }
-
-  Future<void> testRepo(Repo payload) {
-    return doFuture(() {
-      TestRepoRequest request = TestRepoRequest();
-      request.payload = payload;
-
-      return client.testRepo(request).then((response) {
-        SmartDialog.showNotify(
-          msg: "连接成功".tr(),
-          notifyType: NotifyType.warning,
-        );
-      });
-    });
-  }
-
-  Future<Repo> createRepo(Repo payload) {
-    return doFuture(() async {
-      CreateRepoRequest request = CreateRepoRequest(payload: payload);
-      CreateRepoResponse response = await client.createRepo(request);
-      return response.result;
-    });
-  }
-
-  Future<Repo> updateRepo(Repo payload) {
-    return doFuture(() async {
-      UpdateRepoRequest request = UpdateRepoRequest(payload: payload);
-      UpdateRepoResponse response = await client.updateRepo(request);
-      return response.result;
-    });
-  }
-
-  Future<void> deleteRepo(int id) {
-    return doFuture(() {
-      DeleteRepoRequest request = DeleteRepoRequest(id: id);
-      return client.deleteRepo(request);
     });
   }
 }
