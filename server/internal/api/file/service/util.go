@@ -1,7 +1,7 @@
 package service
 
 import (
-	filepath "path"
+	stdpath "path"
 	"time"
 
 	"github.com/honmaple/cloudfs"
@@ -34,7 +34,7 @@ func renameFile(format, filename string) string {
 	if format == "" {
 		return filename
 	}
-	ext := filepath.Ext(filename)
+	ext := stdpath.Ext(filename)
 	name := filename[:len(filename)-len(ext)]
 
 	now := time.Now()

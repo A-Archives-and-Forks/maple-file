@@ -10,11 +10,11 @@ import (
 )
 
 type RepoRepository interface {
+	VerifyRepo(*pb.Repo) error
 	ListRepos(context.Context) ([]*pb.Repo, error)
 	CreateRepo(context.Context, *pb.Repo) (*pb.Repo, error)
 	UpdateRepo(context.Context, *pb.Repo) (*pb.Repo, *pb.Repo, error)
 	DeleteRepo(context.Context, int32) (*pb.Repo, error)
-	VerifyRepo(*pb.Repo) error
 }
 
 var _ RepoRepository = (*repository)(nil)

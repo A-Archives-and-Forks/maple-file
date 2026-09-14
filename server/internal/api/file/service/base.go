@@ -19,19 +19,28 @@ import (
 	"github.com/honmaple/maple-file/server/internal/api/shared"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/cacheutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
-	settingpb "github.com/honmaple/maple-file/server/internal/proto/api/setting"
 )
 
-type serviceImpl struct {
-	shared.ServiceImpl
-	pb.UnimplementedFileServiceServer
-	pb.UnimplementedExternalServerServiceServer
-	fs       fs.FS
-	ctx      *types.Context
-	repo     repository.Repository
-	settings SettingReader
-	servers  cacheutil.Cache[string, server.Server]
-}
+type (
+	Service interface {
+		shared.Service
+		pb.FileServiceServer
+		pb.ExternalServerServiceServer
+	}
+	serviceImpl struct {
+		shared.ServiceImpl
+		pb.UnimplementedFileServiceServer
+		pb.UnimplementedExternalServerServiceServer
+		fs       fs.FS
+		ctx      *types.Context
+		repo     repository.Repository
+		settings SettingLoader
+		servers  cacheutil.Cache[string, server.Server]
+	}
+	SettingLoader interface {
+		LoadSetting(context.Context, string, any) error
+	}
+)
 
 func (srv *serviceImpl) Register(grpc *grpc.Server) {
 	pb.RegisterFileServiceServer(grpc, srv)
@@ -159,22 +168,21 @@ func (srv *serviceImpl) RegisterHTTP(e *echo.Echo) {
 	})
 }
 
-type Service interface {
-	shared.Service
-	pb.FileServiceServer
-	pb.ExternalServerServiceServer
-}
-
-type SettingReader interface {
-	GetSetting(context.Context, string) (*settingpb.Setting, error)
-}
-
-func New(ctx *types.Context, repo repository.Repository, settings SettingReader) (Service, error) {
+func New(ctx *types.Context, repo repository.Repository, settings SettingLoader) (Service, error) {
 	if err := ctx.DB.AutoMigrate(new(pb.Repo)); err != nil {
 		return nil, err
 	}
-	srv := &serviceImpl{ctx: ctx, repo: repo, settings: settings, servers: cacheutil.New[string, server.Server]()}
-	srv.fs = fs.New(ctx)
+	srv := &serviceImpl{
+		ctx:      ctx,
+		repo:     repo,
+		settings: settings,
+		servers:  cacheutil.New[string, server.Server](),
+	}
+	fsys, err := fs.New(ctx, repo)
+	if err != nil {
+		return nil, err
+	}
+	srv.fs = fsys
 
 	go srv.cleanThumbFile()
 	return srv, nil

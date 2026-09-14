@@ -1,16 +1,16 @@
 package pathutil
 
 import (
-	filepath "path"
+	stdpath "path"
 	"strings"
 )
 
 func CleanPath(path string) string {
-	// path = filepath.FromSlash(path)
+	// path = stdpath.FromSlash(path)
 	if !strings.HasPrefix(path, "/") {
 		path = "/" + path
 	}
-	return filepath.Clean(path)
+	return stdpath.Clean(path)
 }
 
 func IsSubPath(path string, subPath string) bool {

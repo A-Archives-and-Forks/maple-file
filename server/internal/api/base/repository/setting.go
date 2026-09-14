@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"strings"
 
@@ -11,11 +12,20 @@ import (
 )
 
 type SettingRepository interface {
+	LoadSetting(context.Context, string, any) error
 	GetSetting(context.Context, string) (*pb.Setting, error)
 	UpdateSetting(context.Context, *pb.Setting) (*pb.Setting, error)
 }
 
 var _ SettingRepository = (*repository)(nil)
+
+func (repo *repository) LoadSetting(ctx context.Context, key string, value any) error {
+	setting, err := repo.GetSetting(ctx, key)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal([]byte(setting.GetValue()), value)
+}
 
 func (repo *repository) GetSetting(ctx context.Context, key string) (*pb.Setting, error) {
 	result := new(pb.Setting)

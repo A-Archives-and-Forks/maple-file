@@ -13,7 +13,6 @@ import (
 	"github.com/honmaple/cloudfs"
 	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
 	"github.com/honmaple/maple-file/server/internal/app"
-	"github.com/spf13/viper"
 )
 
 func (srv *serviceImpl) thumbHash(path string) string {
@@ -49,16 +48,13 @@ func (srv *serviceImpl) thumbFile(ctx context.Context, path string, info cloudfs
 	}
 
 	if regenerate {
-		setting, err := srv.getSetting(ctx, "app.file")
-		if err != nil {
-			setting = viper.New()
-		}
+		setting := srv.getFileSetting(ctx)
 		task := srv.fs.SubmitTask(&fs.ThumbTaskOption{
 			Path:          path,
 			ThumbFilePath: thumbPath,
-			Width:         setting.GetInt("thumb.width"),
-			Height:        setting.GetInt("thumb.height"),
-			Quality:       setting.GetInt("thumb.quality"),
+			Width:         setting.Thumb.Width,
+			Height:        setting.Thumb.Height,
+			Quality:       setting.Thumb.Quality,
 		})
 		<-task.Done()
 
@@ -71,12 +67,9 @@ func (srv *serviceImpl) thumbFile(ctx context.Context, path string, info cloudfs
 
 func (srv *serviceImpl) cleanThumbFile() {
 	ctx := context.TODO()
-	setting, err := srv.getSetting(ctx, "app.file")
-	if err != nil {
-		setting = viper.New()
-	}
+	setting := srv.getFileSetting(ctx)
 
-	if setting.GetBool("thumb.auto_clean") {
+	if setting.Thumb.AutoClean {
 		srv.ctx.Runner.SubmitByOption(&fs.ThumbCleanTaskOption{
 			ThumbPath:  srv.thumbPath(),
 			ExpireTime: 24 * 30,

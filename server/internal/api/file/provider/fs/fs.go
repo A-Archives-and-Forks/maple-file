@@ -3,7 +3,7 @@ package fs
 import (
 	"context"
 	"os"
-	filepath "path"
+	stdpath "path"
 	"strings"
 	"time"
 
@@ -25,7 +25,6 @@ type (
 		String() string
 		Execute(runner.Task, FS) error
 	}
-
 	FS interface {
 		cloudfs.FS
 		GetFS(string) (cloudfs.FS, string, error)
@@ -34,6 +33,9 @@ type (
 		UpdateRepo(*pb.Repo, *pb.Repo)
 		DeleteRepo(*pb.Repo)
 		SubmitTask(TaskOption) runner.Task
+	}
+	RepoLoader interface {
+		ListRepos(context.Context) ([]*pb.Repo, error)
 	}
 )
 
@@ -106,14 +108,14 @@ func (d *defaultFS) Stat(ctx context.Context, path string) (cloudfs.FileInfo, er
 			}
 			// /a/b:/a/b/c
 			if pathutil.IsSubPath(path, repo.Path) {
-				return driver.NewDir(filepath.Dir(path), filepath.Base(path), func(entry *cloudfs.Entry) {
+				return driver.NewDir(stdpath.Dir(path), stdpath.Base(path), func(entry *cloudfs.Entry) {
 					entry.ModTime = repo.UpdatedAt.AsTime()
 				}), nil
 			}
 		}
 		return nil, os.ErrNotExist
 	}
-	if path == filepath.Join(repo.Path, repo.Name) {
+	if path == stdpath.Join(repo.Path, repo.Name) {
 		return driver.NewDir(repo.Path, repo.Name, func(entry *cloudfs.Entry) {
 			entry.ModTime = repo.UpdatedAt.AsTime()
 		}), nil
@@ -127,7 +129,7 @@ func (d *defaultFS) GetFS(path string) (cloudfs.FS, string, error) {
 		return nil, "", os.ErrNotExist
 	}
 
-	rootPath := filepath.Join(repo.GetPath(), repo.GetName())
+	rootPath := stdpath.Join(repo.GetPath(), repo.GetName())
 
 	realPath := strings.TrimPrefix(path, rootPath)
 	if !strings.HasPrefix(realPath, "/") {
@@ -168,7 +170,7 @@ func (d *defaultFS) GetRepo(path string) *pb.Repo {
 }
 
 func (d *defaultFS) CreateRepo(repo *pb.Repo) {
-	d.repos.Store(filepath.Join(repo.GetPath(), repo.GetName()), repo)
+	d.repos.Store(stdpath.Join(repo.GetPath(), repo.GetName()), repo)
 }
 
 func (d *defaultFS) UpdateRepo(oldRepo, repo *pb.Repo) {
@@ -177,7 +179,7 @@ func (d *defaultFS) UpdateRepo(oldRepo, repo *pb.Repo) {
 }
 
 func (d *defaultFS) DeleteRepo(repo *pb.Repo) {
-	rootPath := filepath.Join(repo.GetPath(), repo.GetName())
+	rootPath := stdpath.Join(repo.GetPath(), repo.GetName())
 
 	fs, ok := d.cache.Load(rootPath)
 	if ok {
@@ -192,17 +194,19 @@ func (d *defaultFS) SubmitTask(opt TaskOption) runner.Task {
 	return d.ctx.Runner.SubmitByOption(runner.NewFuncOptionWithArg[FS](opt, d))
 }
 
-func (d *defaultFS) loadRepos() error {
-	repos := make([]*pb.Repo, 0)
-	d.ctx.DB.Model(pb.Repo{}).Find(&repos)
+func (d *defaultFS) loadRepos(ctx context.Context, loader RepoLoader) error {
+	repos, err := loader.ListRepos(ctx)
+	if err != nil {
+		return err
+	}
 
 	for _, repo := range repos {
-		d.repos.Store(filepath.Join(repo.GetPath(), repo.GetName()), repo)
+		d.repos.Store(stdpath.Join(repo.GetPath(), repo.GetName()), repo)
 	}
 	return nil
 }
 
-func New(ctx *types.Context) FS {
+func New(ctx *types.Context, loader RepoLoader) (FS, error) {
 	d := &defaultFS{
 		ctx:   ctx,
 		cache: cacheutil.New[string, cloudfs.FS](),
@@ -210,6 +214,8 @@ func New(ctx *types.Context) FS {
 	}
 	d.FS = driver.NewFS(d.GetFS, nil)
 
-	d.loadRepos()
-	return d
+	if err := d.loadRepos(context.Background(), loader); err != nil {
+		return nil, err
+	}
+	return d, nil
 }

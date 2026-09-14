@@ -6,7 +6,7 @@ import (
 
 	"github.com/honmaple/cloudfs"
 
-	filepath "path"
+	stdpath "path"
 )
 
 type rootFS struct {
@@ -122,7 +122,7 @@ func NewFS(fn func(string) (FS, string, error), fileFn func(string, cloudfs.File
 	fs := &rootFS{}
 	if fileFn == nil {
 		fileFn = func(root string, file cloudfs.FileInfo) cloudfs.FileInfo {
-			return NewFile(filepath.Join(root, file.Path()), file)
+			return NewFile(stdpath.Join(root, file.Path()), file)
 		}
 	}
 	fs.fn = fn

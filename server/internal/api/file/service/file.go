@@ -2,11 +2,10 @@ package service
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	filepath "path"
+	stdpath "path"
 	"slices"
 	"strings"
 
@@ -16,26 +15,7 @@ import (
 	"github.com/honmaple/maple-file/server/internal/platform/utils/pathutil"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/structutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
-	"github.com/spf13/viper"
 )
-
-func (srv *serviceImpl) getSetting(ctx context.Context, key string) (*viper.Viper, error) {
-	ins, err := srv.settings.GetSetting(ctx, key)
-	if err != nil {
-		return nil, err
-	}
-
-	setting := make(map[string]any)
-	if err := json.Unmarshal([]byte(ins.GetValue()), &setting); err != nil {
-		return nil, err
-	}
-
-	cf := viper.New()
-	for k, v := range setting {
-		cf.Set(k, v)
-	}
-	return cf, nil
-}
 
 func (srv *serviceImpl) List(ctx context.Context, req *pb.ListFilesRequest) (*pb.ListFilesResponse, error) {
 	filter := structutil.NewFilter(req.GetFilter())
@@ -56,9 +36,9 @@ func (srv *serviceImpl) List(ctx context.Context, req *pb.ListFilesRequest) (*pb
 }
 
 func (srv *serviceImpl) Rename(ctx context.Context, req *pb.RenameFileRequest) (*pb.RenameFileResponse, error) {
-	oldPath := filepath.Join(req.GetPath(), req.GetName())
+	oldPath := stdpath.Join(req.GetPath(), req.GetName())
 
-	fmt.Println("rename", oldPath, filepath.Join(req.GetPath(), req.GetNewName()))
+	fmt.Println("rename", oldPath, stdpath.Join(req.GetPath(), req.GetNewName()))
 	if err := srv.fs.Rename(ctx, oldPath, req.GetNewName()); err != nil {
 		return nil, err
 	}
@@ -66,8 +46,8 @@ func (srv *serviceImpl) Rename(ctx context.Context, req *pb.RenameFileRequest) (
 }
 
 func (srv *serviceImpl) Mkdir(ctx context.Context, req *pb.MkdirFileRequest) (*pb.MkdirFileResponse, error) {
-	fmt.Println("mkdir", filepath.Join(req.GetPath(), req.GetName()))
-	if err := srv.fs.MakeDir(ctx, filepath.Join(req.GetPath(), req.GetName())); err != nil {
+	fmt.Println("mkdir", stdpath.Join(req.GetPath(), req.GetName()))
+	if err := srv.fs.MakeDir(ctx, stdpath.Join(req.GetPath(), req.GetName())); err != nil {
 		return nil, err
 	}
 	return &pb.MkdirFileResponse{}, nil
@@ -76,7 +56,7 @@ func (srv *serviceImpl) Mkdir(ctx context.Context, req *pb.MkdirFileRequest) (*p
 func (srv *serviceImpl) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.MoveFileResponse, error) {
 	newPath := req.GetNewPath()
 	for _, name := range req.GetNames() {
-		oldPath := filepath.Join(req.GetPath(), name)
+		oldPath := stdpath.Join(req.GetPath(), name)
 
 		fmt.Println("move", oldPath, newPath)
 
@@ -91,7 +71,7 @@ func (srv *serviceImpl) Move(ctx context.Context, req *pb.MoveFileRequest) (*pb.
 func (srv *serviceImpl) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.CopyFileResponse, error) {
 	newPath := req.GetNewPath()
 	for _, name := range req.GetNames() {
-		oldPath := filepath.Join(req.GetPath(), name)
+		oldPath := stdpath.Join(req.GetPath(), name)
 
 		fmt.Println("copy", oldPath, newPath)
 
@@ -105,10 +85,10 @@ func (srv *serviceImpl) Copy(ctx context.Context, req *pb.CopyFileRequest) (*pb.
 
 func (srv *serviceImpl) Remove(ctx context.Context, req *pb.RemoveFileRequest) (*pb.RemoveFileResponse, error) {
 	for _, name := range req.GetNames() {
-		fmt.Println("remove", filepath.Join(req.GetPath(), name))
+		fmt.Println("remove", stdpath.Join(req.GetPath(), name))
 
 		srv.fs.SubmitTask(&fs.RemoveTaskOption{
-			Path: filepath.Join(req.GetPath(), name),
+			Path: stdpath.Join(req.GetPath(), name),
 		})
 	}
 	return &pb.RemoveFileResponse{}, nil
@@ -117,18 +97,14 @@ func (srv *serviceImpl) Remove(ctx context.Context, req *pb.RemoveFileRequest) (
 func (srv *serviceImpl) upload(ctx context.Context, req *pb.FileRequest, reader io.Reader) (*pb.File, error) {
 	filename := req.GetFilename()
 
-	cf, err := srv.getSetting(ctx, "app.file")
-	// 不要返回错误
-	if err != nil {
-		cf = viper.New()
-	}
+	setting := srv.getFileSetting(ctx)
 
-	if limitSize := cf.GetInt64("upload.limit_size"); limitSize > 0 && req.GetSize() > limitSize*1024*1024 {
+	if limitSize := setting.UploadLimitSize; limitSize > 0 && req.GetSize() > limitSize*1024*1024 {
 		return nil, errors.New("上传限制大小")
 	}
 
-	if limitType := cf.GetString("upload.limit_type"); limitType != "" {
-		fileExt := filepath.Ext(filename)
+	if limitType := setting.UploadLimitType; limitType != "" {
+		fileExt := stdpath.Ext(filename)
 
 		if slices.Contains(strings.Split(limitType, ","), fileExt) {
 			return nil, errors.New("上传限制类型")
@@ -136,8 +112,8 @@ func (srv *serviceImpl) upload(ctx context.Context, req *pb.FileRequest, reader 
 	}
 
 	// 自动重命名
-	if cf.GetBool("upload.rename") {
-		filename = renameFile(cf.GetString("upload.format"), filename)
+	if setting.UploadRename {
+		filename = renameFile(setting.UploadFormat, filename)
 	}
 
 	task := srv.fs.SubmitTask(&fs.UploadTask{
@@ -152,7 +128,7 @@ func (srv *serviceImpl) upload(ctx context.Context, req *pb.FileRequest, reader 
 		return nil, err
 	}
 
-	info, err := srv.fs.Stat(ctx, filepath.Join(req.GetPath(), filename))
+	info, err := srv.fs.Stat(ctx, stdpath.Join(req.GetPath(), filename))
 	if err != nil {
 		return nil, err
 	}

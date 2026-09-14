@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"errors"
-	mapledriver "github.com/honmaple/maple-file/server/internal/api/file/provider/driver"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/driver"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 )
 
@@ -65,7 +65,7 @@ func (srv *serviceImpl) TestRepo(ctx context.Context, req *pb.TestRepoRequest) (
 		return nil, err
 	}
 
-	fs, err := mapledriver.NewCloudFS(opt.Driver, opt.Option)
+	fs, err := driver.NewCloudFS(opt.Driver, opt.Option)
 	if err != nil {
 		return nil, err
 	}

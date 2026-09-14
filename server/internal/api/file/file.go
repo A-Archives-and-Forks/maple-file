@@ -39,11 +39,11 @@ func Provide(i do.Injector) {
 		if err != nil {
 			return nil, err
 		}
-		repository, err := do.Invoke[Repository](i)
+		settings, err := do.Invoke[base.Repository](i)
 		if err != nil {
 			return nil, err
 		}
-		settings, err := do.Invoke[base.Repository](i)
+		repository, err := do.Invoke[Repository](i)
 		if err != nil {
 			return nil, err
 		}

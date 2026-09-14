@@ -3,7 +3,7 @@ package fs
 import (
 	"fmt"
 	"os"
-	filepath "path"
+	stdpath "path"
 
 	"github.com/honmaple/cloudfs"
 	"github.com/honmaple/maple-file/server/internal/platform/runner"
@@ -65,7 +65,7 @@ func move(task runner.Task, srcFS cloudfs.FS, srcPath string, dstFS cloudfs.FS, 
 		}
 		defer src.Close()
 
-		dst, err := dstFS.Create(ctx, filepath.Join(dstPath, srcFile.Name()))
+		dst, err := dstFS.Create(ctx, stdpath.Join(dstPath, srcFile.Name()))
 		if err != nil {
 			return err
 		}
@@ -97,8 +97,8 @@ func move(task runner.Task, srcFS cloudfs.FS, srcPath string, dstFS cloudfs.FS, 
 		case <-ctx.Done():
 			return ctx.Err()
 		default:
-			src := filepath.Join(srcPath, file.Name())
-			dst := filepath.Join(dstPath, srcFile.Name())
+			src := stdpath.Join(srcPath, file.Name())
+			dst := stdpath.Join(dstPath, srcFile.Name())
 			if err := move(task, srcFS, src, dstFS, dst); err != nil {
 				return err
 			}

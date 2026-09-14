@@ -3,7 +3,7 @@ package fs
 import (
 	"fmt"
 	"io"
-	filepath "path"
+	stdpath "path"
 
 	"github.com/honmaple/cloudfs"
 	"github.com/honmaple/maple-file/server/internal/platform/runner"
@@ -22,7 +22,7 @@ func (opt *UploadTask) String() string {
 }
 
 func (opt *UploadTask) Execute(task runner.Task, fs FS) error {
-	dstFS, dstPath, err := fs.GetFS(filepath.Join(opt.Path, opt.Filename))
+	dstFS, dstPath, err := fs.GetFS(stdpath.Join(opt.Path, opt.Filename))
 	if err != nil {
 		return err
 	}

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/fs"
-	filepath "path"
+	stdpath "path"
 	"strings"
 	"time"
 
@@ -83,7 +83,7 @@ func NewCommonWraps(opt *CommonOption) ([]cloudfs.WrapFunc, error) {
 				if opt.RootPath == "" {
 					return path
 				}
-				return filepath.Join(opt.RootPath, path)
+				return stdpath.Join(opt.RootPath, path)
 			},
 			FileFn: func(file cloudfs.FileInfo) (cloudfs.FileInfo, bool) {
 				if opt.RootPath != "" {
@@ -106,7 +106,7 @@ func included(file cloudfs.FileInfo, types []string) bool {
 	if len(types) == 0 {
 		return false
 	}
-	ext := filepath.Ext(file.Name())
+	ext := stdpath.Ext(file.Name())
 	for _, typ := range types {
 		exclude := false
 		if strings.HasPrefix(typ, "-") {
@@ -119,9 +119,9 @@ func included(file cloudfs.FileInfo, types []string) bool {
 
 		name := file.Name()
 		if strings.Contains(typ, "/") {
-			name = strings.TrimPrefix(filepath.Join(file.Path(), name), "/")
+			name = strings.TrimPrefix(stdpath.Join(file.Path(), name), "/")
 		}
-		if m, _ := filepath.Match(typ, name); m {
+		if m, _ := stdpath.Match(typ, name); m {
 			return !exclude
 		}
 	}
@@ -157,10 +157,10 @@ func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, 
 		return nil, err
 	}
 
-	if path == filepath.Dir(d.opt.Path) {
+	if path == stdpath.Dir(d.opt.Path) {
 		exists := false
 		for i, file := range files {
-			if file.IsDir() && file.Name() == filepath.Base(d.opt.Path) {
+			if file.IsDir() && file.Name() == stdpath.Base(d.opt.Path) {
 				files[i] = cloudfs.NewFileInfo(file, func(info *cloudfs.Entry) {
 					info.Type = "RECYCLE"
 				})
@@ -169,7 +169,7 @@ func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, 
 			}
 		}
 		if !exists {
-			files = append(files, NewDir(path, filepath.Base(d.opt.Path), func(entry *cloudfs.Entry) {
+			files = append(files, NewDir(path, stdpath.Base(d.opt.Path), func(entry *cloudfs.Entry) {
 				entry.Type = "RECYCLE"
 				entry.Mode = fs.ModeDir
 			}))
@@ -182,9 +182,9 @@ func (d *recycleFS) Remove(ctx context.Context, path string) error {
 	if pathutil.IsSubPath(d.opt.Path, path) {
 		return d.FS.Remove(ctx, path)
 	}
-	newName := fmt.Sprintf("%s.%s", filepath.Base(path), time.Now().Format("20060102150405"))
+	newName := fmt.Sprintf("%s.%s", stdpath.Base(path), time.Now().Format("20060102150405"))
 	if err := d.FS.Rename(ctx, path, newName); err != nil {
 		return err
 	}
-	return d.FS.Move(ctx, filepath.Join(filepath.Dir(path), newName), d.opt.Path)
+	return d.FS.Move(ctx, stdpath.Join(stdpath.Dir(path), newName), d.opt.Path)
 }
