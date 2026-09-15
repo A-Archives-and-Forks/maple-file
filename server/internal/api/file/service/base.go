@@ -33,10 +33,11 @@ type (
 		pb.UnimplementedFileServiceServer
 		pb.UnimplementedRepoServiceServer
 		pb.UnimplementedExternalServerServiceServer
-		fs       fs.FS
 		ctx      *types.Context
 		repo     repository.Repository
 		settings SettingLoader
+		fs       fs.FS
+		resolver fs.RepoResolver
 		servers  cacheutil.Cache[string, server.Server]
 	}
 	SettingLoader interface {
@@ -173,7 +174,9 @@ func (srv *serviceImpl) RegisterHTTP(e *echo.Echo) {
 }
 
 func New(ctx *types.Context, repo repository.Repository, settings SettingLoader) (Service, error) {
-	if err := ctx.DB.AutoMigrate(new(pb.Repo)); err != nil {
+	if err := ctx.DB.AutoMigrate(
+		new(pb.Repo),
+	); err != nil {
 		return nil, err
 	}
 	srv := &serviceImpl{
@@ -182,11 +185,12 @@ func New(ctx *types.Context, repo repository.Repository, settings SettingLoader)
 		settings: settings,
 		servers:  cacheutil.New[string, server.Server](),
 	}
-	fsys, err := fs.New(ctx, repo)
+	resolver, err := fs.NewRepoResolver(ctx.Context, repo)
 	if err != nil {
 		return nil, err
 	}
-	srv.fs = fsys
+	srv.fs = fs.New(ctx, resolver)
+	srv.resolver = resolver
 
 	go srv.cleanThumbFile()
 	return srv, nil

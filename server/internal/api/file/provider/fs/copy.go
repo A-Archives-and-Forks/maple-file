@@ -10,17 +10,17 @@ import (
 	"github.com/honmaple/maple-file/server/internal/platform/utils/ioutil"
 )
 
-type CopyTaskOption struct {
+type CopyTask struct {
 	SrcPath  string `json:"src_path"`
 	DstPath  string `json:"dst_path"`
 	Override bool   `json:"override"`
 }
 
-func (opt *CopyTaskOption) String() string {
+func (opt *CopyTask) String() string {
 	return fmt.Sprintf("复制 [%s] to [%s]", opt.SrcPath, opt.DstPath)
 }
 
-func (opt *CopyTaskOption) Execute(task runner.Task, fs FS) error {
+func (opt *CopyTask) Execute(task runner.Task, fs FS) error {
 	srcFS, srcPath, err := fs.GetFS(opt.SrcPath)
 	if err != nil {
 		return err

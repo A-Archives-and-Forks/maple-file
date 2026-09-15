@@ -17,7 +17,7 @@ import (
 	"github.com/honmaple/maple-file/server/internal/platform/utils/ioutil"
 )
 
-type ThumbTaskOption struct {
+type ThumbTask struct {
 	Path          string `json:"path"`
 	ThumbFilePath string `json:"thumb_file_path"`
 
@@ -26,11 +26,11 @@ type ThumbTaskOption struct {
 	Quality int `json:"quality"`
 }
 
-func (opt *ThumbTaskOption) String() string {
+func (opt *ThumbTask) String() string {
 	return fmt.Sprintf("生成缩略图 [%s]", opt.Path)
 }
 
-func (opt *ThumbTaskOption) Execute(task runner.Task, fs FS) error {
+func (opt *ThumbTask) Execute(task runner.Task, fs FS) error {
 	info, err := fs.Stat(task.Context(), opt.Path)
 	if err != nil {
 		return err
@@ -38,7 +38,7 @@ func (opt *ThumbTaskOption) Execute(task runner.Task, fs FS) error {
 	return opt.generateThumb(task, fs, info)
 }
 
-func (opt *ThumbTaskOption) generateThumb(task runner.Task, fs cloudfs.FS, info cloudfs.FileInfo) error {
+func (opt *ThumbTask) generateThumb(task runner.Task, fs cloudfs.FS, info cloudfs.FileInfo) error {
 	ctx := task.Context()
 
 	// 临时限制,只生成图片缩略图
@@ -100,16 +100,16 @@ func (opt *ThumbTaskOption) generateThumb(task runner.Task, fs cloudfs.FS, info 
 	return err
 }
 
-type ThumbCleanTaskOption struct {
+type ThumbCleanTask struct {
 	ThumbPath  string        `json:"thumb_path"`
 	ExpireTime time.Duration `json:"expire_time"`
 }
 
-func (opt *ThumbCleanTaskOption) String() string {
+func (opt *ThumbCleanTask) String() string {
 	return "清理缩略图"
 }
 
-func (opt *ThumbCleanTaskOption) Execute(task runner.Task) error {
+func (opt *ThumbCleanTask) Execute(task runner.Task) error {
 	// 过期时间设置为一个月
 	if opt.ExpireTime <= 0 {
 		opt.ExpireTime = 24 * 30

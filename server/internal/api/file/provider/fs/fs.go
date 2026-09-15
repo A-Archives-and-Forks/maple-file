@@ -8,214 +8,200 @@ import (
 	"time"
 
 	"github.com/honmaple/cloudfs"
-	"github.com/honmaple/maple-file/server/internal/api/file/provider/driver"
 	"github.com/honmaple/maple-file/server/internal/api/file/types"
 	"github.com/honmaple/maple-file/server/internal/platform/runner"
-	"github.com/honmaple/maple-file/server/internal/platform/utils/cacheutil"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/pathutil"
-
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 )
 
 type (
-	Task interface {
-		Run() error
-	}
-	TaskOption interface {
-		String() string
-		Execute(runner.Task, FS) error
-	}
 	FS interface {
 		cloudfs.FS
 		GetFS(string) (cloudfs.FS, string, error)
-		GetRepo(string) *pb.Repo
-		CreateRepo(*pb.Repo)
-		UpdateRepo(*pb.Repo, *pb.Repo)
-		DeleteRepo(*pb.Repo)
-		SubmitTask(TaskOption) runner.Task
+		SubmitTask(Task) runner.Task
 	}
-	RepoLoader interface {
-		ListRepos(context.Context) ([]*pb.Repo, error)
+	Task interface {
+		String() string
+		Execute(runner.Task, FS) error
 	}
 )
 
 type defaultFS struct {
-	cloudfs.FS
-	ctx   *types.Context
-	cache cacheutil.Cache[string, cloudfs.FS]
-	repos cacheutil.Cache[string, *pb.Repo]
+	ctx      *types.Context
+	resolver RepoResolver
 }
+
+var _ FS = (*defaultFS)(nil)
 
 func (d *defaultFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
 	results := make([]cloudfs.FileInfo, 0)
 	repoMap := make(map[string]bool)
-	if path != "/" && d.GetRepo(path) != nil {
-		files, err := d.FS.List(ctx, path)
+	if path != "/" && d.resolver.Get(path) != nil {
+		fs, realPath, err := d.GetFS(path)
 		if err != nil {
 			return nil, err
 		}
+		files, err := fs.List(ctx, realPath)
+		if err != nil {
+			return nil, err
+		}
+		root := strings.TrimSuffix(path, realPath)
 		for _, file := range files {
 			if file.IsDir() {
 				repoMap[file.Name()] = true
 			}
-			results = append(results, file)
+			results = append(results, NewFile(stdpath.Join(root, file.Path()), file))
 		}
 	}
 
-	for _, repo := range d.repos.Iter() {
+	d.resolver.Range(func(repo *pb.Repo) bool {
 		if !repo.GetStatus() {
-			continue
+			return true
 		}
 		if path == repo.GetPath() {
 			if name := repo.GetName(); !repoMap[name] {
-				results = append(results, driver.NewDir(path, name, func(entry *cloudfs.Entry) {
-					entry.ModTime = repo.UpdatedAt.AsTime()
+				results = append(results, NewDir(path, name, func(entry *cloudfs.Entry) {
+					entry.ModTime = repo.GetUpdatedAt().AsTime()
 				}))
 				repoMap[name] = true
 			}
 		} else if pathutil.IsSubPath(path, repo.GetPath()) {
-			relPath := ""
-			if strings.HasSuffix(path, "/") {
-				relPath = strings.TrimPrefix(repo.GetPath(), path)
-			} else {
-				relPath = strings.TrimPrefix(repo.GetPath(), path+"/")
-			}
+			relPath := strings.TrimPrefix(repo.GetPath(), strings.TrimSuffix(path, "/")+"/")
 			if root := strings.SplitN(relPath, "/", 2); len(root) > 0 && !repoMap[root[0]] {
-				results = append(results, driver.NewDir(path, root[0], func(entry *cloudfs.Entry) {
-					entry.ModTime = repo.UpdatedAt.AsTime()
+				results = append(results, NewDir(path, root[0], func(entry *cloudfs.Entry) {
+					entry.ModTime = repo.GetUpdatedAt().AsTime()
 				}))
 				repoMap[root[0]] = true
 			}
 		}
-	}
+		return true
+	})
 	return results, nil
 }
 
 func (d *defaultFS) Stat(ctx context.Context, path string) (cloudfs.FileInfo, error) {
-	// webdav server必须先获取目录信息，所以这里需要特殊处理一下
 	if path == "/" {
-		return driver.NewDir("/", "/", func(entry *cloudfs.Entry) {
+		return NewDir("/", "/", func(entry *cloudfs.Entry) {
 			entry.ModTime = time.Now()
 		}), nil
 	}
 
-	repo := d.GetRepo(path)
+	repo := d.resolver.Get(path)
 	if repo == nil {
-		// 获取虚拟路径
-		for _, repo := range d.repos.Iter() {
-			if !repo.GetStatus() {
-				continue
+		var result cloudfs.FileInfo
+		d.resolver.Range(func(repo *pb.Repo) bool {
+			if repo.GetStatus() && pathutil.IsSubPath(path, repo.GetPath()) {
+				result = NewDir(stdpath.Dir(path), stdpath.Base(path), func(entry *cloudfs.Entry) {
+					entry.ModTime = repo.GetUpdatedAt().AsTime()
+				})
+				return false
 			}
-			// /a/b:/a/b/c
-			if pathutil.IsSubPath(path, repo.Path) {
-				return driver.NewDir(stdpath.Dir(path), stdpath.Base(path), func(entry *cloudfs.Entry) {
-					entry.ModTime = repo.UpdatedAt.AsTime()
-				}), nil
-			}
+			return true
+		})
+		if result != nil {
+			return result, nil
 		}
 		return nil, os.ErrNotExist
 	}
-	if path == stdpath.Join(repo.Path, repo.Name) {
-		return driver.NewDir(repo.Path, repo.Name, func(entry *cloudfs.Entry) {
-			entry.ModTime = repo.UpdatedAt.AsTime()
+	if path == stdpath.Join(repo.GetPath(), repo.GetName()) {
+		return NewDir(repo.GetPath(), repo.GetName(), func(entry *cloudfs.Entry) {
+			entry.ModTime = repo.GetUpdatedAt().AsTime()
 		}), nil
 	}
-	return d.FS.Stat(ctx, path)
-}
 
-func (d *defaultFS) GetFS(path string) (cloudfs.FS, string, error) {
-	repo := d.GetRepo(path)
-	if repo == nil {
-		return nil, "", os.ErrNotExist
-	}
-
-	rootPath := stdpath.Join(repo.GetPath(), repo.GetName())
-
-	realPath := strings.TrimPrefix(path, rootPath)
-	if !strings.HasPrefix(realPath, "/") {
-		realPath = "/" + realPath
-	}
-	if v, ok := d.cache.Load(rootPath); ok {
-		return v, realPath, nil
-	}
-
-	fs, err := driver.NewCloudFS(repo.Driver, repo.Option)
+	fs, realPath, err := d.GetFS(path)
 	if err != nil {
-		return nil, "", err
+		return nil, err
 	}
-	d.cache.Store(rootPath, fs)
-	return fs, realPath, nil
-}
-
-func (d *defaultFS) GetRepo(path string) *pb.Repo {
-	path = pathutil.CleanPath(path)
-
-	var (
-		repo    *pb.Repo
-		pathstr = path
-	)
-
-	for {
-		if v, ok := d.repos.Load(pathstr); ok && v.Status {
-			repo = v
-			break
-		}
-		index := strings.LastIndex(pathstr, "/")
-		if index <= 0 {
-			break
-		}
-		pathstr = pathstr[:index]
+	file, err := fs.Stat(ctx, realPath)
+	if err != nil {
+		return nil, err
 	}
-	return repo
+	return NewFile(stdpath.Join(strings.TrimSuffix(path, realPath), file.Path()), file), nil
 }
 
-func (d *defaultFS) CreateRepo(repo *pb.Repo) {
-	d.repos.Store(stdpath.Join(repo.GetPath(), repo.GetName()), repo)
-}
-
-func (d *defaultFS) UpdateRepo(oldRepo, repo *pb.Repo) {
-	d.DeleteRepo(oldRepo)
-	d.CreateRepo(repo)
-}
-
-func (d *defaultFS) DeleteRepo(repo *pb.Repo) {
-	rootPath := stdpath.Join(repo.GetPath(), repo.GetName())
-
-	fs, ok := d.cache.Load(rootPath)
-	if ok {
-		_ = fs.Close()
+func (d *defaultFS) Open(ctx context.Context, path string) (cloudfs.File, error) {
+	fs, realPath, err := d.GetFS(path)
+	if err != nil {
+		return nil, err
 	}
-
-	d.repos.Delete(rootPath)
-	d.cache.Delete(rootPath)
+	return fs.Open(ctx, realPath)
 }
 
-func (d *defaultFS) SubmitTask(opt TaskOption) runner.Task {
-	return d.ctx.Runner.SubmitByOption(runner.NewFuncOptionWithArg[FS](opt, d))
+func (d *defaultFS) Create(ctx context.Context, path string) (cloudfs.FileWriter, error) {
+	fs, realPath, err := d.GetFS(path)
+	if err != nil {
+		return nil, err
+	}
+	return fs.Create(ctx, realPath)
 }
 
-func (d *defaultFS) loadRepos(ctx context.Context, loader RepoLoader) error {
-	repos, err := loader.ListRepos(ctx)
+func (d *defaultFS) Copy(ctx context.Context, src, dst string) error {
+	srcFS, srcPath, err := d.GetFS(src)
 	if err != nil {
 		return err
 	}
-
-	for _, repo := range repos {
-		d.repos.Store(stdpath.Join(repo.GetPath(), repo.GetName()), repo)
+	_, dstPath, err := d.GetFS(dst)
+	if err != nil {
+		return err
 	}
+	if strings.TrimSuffix(src, srcPath) != strings.TrimSuffix(dst, dstPath) {
+		return cloudfs.ErrNotSupport
+	}
+	return srcFS.Copy(ctx, srcPath, dstPath)
+}
+
+func (d *defaultFS) Move(ctx context.Context, src, dst string) error {
+	srcFS, srcPath, err := d.GetFS(src)
+	if err != nil {
+		return err
+	}
+	_, dstPath, err := d.GetFS(dst)
+	if err != nil {
+		return err
+	}
+	if strings.TrimSuffix(src, srcPath) != strings.TrimSuffix(dst, dstPath) {
+		return cloudfs.ErrNotSupport
+	}
+	return srcFS.Move(ctx, srcPath, dstPath)
+}
+
+func (d *defaultFS) Rename(ctx context.Context, path, newName string) error {
+	fs, realPath, err := d.GetFS(path)
+	if err != nil {
+		return err
+	}
+	return fs.Rename(ctx, realPath, newName)
+}
+
+func (d *defaultFS) Remove(ctx context.Context, path string) error {
+	fs, realPath, err := d.GetFS(path)
+	if err != nil {
+		return err
+	}
+	return fs.Remove(ctx, realPath)
+}
+
+func (d *defaultFS) MakeDir(ctx context.Context, path string) error {
+	fs, realPath, err := d.GetFS(path)
+	if err != nil {
+		return err
+	}
+	return fs.MakeDir(ctx, realPath)
+}
+
+func (d *defaultFS) Close() error {
 	return nil
 }
 
-func New(ctx *types.Context, loader RepoLoader) (FS, error) {
-	d := &defaultFS{
-		ctx:   ctx,
-		cache: cacheutil.New[string, cloudfs.FS](),
-		repos: cacheutil.New[string, *pb.Repo](),
-	}
-	d.FS = driver.NewFS(d.GetFS, nil)
+func (d *defaultFS) GetFS(path string) (cloudfs.FS, string, error) {
+	return d.resolver.Resolve(path)
+}
 
-	if err := d.loadRepos(context.Background(), loader); err != nil {
-		return nil, err
-	}
-	return d, nil
+func (d *defaultFS) SubmitTask(task Task) runner.Task {
+	return d.ctx.Runner.SubmitByOption(runner.NewFuncOptionWithArg[FS](task, d))
+}
+
+func New(ctx *types.Context, resolver RepoResolver) FS {
+	return &defaultFS{ctx: ctx, resolver: resolver}
 }

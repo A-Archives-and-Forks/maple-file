@@ -2,21 +2,7 @@ package structutil
 
 import (
 	"reflect"
-
-	"github.com/spf13/viper"
 )
-
-type Filter struct {
-	*viper.Viper
-}
-
-func NewFilter(m map[string]string) *Filter {
-	cf := viper.New()
-	for k, v := range m {
-		cf.Set(k, v)
-	}
-	return &Filter{cf}
-}
 
 type replaceTag[T any] struct {
 	newModel any

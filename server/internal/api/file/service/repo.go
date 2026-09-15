@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/honmaple/maple-file/server/internal/api/file/provider/driver"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 )
 
@@ -28,7 +28,7 @@ func (srv *serviceImpl) CreateRepo(ctx context.Context, req *pb.Repo_CreateReque
 	if err != nil {
 		return nil, err
 	}
-	srv.fs.CreateRepo(result)
+	srv.resolver.Create(result)
 	return &pb.Repo_CreateResponse{Result: result}, nil
 }
 
@@ -42,7 +42,7 @@ func (srv *serviceImpl) UpdateRepo(ctx context.Context, req *pb.Repo_UpdateReque
 	if err != nil {
 		return nil, err
 	}
-	srv.fs.UpdateRepo(old, result)
+	srv.resolver.Update(old, result)
 	return &pb.Repo_UpdateResponse{Result: old}, nil
 }
 
@@ -51,7 +51,7 @@ func (srv *serviceImpl) DeleteRepo(ctx context.Context, req *pb.Repo_DeleteReque
 	if err != nil {
 		return nil, err
 	}
-	srv.fs.DeleteRepo(ins)
+	srv.resolver.Delete(ins)
 	return &pb.Repo_DeleteResponse{}, nil
 }
 
@@ -65,7 +65,7 @@ func (srv *serviceImpl) TestRepo(ctx context.Context, req *pb.Repo_TestRequest) 
 		return nil, err
 	}
 
-	fs, err := driver.NewCloudFS(opt.Driver, opt.Option)
+	fs, err := fs.NewCloudFS(opt.Driver, opt.Option)
 	if err != nil {
 		return nil, err
 	}

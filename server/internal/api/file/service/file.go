@@ -11,18 +11,18 @@ import (
 
 	"github.com/honmaple/cloudfs"
 	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
+	"github.com/honmaple/maple-file/server/internal/api/shared"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/ioutil"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/pathutil"
-	"github.com/honmaple/maple-file/server/internal/platform/utils/structutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 )
 
 func (srv *serviceImpl) List(ctx context.Context, req *pb.File_ListRequest) (*pb.File_ListResponse, error) {
-	filter := structutil.NewFilter(req.GetFilter())
+	filter := shared.NewFilter(req.GetFilter())
 
-	path := cloudfs.PathWithValues(pathutil.CleanPath(filter.GetString("path")), fs.WithQueryParams(
-		fs.WithOrder(filter.GetString("order"), filter.GetBool("desc")),
-		fs.WithPagination(filter.GetInt("page"), filter.GetInt("page_size")),
+	path := cloudfs.PathWithValues(pathutil.CleanPath(filter.GetString("path")), shared.WithQueryParams(
+		shared.WithOrder(filter.GetString("order"), filter.GetBool("desc")),
+		shared.WithPagination(filter.GetInt("page"), filter.GetInt("page_size")),
 	))
 	files, err := srv.fs.List(ctx, path)
 	if err != nil {
@@ -60,7 +60,7 @@ func (srv *serviceImpl) Move(ctx context.Context, req *pb.File_MoveRequest) (*pb
 
 		fmt.Println("move", oldPath, newPath)
 
-		srv.fs.SubmitTask(&fs.MoveTaskOption{
+		srv.fs.SubmitTask(&fs.MoveTask{
 			SrcPath: oldPath,
 			DstPath: newPath,
 		})
@@ -75,7 +75,7 @@ func (srv *serviceImpl) Copy(ctx context.Context, req *pb.File_CopyRequest) (*pb
 
 		fmt.Println("copy", oldPath, newPath)
 
-		srv.fs.SubmitTask(&fs.CopyTaskOption{
+		srv.fs.SubmitTask(&fs.CopyTask{
 			SrcPath: oldPath,
 			DstPath: newPath,
 		})
@@ -87,7 +87,7 @@ func (srv *serviceImpl) Remove(ctx context.Context, req *pb.File_RemoveRequest) 
 	for _, name := range req.GetNames() {
 		fmt.Println("remove", stdpath.Join(req.GetPath(), name))
 
-		srv.fs.SubmitTask(&fs.RemoveTaskOption{
+		srv.fs.SubmitTask(&fs.RemoveTask{
 			Path: stdpath.Join(req.GetPath(), name),
 		})
 	}

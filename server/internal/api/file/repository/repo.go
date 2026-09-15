@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/honmaple/maple-file/server/internal/api/file/provider/driver"
+	"github.com/honmaple/maple-file/server/internal/api/file/provider/fs"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/pathutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 )
@@ -40,7 +40,7 @@ func (repo *repository) VerifyRepo(value *pb.Repo) error {
 	if result.RowsAffected > 0 && old.GetId() != value.GetId() {
 		return errors.New("重复挂载")
 	}
-	return driver.Verify(value.GetDriver(), value.GetOption())
+	return fs.Verify(value.GetDriver(), value.GetOption())
 }
 
 func (repo *repository) ListRepos(ctx context.Context) ([]*pb.Repo, error) {

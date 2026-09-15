@@ -49,7 +49,7 @@ func (srv *serviceImpl) thumbFile(ctx context.Context, path string, info cloudfs
 
 	if regenerate {
 		setting := srv.getFileSetting(ctx)
-		task := srv.fs.SubmitTask(&fs.ThumbTaskOption{
+		task := srv.fs.SubmitTask(&fs.ThumbTask{
 			Path:          path,
 			ThumbFilePath: thumbPath,
 			Width:         setting.Thumb.Width,
@@ -70,7 +70,7 @@ func (srv *serviceImpl) cleanThumbFile() {
 	setting := srv.getFileSetting(ctx)
 
 	if setting.Thumb.AutoClean {
-		srv.ctx.Runner.SubmitByOption(&fs.ThumbCleanTaskOption{
+		srv.ctx.Runner.SubmitByOption(&fs.ThumbCleanTask{
 			ThumbPath:  srv.thumbPath(),
 			ExpireTime: 24 * 30,
 		})

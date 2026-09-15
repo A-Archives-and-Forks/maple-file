@@ -10,17 +10,17 @@ import (
 	"github.com/honmaple/maple-file/server/internal/platform/utils/ioutil"
 )
 
-type MoveTaskOption struct {
+type MoveTask struct {
 	SrcPath  string `json:"src_path"`
 	DstPath  string `json:"dst_path"`
 	Override bool   `json:"override"`
 }
 
-func (opt *MoveTaskOption) String() string {
+func (opt *MoveTask) String() string {
 	return fmt.Sprintf("移动 [%s] to [%s]", opt.SrcPath, opt.DstPath)
 }
 
-func (opt *MoveTaskOption) Execute(task runner.Task, fs FS) error {
+func (opt *MoveTask) Execute(task runner.Task, fs FS) error {
 	srcFS, srcPath, err := fs.GetFS(opt.SrcPath)
 	if err != nil {
 		return err

@@ -1,20 +1,15 @@
-package driver
+package middleware
 
 import (
-	"context"
 	"encoding/json"
-	"fmt"
-	"io/fs"
 	stdpath "path"
 	"strings"
-	"time"
 
 	"github.com/honmaple/cloudfs"
 	cloudmiddleware "github.com/honmaple/cloudfs/middleware"
 	"github.com/honmaple/maple-file/server/internal/platform/utils/pathutil"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/structutil"
 )
-
-const recycleName = ".maplerecycle"
 
 type CommonOption struct {
 	RootPath        string                          `json:"root_path" validate:"omitempty,startswith=/"`
@@ -24,26 +19,22 @@ type CommonOption struct {
 	Compress        bool                            `json:"compress"`
 	CompressOption  cloudmiddleware.CompressOption  `json:"compress_option"`
 	Recycle         bool                            `json:"recycle"`
-	RecycleOption   recycleOption                   `json:"recycle_option"`
+	RecycleOption   RecycleOption                   `json:"recycle_option"`
 	Cache           bool                            `json:"cache"`
 	CacheOption     cloudmiddleware.CacheOption     `json:"cache_option"`
 	RateLimit       bool                            `json:"rate_limit"`
 	RateLimitOption cloudmiddleware.RateLimitOption `json:"rate_limit_option"`
 }
 
-type recycleOption struct {
-	Path string `json:"path" validate:"omitempty,startswith=/"`
-}
-
-func verifyWrapOptionJSON(option string) error {
+func VerifyOptionJSON(option string) error {
 	var opt CommonOption
 	if err := json.Unmarshal([]byte(option), &opt); err != nil {
 		return err
 	}
-	return VerifyOption(&opt)
+	return structutil.VerifyOption(&opt)
 }
 
-func wrapFuncsFromJSON(option string) ([]cloudfs.WrapFunc, error) {
+func WrapFuncsFromJSON(option string) ([]cloudfs.WrapFunc, error) {
 	var opt CommonOption
 	if option == "" {
 		return NewCommonWraps(&opt)
@@ -55,7 +46,7 @@ func wrapFuncsFromJSON(option string) ([]cloudfs.WrapFunc, error) {
 }
 
 func NewCommonWraps(opt *CommonOption) ([]cloudfs.WrapFunc, error) {
-	if err := VerifyOption(opt); err != nil {
+	if err := structutil.VerifyOption(opt); err != nil {
 		return nil, err
 	}
 
@@ -126,65 +117,4 @@ func included(file cloudfs.FileInfo, types []string) bool {
 		}
 	}
 	return false
-}
-
-func recycleWrap(opt *recycleOption) cloudfs.WrapFunc {
-	return func(fs cloudfs.FS) (cloudfs.FS, error) {
-		if opt.Path == "" {
-			opt.Path = "/" + recycleName
-		}
-		return &recycleFS{FS: fs, opt: opt}, nil
-	}
-}
-
-type recycleFS struct {
-	cloudfs.FS
-	opt *recycleOption
-}
-
-func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
-	if path == d.opt.Path {
-		_, err := d.FS.Stat(ctx, path)
-		if err != nil {
-			err = d.FS.MakeDir(ctx, path)
-		}
-		if err != nil {
-			return nil, err
-		}
-	}
-	files, err := d.FS.List(ctx, path)
-	if err != nil {
-		return nil, err
-	}
-
-	if path == stdpath.Dir(d.opt.Path) {
-		exists := false
-		for i, file := range files {
-			if file.IsDir() && file.Name() == stdpath.Base(d.opt.Path) {
-				files[i] = cloudfs.NewFileInfo(file, func(info *cloudfs.Entry) {
-					info.Type = "RECYCLE"
-				})
-				exists = true
-				break
-			}
-		}
-		if !exists {
-			files = append(files, NewDir(path, stdpath.Base(d.opt.Path), func(entry *cloudfs.Entry) {
-				entry.Type = "RECYCLE"
-				entry.Mode = fs.ModeDir
-			}))
-		}
-	}
-	return files, nil
-}
-
-func (d *recycleFS) Remove(ctx context.Context, path string) error {
-	if pathutil.IsSubPath(d.opt.Path, path) {
-		return d.FS.Remove(ctx, path)
-	}
-	newName := fmt.Sprintf("%s.%s", stdpath.Base(path), time.Now().Format("20060102150405"))
-	if err := d.FS.Rename(ctx, path, newName); err != nil {
-		return err
-	}
-	return d.FS.Move(ctx, stdpath.Join(stdpath.Dir(path), newName), d.opt.Path)
 }
