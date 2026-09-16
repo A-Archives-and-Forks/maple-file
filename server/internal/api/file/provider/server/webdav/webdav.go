@@ -1,15 +1,17 @@
 package webdav
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"net/http"
+	"runtime"
+	"strconv"
 	"sync"
 
 	"github.com/honmaple/cloudfs"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"golang.org/x/net/context"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 	"golang.org/x/net/webdav"
@@ -38,6 +40,21 @@ type Webdav struct {
 	err      error
 }
 
+func listenAddr(goos, host string, port int) string {
+	if goos != "android" {
+		host = "0.0.0.0"
+	}
+	return net.JoinHostPort(host, strconv.Itoa(port))
+}
+
+func advertiseAddr(addr net.Addr, host string) string {
+	tcpAddr, ok := addr.(*net.TCPAddr)
+	if !ok {
+		return addr.String()
+	}
+	return net.JoinHostPort(host, strconv.Itoa(tcpAddr.Port))
+}
+
 func (d *Webdav) basicAuth(username, password string, c echo.Context) (bool, error) {
 	if username == d.opt.Username && password == d.opt.Password {
 		return true, nil
@@ -56,7 +73,7 @@ func (d *Webdav) Status() server.ServerStatus {
 	}
 
 	if d.listener != nil {
-		status.Addr = d.listener.Addr().String()
+		status.Addr = advertiseAddr(d.listener.Addr(), d.opt.Host)
 		status.Running = true
 	}
 	return status
@@ -69,7 +86,10 @@ func (d *Webdav) Start() error {
 		}
 	}
 
-	listener, err := net.Listen("tcp4", fmt.Sprintf("%s:%d", d.opt.Host, d.opt.Port))
+	listener, err := net.Listen(
+		"tcp4",
+		listenAddr(runtime.GOOS, d.opt.Host, d.opt.Port),
+	)
 	if err != nil {
 		return err
 	}

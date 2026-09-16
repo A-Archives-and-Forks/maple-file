@@ -68,13 +68,18 @@ class Util {
   }
 
   static bool isPrivateIP(String ip) {
-    final List<String> masks = ["10.", "172.16.", "192.168."];
-    for (final mask in masks) {
-      if (ip.startsWith(mask)) {
-        return true;
-      }
+    final octets = ip.split('.').map(int.tryParse).toList();
+    if (octets.length != 4 ||
+        octets.any((octet) => octet == null || octet < 0 || octet > 255)) {
+      return false;
     }
-    return false;
+
+    final first = octets[0]!;
+    final second = octets[1]!;
+    // RFC 1918: 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16.
+    return first == 10 ||
+        (first == 172 && second >= 16 && second <= 31) ||
+        (first == 192 && second == 168);
   }
 
   static Future<String?> localIP() async {

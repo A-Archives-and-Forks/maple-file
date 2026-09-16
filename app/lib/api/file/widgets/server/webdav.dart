@@ -128,6 +128,35 @@ class _WebdavServerState extends ConsumerState<WebdavServer> {
                           ],
                         ),
                       ),
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(24, 12, 24, 0),
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              WidgetSpan(
+                                child: Icon(
+                                  Icons.error_outline,
+                                  size: 16,
+                                  color: themeData.colorScheme.outline,
+                                ),
+                              ),
+                              const TextSpan(text: " "),
+                              TextSpan(
+                                text:
+                                    "若 iPhone 或 iPad 上的 WebDAV 客户端无法连接，请在系统设置中允许该客户端访问本地网络。"
+                                        .tr(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color: themeData.colorScheme.outline,
+                                    ),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ],
                   );
                 }

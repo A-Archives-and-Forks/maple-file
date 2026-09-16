@@ -7,6 +7,7 @@ import (
 const (
 	ApplicationPath = "app.path"
 	ServerAddr      = "server.addr"
+	ServerMode      = "server.mode"
 	ServerSecretKey = "server.secret_key"
 )
 

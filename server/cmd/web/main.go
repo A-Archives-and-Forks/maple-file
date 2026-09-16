@@ -29,7 +29,7 @@ func action(clx *cli.Context) error {
 		defaultConfig.Set(app.ServerAddr, addr)
 	}
 	if debug := clx.Bool("debug"); debug {
-		defaultConfig.Set("server.mode", "dev")
+		defaultConfig.Set(app.ServerMode, "dev")
 	}
 
 	injector := bootstrap.NewInjector(defaultConfig)

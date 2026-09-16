@@ -180,6 +180,7 @@ const enUS = {
   "最后更新于 %T": "Last updated at %T",
   "月": "month",
   "服务正在运行": "The service is running",
+  "若 iPhone 或 iPad 上的 WebDAV 客户端无法连接，请在系统设置中允许该客户端访问本地网络。": "If a WebDAV client on iPhone or iPad cannot connect, allow it to access the local network in Settings.",
   "未找到页面": "Not found",
   "未知": "Knonwn",
   "未知状态": "Known status",
