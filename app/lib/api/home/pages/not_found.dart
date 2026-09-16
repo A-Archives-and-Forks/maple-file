@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:maple_file/app/i18n.dart';
 
-class NotFound extends StatelessWidget {
-  const NotFound({super.key});
+class NotFoundScreen extends StatelessWidget {
+  const NotFoundScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

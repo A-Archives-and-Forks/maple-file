@@ -8,16 +8,16 @@ import "pages/setting_theme.dart";
 Future<void> init(CustomRouter router) async {
   router.registerMany({
     '/setting': (context) {
-      return const Setting();
+      return const SettingScreen();
     },
     '/setting/theme': (context) {
-      return const SettingTheme();
+      return const SettingThemeScreen();
     },
     '/setting/locale': (context) {
-      return const SettingLocale();
+      return const SettingLocaleScreen();
     },
     '/setting/backup': (context) {
-      return const SettingBackup();
+      return const SettingBackupScreen();
     },
   });
 }

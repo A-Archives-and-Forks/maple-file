@@ -8,14 +8,14 @@ import 'package:maple_file/common/widgets/platform.dart';
 
 import '../providers/setting_appearance.dart';
 
-class SettingLocale extends ConsumerStatefulWidget {
-  const SettingLocale({super.key});
+class SettingLocaleScreen extends ConsumerStatefulWidget {
+  const SettingLocaleScreen({super.key});
 
   @override
-  ConsumerState<SettingLocale> createState() => _SettingLocaleState();
+  ConsumerState<SettingLocaleScreen> createState() => _SettingLocaleState();
 }
 
-class _SettingLocaleState extends ConsumerState<SettingLocale> {
+class _SettingLocaleState extends ConsumerState<SettingLocaleScreen> {
   final List<(String, String)> _locales = [
     ("zh", "中文"),
     ("en", "English"),

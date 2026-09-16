@@ -12,14 +12,15 @@ import 'package:maple_file/api/setting/providers/setting_appearance.dart';
 
 import '../providers/file_setting.dart';
 
-class FileSettingTheme extends ConsumerStatefulWidget {
-  const FileSettingTheme({super.key});
+class FileSettingThemeScreen extends ConsumerStatefulWidget {
+  const FileSettingThemeScreen({super.key});
 
   @override
-  ConsumerState<FileSettingTheme> createState() => _FileSettingThemeState();
+  ConsumerState<FileSettingThemeScreen> createState() =>
+      _FileSettingThemeState();
 }
 
-class _FileSettingThemeState extends ConsumerState<FileSettingTheme> {
+class _FileSettingThemeState extends ConsumerState<FileSettingThemeScreen> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);

@@ -30,25 +30,25 @@ class HelpWebViewArgs {
   });
 }
 
-class HelpWebView extends StatefulWidget {
-  const HelpWebView({super.key, required this.title, required this.link});
+class HelpWebViewScreen extends StatefulWidget {
+  const HelpWebViewScreen({super.key, required this.title, required this.link});
 
   final String title;
   final String link;
 
-  factory HelpWebView.fromRoute(ModalRoute? route) {
+  factory HelpWebViewScreen.fromRoute(ModalRoute? route) {
     final args = route?.settings.arguments as HelpWebViewArgs;
-    return HelpWebView(
+    return HelpWebViewScreen(
       title: args.title,
       link: args.link,
     );
   }
 
   @override
-  State<HelpWebView> createState() => _HelpWebViewState();
+  State<HelpWebViewScreen> createState() => _HelpWebViewState();
 }
 
-class _HelpWebViewState extends State<HelpWebView> {
+class _HelpWebViewState extends State<HelpWebViewScreen> {
   late final WebViewController _controller;
 
   bool _loading = true;
@@ -217,8 +217,8 @@ List<HelpLink> drivers = [
   ),
 ];
 
-class Help extends StatelessWidget {
-  const Help({super.key});
+class HelpScreen extends StatelessWidget {
+  const HelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -275,16 +275,16 @@ class Help extends StatelessWidget {
   }
 }
 
-class DesktopHelp extends StatefulWidget {
-  const DesktopHelp({
+class DesktopHelpScreen extends StatefulWidget {
+  const DesktopHelpScreen({
     super.key,
   });
 
   @override
-  State<DesktopHelp> createState() => _DesktopHelpState();
+  State<DesktopHelpScreen> createState() => _DesktopHelpState();
 }
 
-class _DesktopHelpState extends State<DesktopHelp> {
+class _DesktopHelpState extends State<DesktopHelpScreen> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   _navigatorPush(String name) {

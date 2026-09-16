@@ -74,23 +74,23 @@ abstract class FilePreviewBaseState<T extends FilePreviewBase>
   }
 }
 
-class FilePreview extends ConsumerStatefulWidget {
+class FilePreviewScreen extends ConsumerStatefulWidget {
   final File file;
 
-  const FilePreview({super.key, required this.file});
+  const FilePreviewScreen({super.key, required this.file});
 
-  factory FilePreview.fromRoute(ModalRoute? route) {
+  factory FilePreviewScreen.fromRoute(ModalRoute? route) {
     final args = route?.settings.arguments as Map<String, dynamic>;
-    return FilePreview(
+    return FilePreviewScreen(
       file: args["file"],
     );
   }
 
   @override
-  ConsumerState<FilePreview> createState() => _FilePreviewState();
+  ConsumerState<FilePreviewScreen> createState() => _FilePreviewState();
 }
 
-class _FilePreviewState extends ConsumerState<FilePreview> {
+class _FilePreviewState extends ConsumerState<FilePreviewScreen> {
   (List<FileSource>, int) getFiles(List<File> allFiles) {
     List<File> files = allFiles.where((file) {
       return PathUtil.isVideo(file.name, type: file.type);

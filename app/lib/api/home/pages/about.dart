@@ -12,8 +12,8 @@ import 'package:maple_file/common/widgets/responsive.dart';
 
 import 'package:maple_file/api/setting/providers/info.dart';
 
-class About extends ConsumerWidget {
-  const About({super.key});
+class AboutScreen extends ConsumerWidget {
+  const AboutScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

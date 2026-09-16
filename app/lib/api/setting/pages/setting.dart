@@ -9,8 +9,8 @@ import 'package:maple_file/common/widgets/custom.dart';
 import 'package:maple_file/common/widgets/platform.dart';
 import 'package:maple_file/common/widgets/responsive.dart';
 
-class Setting extends StatelessWidget {
-  const Setting({super.key, this.navigatorKey});
+class SettingScreen extends StatelessWidget {
+  const SettingScreen({super.key, this.navigatorKey});
 
   final GlobalKey<NavigatorState>? navigatorKey;
 
@@ -177,16 +177,16 @@ class Setting extends StatelessWidget {
   }
 }
 
-class DesktopSetting extends StatefulWidget {
-  const DesktopSetting({
+class DesktopSettingScreen extends StatefulWidget {
+  const DesktopSettingScreen({
     super.key,
   });
 
   @override
-  State<DesktopSetting> createState() => _DesktopSettingState();
+  State<DesktopSettingScreen> createState() => _DesktopSettingState();
 }
 
-class _DesktopSettingState extends State<DesktopSetting> {
+class _DesktopSettingState extends State<DesktopSettingScreen> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState navigatorState(context) {

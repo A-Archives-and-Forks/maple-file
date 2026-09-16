@@ -7,7 +7,7 @@ import "pages/task_list.dart";
 Future<void> init(CustomRouter router) async {
   router.registerMany({
     '/task/list': (context) {
-      return TaskList.fromRoute(ModalRoute.of(context));
+      return TaskListScreen.fromRoute(ModalRoute.of(context));
     },
   });
 }

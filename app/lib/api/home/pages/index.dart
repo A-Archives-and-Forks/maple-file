@@ -13,19 +13,19 @@ import 'package:maple_file/api/setting/pages/setting.dart';
 
 import 'help.dart';
 
-class Index extends ConsumerStatefulWidget {
-  const Index({super.key});
+class IndexScreen extends ConsumerStatefulWidget {
+  const IndexScreen({super.key});
 
   @override
-  ConsumerState<Index> createState() => _IndexState();
+  ConsumerState<IndexScreen> createState() => _IndexState();
 }
 
-class _IndexState extends ConsumerState<Index> {
+class _IndexState extends ConsumerState<IndexScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _widgets = <Widget>[
-    const FileList(),
-    const Setting(),
+    const FileListScreen(),
+    const SettingScreen(),
   ];
 
   @override
@@ -55,14 +55,14 @@ class _IndexState extends ConsumerState<Index> {
   }
 }
 
-class DesktopIndex extends ConsumerStatefulWidget {
-  const DesktopIndex({super.key});
+class DesktopIndexScreen extends ConsumerStatefulWidget {
+  const DesktopIndexScreen({super.key});
 
   @override
-  ConsumerState<DesktopIndex> createState() => _DesktopIndexState();
+  ConsumerState<DesktopIndexScreen> createState() => _DesktopIndexState();
 }
 
-class _DesktopIndexState extends ConsumerState<DesktopIndex> {
+class _DesktopIndexState extends ConsumerState<DesktopIndexScreen> {
   final _navigatorKey = GlobalKey<NavigatorState>();
   final _navigatorKey1 = GlobalKey<NavigatorState>();
 
@@ -115,7 +115,7 @@ class _DesktopIndexState extends ConsumerState<DesktopIndex> {
                       onPressed: () {
                         showCustomDialog(
                           context,
-                          child: const DesktopSetting(),
+                          child: const DesktopSettingScreen(),
                         );
                       },
                     ),
@@ -124,7 +124,7 @@ class _DesktopIndexState extends ConsumerState<DesktopIndex> {
                       onPressed: () {
                         showCustomDialog(
                           context,
-                          child: const DesktopHelp(),
+                          child: const DesktopHelpScreen(),
                         );
                       },
                     ),

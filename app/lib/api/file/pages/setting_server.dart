@@ -8,14 +8,15 @@ import 'package:maple_file/common/widgets/platform.dart';
 
 import 'package:maple_file/api/file/widgets/server/webdav.dart';
 
-class FileSettingServer extends ConsumerStatefulWidget {
-  const FileSettingServer({super.key});
+class FileSettingServerScreen extends ConsumerStatefulWidget {
+  const FileSettingServerScreen({super.key});
 
   @override
-  ConsumerState<FileSettingServer> createState() => _FileSettingServerState();
+  ConsumerState<FileSettingServerScreen> createState() =>
+      _FileSettingServerState();
 }
 
-class _FileSettingServerState extends ConsumerState<FileSettingServer> {
+class _FileSettingServerState extends ConsumerState<FileSettingServerScreen> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);

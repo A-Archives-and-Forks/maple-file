@@ -11,14 +11,14 @@ import '../widgets/file_view.dart';
 
 import '../providers/file.dart';
 
-class FileSelect extends ConsumerStatefulWidget {
+class FileSelectScreen extends ConsumerStatefulWidget {
   final String path;
   final String title;
   final bool multiple;
   final bool Function(File)? filter;
   final bool selectDir;
 
-  const FileSelect({
+  const FileSelectScreen({
     super.key,
     this.path = "/",
     this.title = "选择文件",
@@ -27,13 +27,13 @@ class FileSelect extends ConsumerStatefulWidget {
     this.selectDir = true,
   });
 
-  factory FileSelect.fromRoute(ModalRoute? route) {
+  factory FileSelectScreen.fromRoute(ModalRoute? route) {
     final args = route?.settings.arguments;
     if (args == null) {
-      return const FileSelect();
+      return const FileSelectScreen();
     }
     final map = args as Map<String, dynamic>;
-    return FileSelect(
+    return FileSelectScreen(
       path: map["path"] ?? "/",
       title: map["title"] ?? "选择文件",
       filter: map["filter"],
@@ -43,10 +43,10 @@ class FileSelect extends ConsumerStatefulWidget {
   }
 
   @override
-  ConsumerState<FileSelect> createState() => _FileSelectState();
+  ConsumerState<FileSelectScreen> createState() => _FileSelectState();
 }
 
-class _FileSelectState extends ConsumerState<FileSelect> {
+class _FileSelectState extends ConsumerState<FileSelectScreen> {
   @override
   Widget build(BuildContext context) {
     final selection = ref.watch(fileSelectionProvider);

@@ -14,22 +14,22 @@ import '../widgets/task_action.dart';
 import '../providers/task.dart';
 import '../providers/service.dart';
 
-class TaskList extends ConsumerStatefulWidget {
-  const TaskList({super.key});
+class TaskListScreen extends ConsumerStatefulWidget {
+  const TaskListScreen({super.key});
 
-  factory TaskList.fromRoute(ModalRoute? route) {
+  factory TaskListScreen.fromRoute(ModalRoute? route) {
     final args = route?.settings.arguments;
     if (args == null) {
-      return const TaskList();
+      return const TaskListScreen();
     }
-    return const TaskList();
+    return const TaskListScreen();
   }
 
   @override
-  ConsumerState<TaskList> createState() => _TaskListState();
+  ConsumerState<TaskListScreen> createState() => _TaskListState();
 }
 
-class _TaskListState extends ConsumerState<TaskList>
+class _TaskListState extends ConsumerState<TaskListScreen>
     with TickerProviderStateMixin {
   late Timer _timer;
   late TabController _tabController;
@@ -250,16 +250,16 @@ class _TaskListState extends ConsumerState<TaskList>
   }
 }
 
-class DesktopTask extends StatefulWidget {
-  const DesktopTask({
+class DesktopTaskScreen extends StatefulWidget {
+  const DesktopTaskScreen({
     super.key,
   });
 
   @override
-  State<DesktopTask> createState() => _DesktopTaskState();
+  State<DesktopTaskScreen> createState() => _DesktopTaskState();
 }
 
-class _DesktopTaskState extends State<DesktopTask> {
+class _DesktopTaskState extends State<DesktopTaskScreen> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState navigatorState(context) {

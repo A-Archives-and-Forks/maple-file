@@ -34,14 +34,14 @@ extension ThemeModeExtension on ThemeMode {
   }
 }
 
-class SettingTheme extends ConsumerStatefulWidget {
-  const SettingTheme({super.key});
+class SettingThemeScreen extends ConsumerStatefulWidget {
+  const SettingThemeScreen({super.key});
 
   @override
-  ConsumerState<SettingTheme> createState() => _SettingThemeState();
+  ConsumerState<SettingThemeScreen> createState() => _SettingThemeState();
 }
 
-class _SettingThemeState extends ConsumerState<SettingTheme> {
+class _SettingThemeState extends ConsumerState<SettingThemeScreen> {
   @override
   Widget build(BuildContext context) {
     final appearance = ref.watch(appearanceProvider);

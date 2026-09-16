@@ -14,23 +14,23 @@ import '../widgets/file_action.dart';
 
 import '../providers/file.dart';
 
-class FileList extends ConsumerStatefulWidget {
+class FileListScreen extends ConsumerStatefulWidget {
   final String path;
-  const FileList({super.key, this.path = "/"});
+  const FileListScreen({super.key, this.path = "/"});
 
-  factory FileList.fromRoute(ModalRoute? route) {
+  factory FileListScreen.fromRoute(ModalRoute? route) {
     final args = route?.settings.arguments;
     if (args == null) {
-      return const FileList();
+      return const FileListScreen();
     }
-    return FileList(path: args as String);
+    return FileListScreen(path: args as String);
   }
 
   @override
-  ConsumerState<FileList> createState() => _FileListState();
+  ConsumerState<FileListScreen> createState() => _FileListState();
 }
 
-class _FileListState extends ConsumerState<FileList> {
+class _FileListState extends ConsumerState<FileListScreen> {
   late bool _dragEnable;
 
   bool get _isRoot => widget.path == "/";

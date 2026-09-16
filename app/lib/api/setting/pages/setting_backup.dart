@@ -19,14 +19,14 @@ import 'package:maple_file/generated/proto/api/file/file.pb.dart';
 import 'package:maple_file/api/file/providers/file.dart';
 import 'package:maple_file/api/file/providers/service.dart';
 
-class SettingBackup extends ConsumerStatefulWidget {
-  const SettingBackup({super.key});
+class SettingBackupScreen extends ConsumerStatefulWidget {
+  const SettingBackupScreen({super.key});
 
   @override
-  ConsumerState<SettingBackup> createState() => _SettingBackupState();
+  ConsumerState<SettingBackupScreen> createState() => _SettingBackupState();
 }
 
-class _SettingBackupState extends ConsumerState<SettingBackup> {
+class _SettingBackupState extends ConsumerState<SettingBackupScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(

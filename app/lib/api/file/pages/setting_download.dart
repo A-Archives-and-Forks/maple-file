@@ -13,15 +13,16 @@ import 'package:maple_file/common/widgets/platform.dart';
 
 import '../providers/file_setting.dart';
 
-class FileSettingDownload extends ConsumerStatefulWidget {
-  const FileSettingDownload({super.key});
+class FileSettingDownloadScreen extends ConsumerStatefulWidget {
+  const FileSettingDownloadScreen({super.key});
 
   @override
-  ConsumerState<FileSettingDownload> createState() =>
+  ConsumerState<FileSettingDownloadScreen> createState() =>
       _FileSettingDownloadState();
 }
 
-class _FileSettingDownloadState extends ConsumerState<FileSettingDownload> {
+class _FileSettingDownloadState
+    extends ConsumerState<FileSettingDownloadScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(

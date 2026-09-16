@@ -15,22 +15,22 @@ import '../widgets/repo/form.dart';
 import '../providers/file.dart';
 import '../providers/repo.dart';
 
-class RepoEdit extends ConsumerStatefulWidget {
-  const RepoEdit({super.key, this.repo});
+class RepoEditScreen extends ConsumerStatefulWidget {
+  const RepoEditScreen({super.key, this.repo});
 
   final Repo? repo;
 
-  factory RepoEdit.fromRoute(ModalRoute? route) {
+  factory RepoEditScreen.fromRoute(ModalRoute? route) {
     final args = route?.settings.arguments;
 
-    return RepoEdit(repo: args == null ? null : args as Repo);
+    return RepoEditScreen(repo: args == null ? null : args as Repo);
   }
 
   @override
-  ConsumerState<RepoEdit> createState() => _RepoEditState();
+  ConsumerState<RepoEditScreen> createState() => _RepoEditState();
 }
 
-class _RepoEditState extends ConsumerState<RepoEdit> {
+class _RepoEditState extends ConsumerState<RepoEditScreen> {
   final _formKey = GlobalKey<FormState>();
 
   late Repo _form;

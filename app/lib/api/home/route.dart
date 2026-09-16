@@ -11,21 +11,21 @@ Future<void> init(CustomRouter router) async {
   router.registerMany({
     "/": (context) {
       if (Breakpoint.isSmall(context)) {
-        return const Index();
+        return const IndexScreen();
       }
-      return const DesktopIndex();
+      return const DesktopIndexScreen();
     },
     '/help': (context) {
-      return const Help();
+      return const HelpScreen();
     },
     '/help/webview': (context) {
-      return HelpWebView.fromRoute(ModalRoute.of(context));
+      return HelpWebViewScreen.fromRoute(ModalRoute.of(context));
     },
     '/about': (context) {
-      return const About();
+      return const AboutScreen();
     },
     '/404': (context) {
-      return const NotFound();
+      return const NotFoundScreen();
     },
   });
 }

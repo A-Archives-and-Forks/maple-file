@@ -10,14 +10,15 @@ import 'package:maple_file/common/widgets/platform.dart';
 
 import '../providers/file_setting.dart';
 
-class FileSettingUpload extends ConsumerStatefulWidget {
-  const FileSettingUpload({super.key});
+class FileSettingUploadScreen extends ConsumerStatefulWidget {
+  const FileSettingUploadScreen({super.key});
 
   @override
-  ConsumerState<FileSettingUpload> createState() => _FileSettingUploadState();
+  ConsumerState<FileSettingUploadScreen> createState() =>
+      _FileSettingUploadState();
 }
 
-class _FileSettingUploadState extends ConsumerState<FileSettingUpload> {
+class _FileSettingUploadState extends ConsumerState<FileSettingUploadScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(

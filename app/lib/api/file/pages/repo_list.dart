@@ -11,14 +11,14 @@ import 'package:maple_file/common/widgets/platform/list.dart';
 import '../providers/file.dart';
 import '../providers/repo.dart';
 
-class RepoList extends ConsumerStatefulWidget {
-  const RepoList({super.key});
+class RepoListScreen extends ConsumerStatefulWidget {
+  const RepoListScreen({super.key});
 
   @override
-  ConsumerState<RepoList> createState() => _RepoListState();
+  ConsumerState<RepoListScreen> createState() => _RepoListState();
 }
 
-class _RepoListState extends ConsumerState<RepoList> {
+class _RepoListState extends ConsumerState<RepoListScreen> {
   @override
   Widget build(BuildContext context) {
     return PlatformScaffold(

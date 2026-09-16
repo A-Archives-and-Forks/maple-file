@@ -17,31 +17,31 @@ import "pages/setting_download.dart";
 Future<void> init(CustomRouter router) async {
   router.registerMany({
     '/file/list': (context) {
-      return FileList.fromRoute(ModalRoute.of(context));
+      return FileListScreen.fromRoute(ModalRoute.of(context));
     },
     '/file/select': (context) {
-      return FileSelect.fromRoute(ModalRoute.of(context));
+      return FileSelectScreen.fromRoute(ModalRoute.of(context));
     },
     '/file/preview': (context) {
-      return FilePreview.fromRoute(ModalRoute.of(context));
+      return FilePreviewScreen.fromRoute(ModalRoute.of(context));
     },
     '/file/setting/repo': (context) {
-      return const RepoList();
+      return const RepoListScreen();
     },
     '/file/setting/repo/edit': (context) {
-      return RepoEdit.fromRoute(ModalRoute.of(context));
+      return RepoEditScreen.fromRoute(ModalRoute.of(context));
     },
     '/file/setting/theme': (context) {
-      return const FileSettingTheme();
+      return const FileSettingThemeScreen();
     },
     '/file/setting/upload': (context) {
-      return const FileSettingUpload();
+      return const FileSettingUploadScreen();
     },
     '/file/setting/server': (context) {
-      return const FileSettingServer();
+      return const FileSettingServerScreen();
     },
     '/file/setting/download': (context) {
-      return const FileSettingDownload();
+      return const FileSettingDownloadScreen();
     },
   });
 }
