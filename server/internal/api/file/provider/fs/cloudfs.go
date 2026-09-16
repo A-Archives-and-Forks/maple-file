@@ -19,6 +19,13 @@ func normalizeDriverName(name string) string {
 	}
 }
 
+func Verify(name string, option string) error {
+	if err := driver.VerifyOption(normalizeDriverName(name), option); err != nil {
+		return err
+	}
+	return middleware.VerifyOptionJSON(option)
+}
+
 func NewDir(path, name string, opts ...func(*cloudfs.Entry)) cloudfs.FileInfo {
 	entry := &cloudfs.Entry{
 		Path:  path,
@@ -41,28 +48,14 @@ func NewFile(path string, info fs.FileInfo, opts ...func(*cloudfs.Entry)) cloudf
 }
 
 func NewCloudFS(name, option string) (cloudfs.FS, error) {
+	wraps, err := middleware.NewFromOptionJSON(option)
+	if err != nil {
+		return nil, err
+	}
+
 	raw, err := driver.NewFromString(normalizeDriverName(name), option)
 	if err != nil {
 		return nil, err
 	}
-
-	wraps, err := middleware.WrapFuncsFromJSON(option)
-	if err != nil {
-		_ = raw.Close()
-		return nil, err
-	}
-	if len(wraps) > 0 {
-		raw, err = cloudfs.New(raw, wraps...)
-		if err != nil {
-			return nil, err
-		}
-	}
-	return raw, nil
-}
-
-func Verify(name string, option string) error {
-	if err := driver.VerifyOption(normalizeDriverName(name), option); err != nil {
-		return err
-	}
-	return middleware.VerifyOptionJSON(option)
+	return cloudfs.New(raw, wraps...)
 }

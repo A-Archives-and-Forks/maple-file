@@ -26,16 +26,8 @@ type recycleFS struct {
 	opt *RecycleOption
 }
 
-func recycleWrap(opt *RecycleOption) cloudfs.WrapFunc {
-	return func(fs cloudfs.FS) (cloudfs.FS, error) {
-		if opt.Path == "" {
-			opt.Path = "/" + recycleName
-		}
-		return &recycleFS{FS: fs, opt: opt}, nil
-	}
-}
-
-func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
+func (d *recycleFS) List(ctx context.Context, rawPath string) ([]cloudfs.FileInfo, error) {
+	path, query := cloudfs.ParsePath(rawPath)
 	if path == d.opt.Path {
 		_, err := d.FS.Stat(ctx, path)
 		if err != nil {
@@ -45,7 +37,7 @@ func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, 
 			return nil, err
 		}
 	}
-	files, err := d.FS.List(ctx, path)
+	files, err := d.FS.List(ctx, cloudfs.PathWithQuery(path, query))
 	if err != nil {
 		return nil, err
 	}
@@ -62,10 +54,13 @@ func (d *recycleFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, 
 			}
 		}
 		if !exists {
-			files = append(files, newDir(path, stdpath.Base(d.opt.Path), func(entry *cloudfs.Entry) {
-				entry.Type = "RECYCLE"
-				entry.Mode = fs.ModeDir
-			}))
+			files = append(files, (&cloudfs.Entry{
+				Path:  path,
+				Name:  stdpath.Base(d.opt.Path),
+				Type:  "RECYCLE",
+				Mode:  fs.ModeDir,
+				IsDir: true,
+			}).FileInfo())
 		}
 	}
 	return files, nil
@@ -82,19 +77,13 @@ func (d *recycleFS) Remove(ctx context.Context, path string) error {
 	return d.FS.Move(ctx, stdpath.Join(stdpath.Dir(path), newName), d.opt.Path)
 }
 
-func newDir(path, name string, opts ...func(*cloudfs.Entry)) cloudfs.FileInfo {
-	entry := &cloudfs.Entry{
-		Path:  path,
-		Name:  name,
-		Mode:  fs.ModeDir,
-		IsDir: true,
+func newRecycleFS(fs cloudfs.FS, opt *RecycleOption) (cloudfs.FS, error) {
+	if opt.Path == "" {
+		opt.Path = "/" + recycleName
 	}
-	for _, opt := range opts {
-		opt(entry)
-	}
-	return entry.FileInfo()
+	return &recycleFS{FS: fs, opt: opt}, nil
 }
 
-func newRecycleFS(fs cloudfs.FS, opt *RecycleOption) (cloudfs.FS, error) {
-	return &recycleFS{FS: fs, opt: opt}, nil
+func RecycleFS(opt *RecycleOption) cloudfs.WrapFunc {
+	return opt.NewFS
 }

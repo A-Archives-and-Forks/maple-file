@@ -33,7 +33,9 @@ type defaultFS struct {
 
 var _ FS = (*defaultFS)(nil)
 
-func (d *defaultFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, error) {
+func (d *defaultFS) List(ctx context.Context, rawPath string) ([]cloudfs.FileInfo, error) {
+	path, query := cloudfs.ParsePath(rawPath)
+
 	results := make([]cloudfs.FileInfo, 0)
 	repoMap := make(map[string]bool)
 	if path != "/" && d.resolver.Get(path) != nil {
@@ -41,7 +43,7 @@ func (d *defaultFS) List(ctx context.Context, path string) ([]cloudfs.FileInfo, 
 		if err != nil {
 			return nil, err
 		}
-		files, err := fs.List(ctx, realPath)
+		files, err := fs.List(ctx, cloudfs.PathWithQuery(realPath, query))
 		if err != nil {
 			return nil, err
 		}

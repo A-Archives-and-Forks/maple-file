@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/honmaple/cloudfs"
+	"github.com/honmaple/maple-file/server/internal/platform/utils/cacheutil"
 	pb "github.com/honmaple/maple-file/server/internal/proto/api/file"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -60,10 +61,12 @@ func (*testRepoResolver) Delete(*pb.Repo)           {}
 
 type testCloudFS struct {
 	cloudfs.BaseFS
-	files []cloudfs.FileInfo
+	files    []cloudfs.FileInfo
+	listPath string
 }
 
-func (fs *testCloudFS) List(context.Context, string) ([]cloudfs.FileInfo, error) {
+func (fs *testCloudFS) List(_ context.Context, path string) ([]cloudfs.FileInfo, error) {
+	fs.listPath = path
 	return fs.files, nil
 }
 
@@ -136,5 +139,47 @@ func TestDefaultFSMountedRepoPath(t *testing.T) {
 	}
 	if got, want := file.Path(), "/documents/cloud/hello.txt"; got != want {
 		t.Errorf("Stat() file path = %q, want %q", got, want)
+	}
+}
+
+func TestDefaultFSListPreservesQuery(t *testing.T) {
+	fs := newTestFS()
+	resolver := fs.resolver.(*testRepoResolver)
+	cloudFS := resolver.files["/documents/cloud"].(*testCloudFS)
+
+	if _, err := fs.List(context.Background(), "/documents/cloud?page=2&order=name"); err != nil {
+		t.Fatalf("List() error = %v", err)
+	}
+	if got, want := cloudFS.listPath, "/?order=name&page=2"; got != want {
+		t.Errorf("downstream list path = %q, want %q", got, want)
+	}
+}
+
+func TestRepoResolverResolvePreservesQuery(t *testing.T) {
+	repo := &pb.Repo{
+		Path:   "/documents",
+		Name:   "cloud",
+		Status: true,
+	}
+	cloudFS := &testCloudFS{}
+	resolver := &repoResolver{
+		files: cacheutil.New[string, cloudfs.FS](),
+		repos: cacheutil.New[string, *pb.Repo](),
+	}
+	resolver.Create(repo)
+	resolver.files.Store("/documents/cloud", cloudFS)
+	if got := resolver.Get("/documents/cloud?page=2"); got != repo {
+		t.Error("Get() did not match the repo for a path with query parameters")
+	}
+
+	gotFS, gotPath, err := resolver.Resolve("/documents/cloud?page=2&order=name")
+	if err != nil {
+		t.Fatalf("Resolve() error = %v", err)
+	}
+	if gotFS != cloudFS {
+		t.Error("Resolve() returned an unexpected cloudfs.FS")
+	}
+	if want := "/?order=name&page=2"; gotPath != want {
+		t.Errorf("Resolve() path = %q, want %q", gotPath, want)
 	}
 }

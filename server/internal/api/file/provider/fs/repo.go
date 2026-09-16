@@ -43,7 +43,9 @@ func (r *repoResolver) init(ctx context.Context, loader RepoLoader) error {
 	return nil
 }
 
-func (r *repoResolver) Resolve(path string) (cloudfs.FS, string, error) {
+func (r *repoResolver) Resolve(rawPath string) (cloudfs.FS, string, error) {
+	path, query := cloudfs.ParsePath(rawPath)
+
 	repo := r.Get(path)
 	if repo == nil {
 		return nil, "", os.ErrNotExist
@@ -55,7 +57,7 @@ func (r *repoResolver) Resolve(path string) (cloudfs.FS, string, error) {
 		realPath = "/" + realPath
 	}
 	if fs, ok := r.files.Load(rootPath); ok {
-		return fs, realPath, nil
+		return fs, cloudfs.PathWithQuery(realPath, query), nil
 	}
 
 	fs, err := NewCloudFS(repo.GetDriver(), repo.GetOption())
@@ -63,10 +65,11 @@ func (r *repoResolver) Resolve(path string) (cloudfs.FS, string, error) {
 		return nil, "", err
 	}
 	r.files.Store(rootPath, fs)
-	return fs, realPath, nil
+	return fs, cloudfs.PathWithQuery(realPath, query), nil
 }
 
-func (r *repoResolver) Get(path string) *pb.Repo {
+func (r *repoResolver) Get(rawPath string) *pb.Repo {
+	path, _ := cloudfs.ParsePath(rawPath)
 	path = pathutil.CleanPath(path)
 	for {
 		if repo, ok := r.repos.Load(path); ok && repo.GetStatus() {
