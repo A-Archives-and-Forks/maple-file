@@ -340,7 +340,9 @@ Future<bool> requestPhotosPermission(BuildContext context) async {
     status = await Permission.photos.request();
   }
 
-  if (!status.isGranted) {
+  // iOS 14+ allows users to grant access to selected photos only.
+  final hasAccess = status.isGranted || (Util.isIOS && status.isLimited);
+  if (!hasAccess) {
     if (!context.mounted) return false;
     final result = await showCustomConfirmDialog(
       context: context,
